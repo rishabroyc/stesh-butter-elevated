@@ -2,30 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageShell, PageHero } from "@/components/site/PageShell";
 
-export const Route = createFileRoute("/faq")({
-  head: () => ({
-    meta: [
-      { title: "FAQ — Stesh" },
-      { name: "description", content: "Common questions about Stesh Pistachio Butter — ingredients, shipping, subscriptions, and more." },
-      { property: "og:title", content: "FAQ — Stesh" },
-      { property: "og:description", content: "Everything you wanted to know about Stesh." },
-    ],
-    scripts: [{
-      type: "application/ld+json",
-      children: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faqs.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a },
-        })),
-      }),
-    }],
-  }),
-  component: FAQPage,
-});
-
 const sections: { title: string; items: { q: string; a: string }[] }[] = [
   {
     title: "Product",
@@ -65,7 +41,31 @@ const sections: { title: string; items: { q: string; a: string }[] }[] = [
   },
 ];
 
-const faqs = sections.flatMap((s) => s.items);
+const allFaqs = sections.flatMap((s) => s.items);
+
+export const Route = createFileRoute("/faq")({
+  head: () => ({
+    meta: [
+      { title: "FAQ — Stesh" },
+      { name: "description", content: "Common questions about Stesh Pistachio Butter — ingredients, shipping, subscriptions, and more." },
+      { property: "og:title", content: "FAQ — Stesh" },
+      { property: "og:description", content: "Everything you wanted to know about Stesh." },
+    ],
+    scripts: [{
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: allFaqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      }),
+    }],
+  }),
+  component: FAQPage,
+});
 
 function FAQPage() {
   const [open, setOpen] = useState<string | null>("Product-0");
@@ -108,9 +108,7 @@ function FAQPage() {
           ))}
 
           <div className="rounded-2xl bg-pistachio-deep p-10 text-center text-cream md:p-14">
-            <h2 className="font-display text-4xl md:text-5xl">
-              Still curious?
-            </h2>
+            <h2 className="font-display text-4xl md:text-5xl">Still curious?</h2>
             <p className="mt-3 text-cream/70">Mr. Turtle is a slow typer but Arsh & Utsab are quick.</p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a href="mailto:hello@steshbutter.com" className="rounded-full bg-cream px-8 py-4 text-[11px] uppercase tracking-widest-extra text-pistachio-deep hover:bg-pistachio-light">
