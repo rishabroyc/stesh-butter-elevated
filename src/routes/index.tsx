@@ -96,14 +96,14 @@ function Home() {
             <p className="max-w-md text-base text-cream/90 md:text-lg animate-fade-up" style={{ animationDelay: "240ms" }}>
               Clean ingredients. Indulge freely. Made with 5 real things — a lot of love, a ton of care, and a hint of magic.
             </p>
-            <a
-              href="#product"
+            <Link
+              to="/product"
               className="group inline-flex items-center gap-3 rounded-full bg-cream px-8 py-4 text-[11px] uppercase tracking-widest-extra text-pistachio-deep transition-all hover:bg-pistachio-light hover:px-10 animate-fade-up"
               style={{ animationDelay: "360ms" }}
             >
               Shop Stesh
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
