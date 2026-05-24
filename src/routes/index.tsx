@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Check, X, Star, Instagram, Sparkles, Leaf, Wheat, Heart, FlaskConical } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Check, X, Star, Sparkles, Leaf, Wheat, Heart, FlaskConical } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
+import { Footer } from "@/components/site/Footer";
 import { Marquee } from "@/components/site/Marquee";
 import { Turtle } from "@/components/site/Turtle";
 import heroJar from "@/assets/hero-jar.jpg";
@@ -95,14 +96,14 @@ function Home() {
             <p className="max-w-md text-base text-cream/90 md:text-lg animate-fade-up" style={{ animationDelay: "240ms" }}>
               Clean ingredients. Indulge freely. Made with 5 real things — a lot of love, a ton of care, and a hint of magic.
             </p>
-            <a
-              href="#product"
+            <Link
+              to="/product"
               className="group inline-flex items-center gap-3 rounded-full bg-cream px-8 py-4 text-[11px] uppercase tracking-widest-extra text-pistachio-deep transition-all hover:bg-pistachio-light hover:px-10 animate-fade-up"
               style={{ animationDelay: "360ms" }}
             >
               Shop Stesh
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -382,53 +383,7 @@ function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer id="footer" className="bg-dark px-6 py-20 text-cream md:px-12">
-        <div className="mx-auto max-w-[1400px]">
-          <div className="grid gap-12 md:grid-cols-4">
-            <div className="md:col-span-1">
-              <div className="font-display text-3xl">
-                stesh<span className="text-pistachio-light">.</span>
-              </div>
-              <p className="mt-4 max-w-xs text-sm text-cream/60">
-                THE better-for-you pistachio butter. Help us share our stash of Stesh.
-              </p>
-              <div className="mt-6 flex gap-4">
-                <a href="https://www.instagram.com/getstesh/" aria-label="Instagram" className="text-cream/70 hover:text-pistachio-light">
-                  <Instagram className="h-5 w-5" />
-                </a>
-                <a href="https://www.tiktok.com/@getstesh" aria-label="TikTok" className="text-cream/70 hover:text-pistachio-light text-sm font-bold">
-                  TT
-                </a>
-              </div>
-            </div>
-
-            {[
-              { title: "Shop", links: ["Pistachio Butter", "Bundles", "Merch", "Subscribe"] },
-              { title: "Company", links: ["About", "Where to Buy", "Wholesale", "FAQ"] },
-              { title: "Help", links: ["Contact", "Track Order", "Privacy", "Terms"] },
-            ].map((col) => (
-              <div key={col.title}>
-                <h4 className="mb-5 text-[11px] uppercase tracking-widest-extra text-pistachio-light">
-                  {col.title}
-                </h4>
-                <ul className="space-y-3 text-sm text-cream/70">
-                  {col.links.map((l) => (
-                    <li key={l}>
-                      <a href="#" className="hover:text-cream">{l}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-cream/10 pt-8 text-xs text-cream/50 md:flex-row md:items-center">
-            <span>© 2026 Stesh. All rights reserved.</span>
-            <span>Made with a hint of magic — and a lot of pistachios.</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
