@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Check, X, Star, Instagram, Sparkles, Leaf, Wheat, Heart, FlaskConical } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Check, X, Star, Sparkles, Leaf, Wheat, Heart, FlaskConical } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
+import { Footer } from "@/components/site/Footer";
 import { Marquee } from "@/components/site/Marquee";
 import { Turtle } from "@/components/site/Turtle";
 import heroJar from "@/assets/hero-jar.jpg";
