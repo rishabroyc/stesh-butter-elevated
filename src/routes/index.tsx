@@ -4,14 +4,10 @@ import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Marquee } from "@/components/site/Marquee";
 import { Turtle } from "@/components/site/Turtle";
-import heroJar from "@/assets/hero-jar.jpg";
-import productSpoon from "@/assets/product-spoon.jpg";
-import founders from "@/assets/founders.jpg";
-import useToast from "@/assets/use-toast.jpg";
-import useSmoothie from "@/assets/use-smoothie.jpg";
-import usePancakes from "@/assets/use-pancakes.jpg";
-import useDip from "@/assets/use-dip.jpg";
-import useBake from "@/assets/use-bake.jpg";
+
+const HERO_IMG = "https://steshbutter.com/wp-content/uploads/2025/05/10-2.png";
+const PRODUCT_IMG = "https://steshbutter.com/wp-content/uploads/2025/05/21-3-600x600-1.png";
+const FOUNDERS_IMG = "https://steshbutter.com/wp-content/uploads/2025/05/104-KJ_Utsab-scaled.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -57,11 +53,11 @@ const reviews = [
 ];
 
 const uses = [
-  { img: useToast, title: "Spread it", note: "Toast, bagels, croissants" },
-  { img: useSmoothie, title: "Blend it", note: "Smoothies, shakes" },
-  { img: usePancakes, title: "Drizzle it", note: "Pancakes, oats, yogurt" },
-  { img: useDip, title: "Dip it", note: "Strawberries, apples" },
-  { img: useBake, title: "Bake it", note: "Cookies, cakes, swirls" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/yogurtnew.png", title: "Spread it", note: "Toast, bagels and croissants" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/smoothienew.png", title: "Blend it", note: "Smoothies or protein shakes" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/pancake-bgnew.png", title: "Drizzle it", note: "Pancakes, yogurt or oatmeal" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/applesnew.png", title: "Dip it", note: "Strawberries and apples" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/strawberrynew.png", title: "Bake it", note: "Cookies and cakes" },
 ];
 
 function Home() {
@@ -72,7 +68,7 @@ function Home() {
       {/* HERO */}
       <section className="relative h-[100svh] w-full overflow-hidden grain">
         <img
-          src={heroJar}
+          src={HERO_IMG}
           alt="Open jar of Stesh pistachio butter"
           className="absolute inset-0 h-full w-full object-cover"
           width={1536}
@@ -94,7 +90,7 @@ function Home() {
         <div className="absolute inset-x-0 bottom-10 z-10 px-6 md:px-12">
           <div className="mx-auto flex max-w-[1400px] flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
             <p className="max-w-md text-base text-cream/90 md:text-lg animate-fade-up" style={{ animationDelay: "240ms" }}>
-              Clean ingredients. Indulge freely. Made with 5 real things — a lot of love, a ton of care, and a hint of magic.
+              One that you can indulge in freely. Made with 5 simple all-natural ingredients — a lot of love, a ton of care, and a hint of magic.
             </p>
             <Link
               to="/product"
@@ -123,12 +119,12 @@ function Home() {
         <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-2 md:gap-20">
           <div className="relative overflow-hidden rounded-2xl bg-warm-tan/20">
             <img
-              src={productSpoon}
-              alt="Spoon lifting Stesh pistachio butter"
+              src={PRODUCT_IMG}
+              alt="Stesh pistachio butter jar"
               className="h-full w-full object-cover transition-transform duration-[1.2s] hover:scale-105"
               loading="lazy"
-              width={1280}
-              height={1600}
+              width={600}
+              height={600}
             />
           </div>
           <div className="flex flex-col justify-center">
@@ -139,7 +135,7 @@ function Home() {
               One spoonful. <em className="not-italic text-pistachio-deep">All</em> the good stuff.
             </h2>
             <p className="mt-6 max-w-md text-lg text-muted-foreground">
-              Rich pistachio flavor with zero guilt and clean, powerful ingredients. Designed for those who crave both wellness and indulgence in every bite.
+              Experience rich pistachio flavor with zero guilt and clean, powerful ingredients. Designed for those who crave both wellness and indulgence in every bite, Stesh combines bold taste with a short, natural ingredient list.
             </p>
 
             <div className="mt-8 grid grid-cols-5 gap-3">
@@ -155,23 +151,17 @@ function Home() {
 
             <div className="mt-10 flex items-center gap-6">
               <span className="font-display text-4xl">$19.00</span>
-              <span className="text-sm text-muted-foreground">
-                or <span className="text-pistachio-deep font-medium">$16.15</span> with Subscribe & Save
-              </span>
             </div>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <button className="group inline-flex flex-1 items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark">
-                Add to Cart
+            <div className="mt-6">
+              <Link to="/product" className="group inline-flex items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark">
+                Shop Now
                 <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-              </button>
-              <button className="inline-flex items-center justify-center rounded-full border border-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep transition-colors hover:bg-pistachio-deep hover:text-cream">
-                Subscribe & Save
-              </button>
+              </Link>
             </div>
 
             <p className="mt-5 text-xs text-muted-foreground">
-              Free shipping over $40 · Ships in 2–3 days · Cancel anytime
+              Free shipping over $40 · Ships in 2–3 days
             </p>
           </div>
         </div>
@@ -184,7 +174,7 @@ function Home() {
           <div className="md:col-span-6">
             <div className="overflow-hidden rounded-2xl">
               <img
-                src={founders}
+                src={FOUNDERS_IMG}
                 alt="Arsh and Utsab, Stesh founders"
                 className="h-full w-full object-cover"
                 loading="lazy"
@@ -201,7 +191,7 @@ function Home() {
               We didn't set out to build a food brand. We set out to find a pistachio butter <em className="not-italic text-pistachio-deep">worth eating</em>.
             </h2>
             <p className="mt-8 max-w-md text-lg text-muted-foreground">
-              When we couldn't find one, we made one. Five real ingredients. Zero compromise. And a little magic from Mr. Turtle, our resident taste-tester and unofficial CMO.
+              At Stesh, we believe you can indulge by the spoonful without compromising your health. That's why we set out to create a better-for-you pistachio butter that can be the BEST part of your everyday routine. Made with just 5 simple all-natural ingredients + a lot of love, a ton of care, and a hint of magic from our good friend, Mr. Turtle.
             </p>
             <a href="#" className="mt-10 inline-flex w-fit items-center gap-3 border-b border-pistachio-deep pb-1 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
               Read our story
@@ -318,38 +308,6 @@ function Home() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SUBSCRIBE */}
-      <section className="relative overflow-hidden bg-warm-tan/30 px-6 py-28 md:px-12 md:py-36 grain">
-        <div className="mx-auto grid max-w-[1400px] items-center gap-12 md:grid-cols-2">
-          <div>
-            <p className="mb-4 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
-              Subscribe & save 15%
-            </p>
-            <h2 className="font-display text-5xl leading-[1] md:text-7xl">
-              Never run out.<br />
-              <em className="not-italic text-pistachio-deep">Save 15%.</em>
-            </h2>
-            <p className="mt-6 max-w-md text-lg text-muted-foreground">
-              Stesh delivered to your door on your schedule. Skip, swap, or cancel anytime — no judgment.
-            </p>
-            <button className="mt-10 inline-flex items-center gap-3 rounded-full bg-pistachio-deep px-10 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark">
-              Start your subscription →
-            </button>
-          </div>
-          <div className="relative">
-            <img
-              src={heroJar}
-              alt=""
-              className="ml-auto h-[420px] w-[320px] rounded-2xl object-cover md:h-[520px] md:w-[400px]"
-              loading="lazy"
-              width={1536}
-              height={1792}
-            />
-            <Turtle className="absolute -left-4 bottom-6 h-32 w-auto animate-float" />
           </div>
         </div>
       </section>

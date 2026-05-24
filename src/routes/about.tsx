@@ -1,8 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 import { Turtle } from "@/components/site/Turtle";
-import founders from "@/assets/founders.jpg";
-import heroJar from "@/assets/hero-jar.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -34,31 +32,37 @@ function AboutPage() {
       {/* Founder photo */}
       <section className="px-6 md:px-12">
         <div className="mx-auto max-w-[1400px] overflow-hidden rounded-2xl">
-          <img src={founders} alt="Arsh and Utsab" className="h-[60vh] w-full object-cover md:h-[80vh]" />
+          <img src="https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-53.png" alt="Arsh and Utsab" className="h-[60vh] w-full object-cover md:h-[80vh]" />
         </div>
       </section>
 
       {/* Origin */}
       <section className="px-6 py-24 md:px-12 md:py-32">
-        <div className="mx-auto grid max-w-[1200px] gap-16 md:grid-cols-12">
-          <div className="md:col-span-4">
-            <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-16 md:grid-cols-2">
+          <div className="overflow-hidden rounded-2xl">
+            <img
+              src="https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-55.png"
+              alt="Arsh and Utsab, Stesh founders"
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <p className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
               Arsh & Utsab · Founders
             </p>
-          </div>
-          <div className="md:col-span-8">
             <div className="space-y-6 text-xl leading-relaxed text-dark/80 md:text-2xl">
               <p>
-                We're <strong className="text-pistachio-deep">Arsh and Utsab</strong> — two friends who couldn't find a pistachio butter that tasted as good as it claimed to be healthy. Most jars were oily, oversweetened, or hiding fifteen ingredients we couldn't pronounce.
+                At Stesh, we believe you can indulge by the spoonful without compromising your health. That's why we set out to create a better-for-you pistachio butter that can be the BEST part of your everyday routine.
               </p>
               <p>
-                So we made our own. We obsessed over sourcing. We refused seed oils. We added almond protein for real macros. And we kept the ingredient list to <em className="not-italic text-pistachio-deep">five</em> — pistachios, almond protein powder, avocado oil, organic cane sugar, sunflower lecithin.
+                We're harnessing the power of pistachios — a nutrient rich nut — and keeping it simple. Made with just <em className="not-italic text-pistachio-deep">5 simple all-natural ingredients</em> + a lot of love, a ton of care, and a hint of magic from our good friend, Mr. Turtle.
               </p>
               <p>
-                That's it. That's the whole list.
+                Pistachios, almond protein powder, avocado oil, organic cane sugar, sunflower lecithin. That's the whole list.
               </p>
               <p className="font-display text-3xl text-pistachio-deep md:text-4xl">
-                "You can indulge by the spoonful without compromising your health."
+                "Made for you with love." — Arsh & Utsab
               </p>
             </div>
           </div>
@@ -124,9 +128,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <div className="hidden">
-        <img src={heroJar} alt="" />
-      </div>
+
     </PageShell>
   );
 }

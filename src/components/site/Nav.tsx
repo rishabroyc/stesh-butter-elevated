@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ShoppingBag, Menu, X } from "lucide-react";
+import { useCart } from "@/context/cart";
 
 const links = [
   { label: "Shop", to: "/product" as const },
@@ -14,6 +15,8 @@ const links = [
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { cart, openDrawer } = useCart();
+  const itemCount = cart?.totalQuantity ?? 0;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -59,9 +62,9 @@ export function Nav() {
               {l.label}
             </Link>
           ))}
-          <button className="relative flex items-center gap-2 text-dark hover:text-pistachio-deep transition-colors" aria-label="Cart">
+          <button onClick={openDrawer} className="relative flex items-center gap-2 text-dark hover:text-pistachio-deep transition-colors" aria-label="Cart">
             <ShoppingBag className="h-4 w-4" />
-            <span>Cart (0)</span>
+            <span>Cart ({itemCount})</span>
           </button>
         </div>
 
@@ -75,7 +78,7 @@ export function Nav() {
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-[60] bg-dark text-cream md:hidden">
+        <div className="fixed inset-0 z-60 bg-dark text-cream md:hidden">
           <div className="flex items-center justify-between px-6 py-4">
             <Link to="/" onClick={() => setOpen(false)} className="font-display text-2xl">
               stesh<span className="text-pistachio-light">.</span>

@@ -1,14 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Check, Star, Minus, Plus, ShieldCheck, Truck, Leaf, Sparkles, Heart, FlaskConical, Wheat } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
-import productSpoon from "@/assets/product-spoon.jpg";
-import heroJar from "@/assets/hero-jar.jpg";
-import useToast from "@/assets/use-toast.jpg";
-import useSmoothie from "@/assets/use-smoothie.jpg";
-import usePancakes from "@/assets/use-pancakes.jpg";
-import useDip from "@/assets/use-dip.jpg";
-import useBake from "@/assets/use-bake.jpg";
+import { getFirstProduct } from "@/lib/shopify";
+import type { ShopifyVariant } from "@/lib/shopify";
+import { useCart } from "@/context/cart";
 
 export const Route = createFileRoute("/product")({
   head: () => ({
@@ -35,7 +31,12 @@ export const Route = createFileRoute("/product")({
   component: ProductPage,
 });
 
-const gallery = [productSpoon, heroJar, useToast, useSmoothie];
+const gallery = [
+  "https://steshbutter.com/wp-content/uploads/2025/05/21-3-600x600-1.png",
+  "https://steshbutter.com/wp-content/uploads/2025/05/Steshupdates-8.jpg",
+  "https://steshbutter.com/wp-content/uploads/2025/05/Steshupdates-2.jpg",
+  "https://steshbutter.com/wp-content/uploads/2025/05/003-KJ_Utsab-scaled.jpg",
+];
 
 const ingredients = [
   { name: "Pistachios", note: "Rich in healthy fats & antioxidants" },
@@ -54,11 +55,11 @@ const badges = [
 ];
 
 const useImages = [
-  { img: useToast, title: "Spread", note: "Toast, bagels, croissants" },
-  { img: useSmoothie, title: "Blend", note: "Smoothies & shakes" },
-  { img: usePancakes, title: "Drizzle", note: "Pancakes, oats, yogurt" },
-  { img: useDip, title: "Dip", note: "Strawberries & apples" },
-  { img: useBake, title: "Bake", note: "Cookies, cakes, swirls" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/yogurtnew.png", title: "Spread", note: "Spread it on toast, bagels and croissants" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/smoothienew.png", title: "Blend", note: "Blend into smoothies or protein shakes" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/pancake-bgnew.png", title: "Drizzle", note: "Drizzle over pancakes, yogurt or oatmeal" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/applesnew.png", title: "Dip", note: "Dip in your strawberries and apples" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/strawberrynew.png", title: "Bake", note: "Use in baking cookies and cakes" },
 ];
 
 const faqs = [
@@ -72,11 +73,29 @@ const faqs = [
 
 function ProductPage() {
   const [active, setActive] = useState(0);
-  const [mode, setMode] = useState<"one" | "sub">("one");
   const [qty, setQty] = useState(1);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [variants, setVariants] = useState<ShopifyVariant[]>([]);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
+  const { addToCart, loading } = useCart();
 
-  const price = mode === "sub" ? 16.15 : 19.0;
+  useEffect(() => {
+    getFirstProduct().then((p) => {
+      if (p) {
+        setVariants(p.variants);
+        setSelectedVariantId(p.variants[0]?.id ?? null);
+      }
+    });
+  }, []);
+
+  const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
+  const basePrice = selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0;
+  const price = basePrice;
+
+  async function handleAddToCart() {
+    if (!selectedVariant) return;
+    await addToCart(selectedVariant.id, qty);
+  }
 
   return (
     <PageShell>
@@ -125,29 +144,36 @@ function ProductPage() {
             </div>
 
             <p className="mt-6 max-w-md text-lg text-muted-foreground">
-              Say goodbye to cracking shells. Rich pistachio flavor with zero guilt and clean, powerful ingredients — designed for those who crave both wellness and indulgence in every bite.
+              Stesh pistachio butter is a velvety smooth butter that brings the rich taste of pistachios into every spoonful. Say goodbye to cracking shells and say hello to the newest addition to your daily routine.
             </p>
 
-            {/* Mode toggle */}
-            <div className="mt-8 grid grid-cols-2 gap-3">
-              <button
-                onClick={() => setMode("one")}
-                className={`rounded-xl border p-4 text-left transition-all ${
-                  mode === "one" ? "border-pistachio-deep bg-pistachio-light/20" : "border-border"
-                }`}
-              >
-                <div className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">One-time</div>
-                <div className="mt-1 font-display text-2xl">$19.00</div>
-              </button>
-              <button
-                onClick={() => setMode("sub")}
-                className={`rounded-xl border p-4 text-left transition-all ${
-                  mode === "sub" ? "border-pistachio-deep bg-pistachio-light/20" : "border-border"
-                }`}
-              >
-                <div className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Subscribe · Save 15%</div>
-                <div className="mt-1 font-display text-2xl">$16.15</div>
-              </button>
+            {/* Variant selector */}
+            {variants.length > 1 && (
+              <div className="mt-8">
+                <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">Size</p>
+                <div className="flex flex-wrap gap-2">
+                  {variants.map((v) => (
+                    <button
+                      key={v.id}
+                      onClick={() => setSelectedVariantId(v.id)}
+                      disabled={!v.availableForSale}
+                      className={`rounded-full border px-5 py-2 text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
+                        selectedVariantId === v.id
+                          ? "border-pistachio-deep bg-pistachio-light/20 text-pistachio-deep font-medium"
+                          : "border-border hover:border-pistachio-deep"
+                      }`}
+                    >
+                      {v.title}
+                      {!v.availableForSale && " — Sold out"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Price */}
+            <div className="mt-8">
+              <div className="font-display text-4xl">${basePrice.toFixed(2)}</div>
             </div>
 
             {/* Qty + ATC */}
@@ -161,9 +187,13 @@ function ProductPage() {
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
-              <button className="group flex flex-1 items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark">
-                Add to Cart · ${(price * qty).toFixed(2)}
-                <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+              <button
+                onClick={handleAddToCart}
+                disabled={loading || !selectedVariant}
+                className="group flex flex-1 items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {loading ? "Adding…" : `Add to Cart · $${(price * qty).toFixed(2)}`}
+                {!loading && <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>}
               </button>
             </div>
 
