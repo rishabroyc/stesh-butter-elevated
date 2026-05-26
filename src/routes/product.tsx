@@ -121,21 +121,22 @@ function ProductPage() {
         <div className="mx-auto grid max-w-[1400px] gap-6 md:grid-cols-2 md:gap-16">
           {/* Gallery */}
           <div>
-            <div className="aspect-square overflow-hidden rounded-2xl bg-warm-tan/15 md:aspect-4/5">
+            <div className="max-h-72 overflow-hidden rounded-2xl bg-warm-tan/15 sm:max-h-96 md:aspect-4/5 md:max-h-none">
               <img
                 src={gallery[active]}
                 alt="Stesh Pistachio Butter"
                 className="h-full w-full object-contain p-4 transition-all md:p-6"
+                style={{ minHeight: "240px" }}
                 fetchPriority="high"
                 decoding="async"
               />
             </div>
-            <div className="mt-3 flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
+            <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
               {gallery.map((src, i) => (
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`aspect-square h-12 w-12 shrink-0 overflow-hidden rounded-lg border-2 transition-all md:h-16 md:w-16 lg:h-20 lg:w-20 ${
+                  className={`aspect-square h-11 w-11 shrink-0 overflow-hidden rounded-lg border-2 transition-all md:h-16 md:w-16 lg:h-20 lg:w-20 ${
                     active === i ? "border-pistachio-deep" : "border-transparent opacity-60 hover:opacity-90"
                   }`}
                 >
@@ -189,11 +190,11 @@ function ProductPage() {
             )}
 
             {/* Price */}
-            <div className="mt-8 flex items-baseline gap-3">
-              <div className="font-display text-4xl">${price.toFixed(2)}</div>
+            <div className="mt-5 flex items-baseline gap-3 md:mt-8">
+              <div className="font-display text-3xl md:text-4xl">${price.toFixed(2)}</div>
               {isOnSale && (
                 <>
-                  <div className="font-display text-2xl text-muted-foreground line-through">${discount!.originalPrice.toFixed(2)}</div>
+                  <div className="font-display text-xl text-muted-foreground line-through md:text-2xl">${discount!.originalPrice.toFixed(2)}</div>
                   <div className="border-b border-pistachio-deep pb-0.5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
                     {discount!.pctOff}% off
                   </div>
@@ -202,8 +203,8 @@ function ProductPage() {
             </div>
 
             {/* Qty + ATC */}
-            <div className="mt-6 flex items-center gap-4">
-              <div className="flex items-center rounded-full border border-border">
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 md:mt-6">
+              <div className="flex w-fit items-center rounded-full border border-border">
                 <button onClick={() => setQty(Math.max(1, qty - 1))} className="p-3" aria-label="Decrease">
                   <Minus className="h-4 w-4" />
                 </button>
@@ -215,7 +216,7 @@ function ProductPage() {
               <button
                 onClick={handleAddToCart}
                 disabled={loading || !selectedVariant}
-                className="group flex flex-1 items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark disabled:opacity-60 disabled:cursor-not-allowed"
+                className="group flex w-full items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-4 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark disabled:opacity-60 disabled:cursor-not-allowed sm:flex-1"
               >
                 {loading ? "Adding…" : `Add to Cart · $${(price * qty).toFixed(2)}`}
                 {!loading && <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>}
@@ -224,7 +225,7 @@ function ProductPage() {
 
             <a
               href="https://www.amazon.com/dp/B0F9586XQ5"
-              className="mt-4 text-center text-xs text-muted-foreground hover:text-pistachio-deep"
+              className="mt-3 text-center text-xs text-muted-foreground hover:text-pistachio-deep"
             >
               Or buy on Amazon →
             </a>
