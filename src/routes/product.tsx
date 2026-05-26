@@ -117,15 +117,15 @@ function ProductPage() {
   return (
     <PageShell>
       {/* GALLERY + PURCHASE */}
-      <section className="px-4 py-6 md:px-12 md:py-16">
+      <section className="overflow-x-hidden px-4 py-6 md:px-12 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-6 md:grid-cols-2 md:gap-16">
           {/* Gallery */}
-          <div>
-            <div className="relative h-64 overflow-hidden rounded-2xl bg-warm-tan/15 sm:h-80 md:h-auto md:aspect-4/5">
+          <div className="min-w-0">
+            <div className="relative overflow-hidden rounded-2xl bg-warm-tan/15 aspect-4/3 md:aspect-4/5">
               <img
                 src={gallery[active]}
                 alt="Stesh Pistachio Butter"
-                className="absolute inset-0 h-full w-full object-contain p-4 transition-all md:p-6"
+                className="absolute inset-0 h-full w-full object-cover transition-all md:object-contain md:p-6"
                 fetchPriority="high"
                 decoding="async"
               />
@@ -139,7 +139,7 @@ function ProductPage() {
                     active === i ? "border-pistachio-deep" : "border-transparent opacity-60 hover:opacity-90"
                   }`}
                 >
-                  <img src={src} alt="" className="h-full w-full object-contain" loading="lazy" decoding="async" />
+                  <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                 </button>
               ))}
             </div>
