@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
-import { Turtle } from "@/components/site/Turtle";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -92,7 +91,7 @@ function AboutPage() {
         <div className="mx-auto grid max-w-[1200px] items-center gap-16 md:grid-cols-2">
           <div className="relative">
             <div className="rounded-2xl bg-pistachio-light/30 p-12 md:p-20">
-              <Turtle className="mx-auto h-64 w-auto animate-float" />
+              <img src="https://steshbutter.com/wp-content/uploads/2025/05/stesh_icon.svg" alt="Mr. Turtle" className="mx-auto h-64 w-auto animate-float" />
             </div>
           </div>
           <div>

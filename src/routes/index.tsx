@@ -5,7 +5,6 @@ import { subscribeEmail } from "@/lib/newsletter";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Marquee } from "@/components/site/Marquee";
-import { Turtle } from "@/components/site/Turtle";
 
 import finalBanner from "@/assets/final-banner.jpg";
 const HERO_IMG = finalBanner;
@@ -185,7 +184,7 @@ function Home() {
 
       {/* STORY */}
       <section id="story" className="relative overflow-hidden bg-off-white px-6 py-28 md:px-12 md:py-40">
-        <Turtle className="pointer-events-none absolute -right-10 top-20 hidden h-44 w-auto opacity-90 animate-float md:block" />
+        <img src="https://steshbutter.com/wp-content/uploads/2025/05/stesh_icon.svg" alt="" aria-hidden="true" className="pointer-events-none absolute -right-10 top-20 hidden h-44 w-auto opacity-90 animate-float md:block" />
         <div className="mx-auto grid max-w-[1400px] gap-16 md:grid-cols-12 md:gap-20">
           <div className="md:col-span-6">
             <div className="overflow-hidden rounded-2xl">
