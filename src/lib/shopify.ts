@@ -136,6 +136,71 @@ export async function getFirstProduct(): Promise<{ id: string; handle: string; v
   return { id: node.id, handle: node.handle, variants: node.variants.edges.map((e) => e.node) };
 }
 
+export type DiscountPricing = {
+  originalPrice: number;
+  discountedPrice: number;
+  discountTitle: string;
+  pctOff: number;
+} | null;
+
+export async function getDiscountPricing(variantId: string): Promise<DiscountPricing> {
+  const data = await shopifyFetch<{
+    cartCreate: {
+      cart: {
+        lines: {
+          edges: {
+            node: {
+              cost: { amountPerQuantity: { amount: string } };
+              discountAllocations: Array<{
+                discountedAmount: { amount: string };
+                title?: string;
+              }>;
+              merchandise: { price: { amount: string } };
+            };
+          }[];
+        };
+      };
+    };
+  }>(
+    `mutation DiscountCheck($variantId: ID!) {
+      cartCreate(input: { lines: [{ merchandiseId: $variantId, quantity: 1 }] }) {
+        cart {
+          lines(first: 1) {
+            edges {
+              node {
+                cost { amountPerQuantity { amount } }
+                discountAllocations {
+                  discountedAmount { amount }
+                  ... on CartAutomaticDiscountAllocation { title }
+                  ... on CartCodeDiscountAllocation { title }
+                }
+                merchandise { ... on ProductVariant { price { amount } } }
+              }
+            }
+          }
+        }
+      }
+    }`,
+    { variantId },
+  );
+
+  const line = data.cartCreate.cart.lines.edges[0]?.node;
+  if (!line) return null;
+
+  const originalPrice = parseFloat(line.merchandise.price.amount);
+  const totalDiscount = line.discountAllocations.reduce(
+    (sum, a) => sum + parseFloat(a.discountedAmount.amount),
+    0,
+  );
+  if (totalDiscount === 0) return null;
+
+  const discountedPrice = parseFloat(line.cost.amountPerQuantity.amount);
+  const pctOff = Math.round((totalDiscount / originalPrice) * 100);
+  const discountTitle = line.discountAllocations[0]?.title ?? "Sale";
+
+  return { originalPrice, discountedPrice, discountTitle, pctOff };
+}
+
 export async function createCart(variantId: string, quantity: number): Promise<Cart> {
   const data = await shopifyFetch<{ cartCreate: { cart: Record<string, unknown> } }>(
     `mutation CreateCart($lines: [CartLineInput!]) {

@@ -2,8 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Check, Star, Minus, Plus, ShieldCheck, Truck, Leaf, Sparkles, Heart, FlaskConical, Wheat } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
-import { getFirstProduct } from "@/lib/shopify";
-import type { ShopifyVariant } from "@/lib/shopify";
+import { getFirstProduct, getDiscountPricing } from "@/lib/shopify";
+import type { ShopifyVariant, DiscountPricing } from "@/lib/shopify";
 import { useCart } from "@/context/cart";
 
 export const Route = createFileRoute("/product")({
@@ -86,6 +86,7 @@ function ProductPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [variants, setVariants] = useState<ShopifyVariant[]>([]);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
+  const [discount, setDiscount] = useState<DiscountPricing>(null);
   const { addToCart, loading } = useCart();
 
   useEffect(() => {
@@ -94,15 +95,19 @@ function ProductPage() {
         if (p) {
           setVariants(p.variants);
           setSelectedVariantId(p.variants[0]?.id ?? null);
+          if (p.variants[0]?.id) {
+            getDiscountPricing(p.variants[0].id)
+              .then(setDiscount)
+              .catch(() => null);
+          }
         }
       })
       .catch((err) => console.error("Shopify product fetch failed:", err));
   }, []);
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
-  const price = selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0;
-  const compareAtPrice = selectedVariant?.compareAtPrice ? parseFloat(selectedVariant.compareAtPrice.amount) : null;
-  const isOnSale = compareAtPrice !== null && compareAtPrice > price;
+  const price = discount ? discount.discountedPrice : (selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0);
+  const isOnSale = discount !== null;
 
   async function handleAddToCart() {
     if (!selectedVariant) return;
@@ -188,9 +193,9 @@ function ProductPage() {
               <div className="font-display text-4xl">${price.toFixed(2)}</div>
               {isOnSale && (
                 <>
-                  <div className="font-display text-2xl text-muted-foreground line-through">${compareAtPrice!.toFixed(2)}</div>
+                  <div className="font-display text-2xl text-muted-foreground line-through">${discount!.originalPrice.toFixed(2)}</div>
                   <div className="border-b border-pistachio-deep pb-0.5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
-                    {Math.round((1 - price / compareAtPrice!) * 100)}% off
+                    {discount!.pctOff}% off
                   </div>
                 </>
               )}
