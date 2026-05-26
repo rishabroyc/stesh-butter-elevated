@@ -189,8 +189,8 @@ function ProductPage() {
               {isOnSale && (
                 <>
                   <div className="font-display text-2xl text-muted-foreground line-through">${compareAtPrice!.toFixed(2)}</div>
-                  <div className="rounded-full bg-pistachio-deep px-3 py-1 text-[10px] uppercase tracking-widest-extra text-cream">
-                    Sale
+                  <div className="border-b border-pistachio-deep pb-0.5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+                    {Math.round((1 - price / compareAtPrice!) * 100)}% off
                   </div>
                 </>
               )}
