@@ -117,25 +117,25 @@ function ProductPage() {
   return (
     <PageShell>
       {/* GALLERY + PURCHASE */}
-      <section className="px-6 py-10 md:px-12 md:py-16">
-        <div className="mx-auto grid max-w-[1400px] gap-10 md:grid-cols-2 md:gap-16">
+      <section className="px-4 py-6 md:px-12 md:py-16">
+        <div className="mx-auto grid max-w-[1400px] gap-6 md:grid-cols-2 md:gap-16">
           {/* Gallery */}
           <div>
-            <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-warm-tan/15">
+            <div className="aspect-square overflow-hidden rounded-2xl bg-warm-tan/15 md:aspect-4/5">
               <img
                 src={gallery[active]}
                 alt="Stesh Pistachio Butter"
-                className="h-full w-full object-contain p-6 transition-all"
+                className="h-full w-full object-contain p-4 transition-all md:p-6"
                 fetchPriority="high"
                 decoding="async"
               />
             </div>
-            <div className="mt-4 flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
               {gallery.map((src, i) => (
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`aspect-square h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition-all md:h-20 md:w-20 ${
+                  className={`aspect-square h-12 w-12 shrink-0 overflow-hidden rounded-lg border-2 transition-all md:h-16 md:w-16 lg:h-20 lg:w-20 ${
                     active === i ? "border-pistachio-deep" : "border-transparent opacity-60 hover:opacity-90"
                   }`}
                 >
@@ -148,10 +148,10 @@ function ProductPage() {
           {/* Purchase */}
           <div className="flex flex-col">
             <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">10 oz · Pistachio</p>
-            <h1 className="mt-3 font-display text-5xl leading-[1] md:text-6xl">
+            <h1 className="mt-2 font-display text-3xl leading-tight md:mt-3 md:text-5xl md:leading-none lg:text-6xl">
               Stesh Pistachio Butter
             </h1>
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-3 flex items-center gap-3">
               <div className="flex gap-1 text-pistachio-deep">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="h-4 w-4 fill-current" />
@@ -160,7 +160,7 @@ function ProductPage() {
               <span className="text-sm text-muted-foreground">36 reviews · Avg 5.0</span>
             </div>
 
-            <p className="mt-6 max-w-md text-lg text-muted-foreground">
+            <p className="mt-4 max-w-md text-base text-muted-foreground md:mt-6 md:text-lg">
               Stesh pistachio butter is a velvety smooth butter that brings the rich taste of pistachios into every spoonful. Say goodbye to cracking shells and say hello to the newest addition to your daily routine.
             </p>
 
