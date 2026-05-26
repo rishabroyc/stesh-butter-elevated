@@ -33,9 +33,18 @@ export const Route = createFileRoute("/product")({
 
 const gallery = [
   "https://steshbutter.com/wp-content/uploads/2025/05/21-3-600x600-1.png",
+  "https://steshbutter.com/wp-content/uploads/2025/05/10-2.png",
+  "https://steshbutter.com/wp-content/uploads/2025/05/ChatGPT-Image-May-5-2025-09_03_25-PM-1-3.png",
+  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-50-1.png",
   "https://steshbutter.com/wp-content/uploads/2025/05/Steshupdates-8.jpg",
   "https://steshbutter.com/wp-content/uploads/2025/05/Steshupdates-2.jpg",
   "https://steshbutter.com/wp-content/uploads/2025/05/003-KJ_Utsab-scaled.jpg",
+  "https://steshbutter.com/wp-content/uploads/2025/05/104-KJ_Utsab-scaled.jpg",
+  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-21-1-1.png",
+  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-22.png",
+  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-23.png",
+  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-24.png",
+  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-25.png",
 ];
 
 const ingredients = [
@@ -108,21 +117,21 @@ function ProductPage() {
               <img
                 src={gallery[active]}
                 alt="Stesh Pistachio Butter"
-                className="h-full w-full object-cover"
-                width={1280}
-                height={1600}
+                className="h-full w-full object-contain p-6 transition-all"
+                fetchPriority="high"
+                decoding="async"
               />
             </div>
-            <div className="mt-4 grid grid-cols-4 gap-3">
+            <div className="mt-4 flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
               {gallery.map((src, i) => (
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`aspect-square overflow-hidden rounded-lg border-2 transition-all ${
-                    active === i ? "border-pistachio-deep" : "border-transparent opacity-70 hover:opacity-100"
+                  className={`aspect-square h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition-all md:h-20 md:w-20 ${
+                    active === i ? "border-pistachio-deep" : "border-transparent opacity-60 hover:opacity-90"
                   }`}
                 >
-                  <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />
+                  <img src={src} alt="" className="h-full w-full object-contain" loading="lazy" decoding="async" />
                 </button>
               ))}
             </div>
@@ -257,7 +266,7 @@ function ProductPage() {
             {useImages.map((u) => (
               <div key={u.title}>
                 <div className="aspect-[4/5] overflow-hidden rounded-xl bg-cream">
-                  <img src={u.img} alt={u.title} className="h-full w-full object-cover transition-transform duration-700 hover:scale-110" loading="lazy" />
+                  <img src={u.img} alt={u.title} className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-110" loading="lazy" decoding="async" />
                 </div>
                 <h3 className="mt-3 font-display text-xl">{u.title}</h3>
                 <p className="text-sm text-muted-foreground">{u.note}</p>

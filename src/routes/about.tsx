@@ -32,7 +32,7 @@ function AboutPage() {
       {/* Founder photo */}
       <section className="px-6 md:px-12">
         <div className="mx-auto max-w-[1400px] overflow-hidden rounded-2xl">
-          <img src="https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-53.png" alt="Arsh and Utsab" className="h-[60vh] w-full object-cover md:h-[80vh]" />
+          <img src="https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-53.png" alt="Arsh and Utsab" className="h-[60vh] w-full object-cover object-top md:h-[80vh]" fetchPriority="high" decoding="async" />
         </div>
       </section>
 
@@ -43,8 +43,9 @@ function AboutPage() {
             <img
               src="https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-55.png"
               alt="Arsh and Utsab, Stesh founders"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover object-center"
               loading="lazy"
+              decoding="async"
             />
           </div>
           <div>

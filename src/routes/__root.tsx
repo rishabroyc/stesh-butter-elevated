@@ -11,6 +11,7 @@ import {
 import appCss from "../styles.css?url";
 import { CartProvider } from "@/context/cart";
 import { CartDrawer } from "@/components/site/CartDrawer";
+import { NewsletterPopup } from "@/components/site/NewsletterPopup";
 
 function NotFoundComponent() {
   return (
@@ -116,6 +117,7 @@ function RootComponent() {
       <CartProvider>
         <Outlet />
         <CartDrawer />
+        <NewsletterPopup />
       </CartProvider>
     </QueryClientProvider>
   );

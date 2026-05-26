@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd c:\\\\stesh-butter-elevated; Remove-Item -Force bun.lock -ErrorAction SilentlyContinue; & \"$env:USERPROFILE\\\\.bun\\\\bin\\\\bun.exe\" add leaflet @types/leaflet 2>&1 | Select-Object -Last 10)",
+      "PowerShell(cd c:\\\\stesh-butter-elevated; & \"$env:USERPROFILE\\\\.bun\\\\bin\\\\bun.exe\" install 2>&1 | Select-Object -Last 8)",
+      "WebFetch(domain:steshbutter.com)"
+    ]
+  }
+}

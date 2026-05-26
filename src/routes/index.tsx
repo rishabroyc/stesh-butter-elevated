@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Check, X, Star, Sparkles, Leaf, Wheat, Heart, FlaskConical } from "lucide-react";
+import { subscribeEmail } from "@/lib/newsletter";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Marquee } from "@/components/site/Marquee";
 import { Turtle } from "@/components/site/Turtle";
 
-const HERO_IMG = "https://steshbutter.com/wp-content/uploads/2025/05/10-2.png";
+import finalBanner from "@/assets/final-banner.jpg";
+const HERO_IMG = finalBanner;
 const PRODUCT_IMG = "https://steshbutter.com/wp-content/uploads/2025/05/21-3-600x600-1.png";
 const FOUNDERS_IMG = "https://steshbutter.com/wp-content/uploads/2025/05/104-KJ_Utsab-scaled.jpg";
 
@@ -61,6 +64,20 @@ const uses = [
 ];
 
 function Home() {
+  const [nlEmail, setNlEmail] = useState("");
+  const [nlStatus, setNlStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleNewsletter(e: React.FormEvent) {
+    e.preventDefault();
+    setNlStatus("loading");
+    try {
+      await subscribeEmail(nlEmail, "homepage");
+      setNlStatus("success");
+    } catch {
+      setNlStatus("error");
+    }
+  }
+
   return (
     <div className="bg-cream text-dark">
       <Nav />
@@ -70,9 +87,9 @@ function Home() {
         <img
           src={HERO_IMG}
           alt="Open jar of Stesh pistachio butter"
-          className="absolute inset-0 h-full w-full object-cover"
-          width={1536}
-          height={1792}
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/55" />
         <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-6 md:px-12 z-10">
@@ -117,14 +134,13 @@ function Home() {
       {/* PRODUCT HERO */}
       <section id="product" className="px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-2 md:gap-20">
-          <div className="relative overflow-hidden rounded-2xl bg-warm-tan/20">
+          <div className="relative aspect-square overflow-hidden rounded-2xl bg-warm-tan/20 md:aspect-auto md:min-h-[500px]">
             <img
               src={PRODUCT_IMG}
               alt="Stesh pistachio butter jar"
-              className="h-full w-full object-cover transition-transform duration-[1.2s] hover:scale-105"
-              loading="lazy"
-              width={600}
-              height={600}
+              className="h-full w-full object-cover object-center transition-transform duration-[1.2s] hover:scale-105"
+              fetchPriority="high"
+              decoding="async"
             />
           </div>
           <div className="flex flex-col justify-center">
@@ -150,7 +166,7 @@ function Home() {
             </div>
 
             <div className="mt-10 flex items-center gap-6">
-              <span className="font-display text-4xl">$19.00</span>
+              <span className="font-display text-4xl">From $18.99</span>
             </div>
 
             <div className="mt-6">
@@ -176,10 +192,9 @@ function Home() {
               <img
                 src={FOUNDERS_IMG}
                 alt="Arsh and Utsab, Stesh founders"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover object-top"
                 loading="lazy"
-                width={1280}
-                height={1600}
+                decoding="async"
               />
             </div>
           </div>
@@ -296,10 +311,9 @@ function Home() {
                   <img
                     src={u.img}
                     alt={u.title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
-                    width={800}
-                    height={960}
+                    decoding="async"
                   />
                 </div>
                 <div className="mt-4">
@@ -324,20 +338,37 @@ function Home() {
           <p className="mt-6 text-lg text-muted-foreground">
             Recipes, drops, and the occasional Mr. Turtle update. No spam, ever.
           </p>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="mx-auto mt-10 flex max-w-lg flex-col gap-3 sm:flex-row"
-          >
-            <input
-              type="email"
-              required
-              placeholder="your@email.com"
-              className="flex-1 rounded-full border border-pistachio-deep/30 bg-cream px-6 py-4 text-base outline-none placeholder:text-dark/40 focus:border-pistachio-deep"
-            />
-            <button className="rounded-full bg-pistachio-deep px-8 py-4 text-[11px] uppercase tracking-widest-extra text-cream transition-colors hover:bg-dark">
-              Sign me up
-            </button>
-          </form>
+          {nlStatus === "success" ? (
+            <div className="mx-auto mt-10 max-w-lg rounded-2xl border border-pistachio-deep/20 bg-pistachio-light/20 px-8 py-6 text-center">
+              <p className="font-display text-2xl text-pistachio-deep">You're in.</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Use <span className="font-semibold text-pistachio-deep">WELCOME10</span> at checkout for 10% off.
+              </p>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleNewsletter}
+              className="mx-auto mt-10 flex max-w-lg flex-col gap-3 sm:flex-row"
+            >
+              <input
+                type="email"
+                required
+                value={nlEmail}
+                onChange={(e) => setNlEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="flex-1 rounded-full border border-pistachio-deep/30 bg-cream px-6 py-4 text-base outline-none placeholder:text-dark/40 focus:border-pistachio-deep"
+              />
+              <button
+                disabled={nlStatus === "loading"}
+                className="rounded-full bg-pistachio-deep px-8 py-4 text-[11px] uppercase tracking-widest-extra text-cream transition-colors hover:bg-dark disabled:opacity-60"
+              >
+                {nlStatus === "loading" ? "Subscribing…" : "Sign me up"}
+              </button>
+            </form>
+          )}
+          {nlStatus === "error" && (
+            <p className="mt-3 text-center text-sm text-red-500">Something went wrong — please try again.</p>
+          )}
         </div>
       </section>
 

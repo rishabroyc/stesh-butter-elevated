@@ -116,6 +116,23 @@
   }
 }
 
+/* Leaflet popup overrides */
+.stesh-popup .leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.12);
+  border: 1px solid oklch(0.88 0.01 85);
+  padding: 0;
+}
+.stesh-popup .leaflet-popup-content {
+  margin: 12px 14px;
+}
+.stesh-popup .leaflet-popup-tip {
+  background: white;
+}
+.leaflet-container {
+  font-family: var(--font-sans);
+}
+
 @layer utilities {
   .tracking-widest-extra { letter-spacing: 0.28em; }
   .grain {
