@@ -31,6 +31,7 @@ export type ShopifyVariant = {
   id: string;
   title: string;
   price: { amount: string; currencyCode: string };
+  compareAtPrice: { amount: string; currencyCode: string } | null;
   availableForSale: boolean;
 };
 
@@ -92,6 +93,7 @@ export async function getProductVariants(handle: string): Promise<ShopifyVariant
               id
               title
               price { amount currencyCode }
+              compareAtPrice { amount currencyCode }
               availableForSale
             }
           }
@@ -119,6 +121,7 @@ export async function getFirstProduct(): Promise<{ id: string; handle: string; v
                   id
                   title
                   price { amount currencyCode }
+                  compareAtPrice { amount currencyCode }
                   availableForSale
                 }
               }

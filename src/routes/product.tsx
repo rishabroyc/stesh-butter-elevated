@@ -100,8 +100,9 @@ function ProductPage() {
   }, []);
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
-  const basePrice = selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0;
-  const price = basePrice;
+  const price = selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0;
+  const compareAtPrice = selectedVariant?.compareAtPrice ? parseFloat(selectedVariant.compareAtPrice.amount) : null;
+  const isOnSale = compareAtPrice !== null && compareAtPrice > price;
 
   async function handleAddToCart() {
     if (!selectedVariant) return;
@@ -183,8 +184,16 @@ function ProductPage() {
             )}
 
             {/* Price */}
-            <div className="mt-8">
-              <div className="font-display text-4xl">${basePrice.toFixed(2)}</div>
+            <div className="mt-8 flex items-baseline gap-3">
+              <div className="font-display text-4xl">${price.toFixed(2)}</div>
+              {isOnSale && (
+                <>
+                  <div className="font-display text-2xl text-muted-foreground line-through">${compareAtPrice!.toFixed(2)}</div>
+                  <div className="rounded-full bg-pistachio-deep px-3 py-1 text-[10px] uppercase tracking-widest-extra text-cream">
+                    Sale
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Qty + ATC */}
