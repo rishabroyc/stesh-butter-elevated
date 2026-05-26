@@ -230,7 +230,7 @@ function ProductPage() {
             </a>
 
             {/* Badges */}
-            <div className="mt-10 grid grid-cols-5 gap-3 border-t border-border pt-8">
+            <div className="mt-10 grid grid-cols-3 gap-3 border-t border-border pt-8 md:grid-cols-5">
               {badges.map(({ icon: Icon, label }) => (
                 <div key={label} className="flex flex-col items-center gap-2 text-center">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-pistachio-light/40 text-pistachio-deep">
@@ -260,7 +260,7 @@ function ProductPage() {
           <h2 className="max-w-3xl font-display text-5xl leading-[1.05] md:text-7xl">
             Everything that's in it. <em className="not-italic text-pistachio-deep">Nothing that isn't.</em>
           </h2>
-          <div className="mt-14 grid gap-4 md:grid-cols-5">
+          <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-5">
             {ingredients.map((ing, i) => (
               <article key={ing.name} className="flex flex-col rounded-2xl bg-cream p-6">
                 <span className="font-display text-5xl text-pistachio-deep/30">0{i + 1}</span>

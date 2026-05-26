@@ -78,7 +78,7 @@ function FAQPage() {
       />
 
       <section className="px-6 pb-28 md:px-12 md:pb-40">
-        <div className="mx-auto max-w-[900px] space-y-16">
+        <div className="mx-auto max-w-225 space-y-16">
           {sections.map((sec) => (
             <div key={sec.title}>
               <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
@@ -107,7 +107,7 @@ function FAQPage() {
             </div>
           ))}
 
-          <div className="rounded-2xl bg-pistachio-deep p-10 text-center text-cream md:p-14">
+          <div className="rounded-2xl bg-pistachio-deep p-6 text-center text-cream md:p-10 lg:p-14">
             <h2 className="font-display text-4xl md:text-5xl">Still curious?</h2>
             <p className="mt-3 text-cream/70">Mr. Turtle is a slow typer but Arsh & Utsab are quick.</p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

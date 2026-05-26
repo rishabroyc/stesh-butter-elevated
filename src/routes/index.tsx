@@ -96,7 +96,7 @@ function Home() {
             <p className="mb-6 text-[11px] uppercase tracking-widest-extra text-cream/90 animate-fade-up">
               Pistachio butter · No shells · No nonsense
             </p>
-            <h1 className="font-display text-[14vw] leading-[0.9] text-cream md:text-[110px] animate-fade-up" style={{ animationDelay: "120ms" }}>
+            <h1 className="font-display text-[11vw] leading-[0.92] text-cream md:text-[110px] md:leading-[0.9] animate-fade-up" style={{ animationDelay: "120ms" }}>
               The better-<br />
               <em className="not-italic text-pistachio-light">for-you</em><br />
               pistachio butter.
@@ -234,7 +234,7 @@ function Home() {
           </div>
 
           <div className="overflow-hidden rounded-2xl border border-cream/15">
-            <div className="grid grid-cols-3 border-b border-cream/15 bg-cream/5 px-6 py-5 text-[11px] uppercase tracking-widest-extra md:px-10">
+            <div className="grid grid-cols-3 border-b border-cream/15 bg-cream/5 px-4 py-4 text-[10px] uppercase tracking-widest-extra md:px-10 md:py-5 md:text-[11px]">
               <span className="text-cream/60"> </span>
               <span className="text-pistachio-light">Stesh</span>
               <span className="text-cream/60">The Other Guys</span>
@@ -246,13 +246,13 @@ function Home() {
               ["Prebiotic", "Yes", "No"],
               ["Taste", "Rich, real pistachio", "Muted, oversweetened"],
             ].map(([label, stesh, them]) => (
-              <div key={label} className="grid grid-cols-3 items-center border-b border-cream/10 px-6 py-6 text-base last:border-0 md:px-10 md:text-lg">
+              <div key={label} className="grid grid-cols-3 items-center border-b border-cream/10 px-4 py-4 text-sm last:border-0 md:px-10 md:py-6 md:text-base lg:text-lg">
                 <span className="font-medium text-cream/80">{label}</span>
-                <span className="flex items-center gap-2 text-pistachio-light">
-                  <Check className="h-4 w-4" /> {stesh}
+                <span className="flex items-center gap-1 text-pistachio-light">
+                  <Check className="h-3 w-3 shrink-0 md:h-4 md:w-4" /> {stesh}
                 </span>
-                <span className="flex items-center gap-2 text-cream/55">
-                  <X className="h-4 w-4" /> {them}
+                <span className="flex items-center gap-1 text-cream/55">
+                  <X className="h-3 w-3 shrink-0 md:h-4 md:w-4" /> {them}
                 </span>
               </div>
             ))}

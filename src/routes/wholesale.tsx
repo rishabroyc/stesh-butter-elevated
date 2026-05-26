@@ -36,7 +36,7 @@ function WholesalePage() {
               <iframe
                 src="https://www.faire.com/embed/bw_ux5auhqbbs"
                 scrolling="no"
-                style={{ margin: "0 auto", border: "none", display: "block", maxWidth: "100%", width: "900px", height: "600px" }}
+                style={{ margin: "0 auto", border: "none", display: "block", width: "100%", height: "600px" }}
                 title="Stesh on Faire"
               />
             </div>

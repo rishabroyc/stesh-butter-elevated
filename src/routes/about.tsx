@@ -90,7 +90,7 @@ function AboutPage() {
       <section className="relative overflow-hidden px-6 py-28 md:px-12 md:py-40">
         <div className="mx-auto grid max-w-[1200px] items-center gap-16 md:grid-cols-2">
           <div className="relative">
-            <div className="rounded-2xl bg-pistachio-light/30 p-12 md:p-20">
+            <div className="rounded-2xl bg-pistachio-light/30 p-6 md:p-20">
               <img src="https://steshbutter.com/wp-content/uploads/2025/05/stesh_icon.svg" alt="Mr. Turtle" className="mx-auto h-64 w-auto animate-float" />
             </div>
           </div>

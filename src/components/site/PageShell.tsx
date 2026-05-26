@@ -26,7 +26,7 @@ export function PageHero({
         <p className="mb-5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
           {eyebrow}
         </p>
-        <h1 className="font-display text-5xl leading-[0.95] md:text-8xl">{title}</h1>
+        <h1 className="font-display text-4xl leading-tight md:text-6xl lg:text-8xl">{title}</h1>
         {subtitle && (
           <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">{subtitle}</p>
         )}
