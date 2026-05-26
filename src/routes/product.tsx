@@ -121,12 +121,11 @@ function ProductPage() {
         <div className="mx-auto grid max-w-[1400px] gap-6 md:grid-cols-2 md:gap-16">
           {/* Gallery */}
           <div>
-            <div className="max-h-72 overflow-hidden rounded-2xl bg-warm-tan/15 sm:max-h-96 md:aspect-4/5 md:max-h-none">
+            <div className="relative h-64 overflow-hidden rounded-2xl bg-warm-tan/15 sm:h-80 md:h-auto md:aspect-4/5">
               <img
                 src={gallery[active]}
                 alt="Stesh Pistachio Butter"
-                className="h-full w-full object-contain p-4 transition-all md:p-6"
-                style={{ minHeight: "240px" }}
+                className="absolute inset-0 h-full w-full object-contain p-4 transition-all md:p-6"
                 fetchPriority="high"
                 decoding="async"
               />
@@ -216,7 +215,7 @@ function ProductPage() {
               <button
                 onClick={handleAddToCart}
                 disabled={loading || !selectedVariant}
-                className="group flex w-full items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-4 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark disabled:opacity-60 disabled:cursor-not-allowed sm:flex-1"
+                className="group flex w-full items-center justify-center gap-2 rounded-full bg-pistachio-deep px-5 py-4 text-[11px] uppercase tracking-wide text-cream transition-all hover:bg-dark disabled:opacity-60 disabled:cursor-not-allowed sm:flex-1 sm:px-8 sm:tracking-widest-extra"
               >
                 {loading ? "Adding…" : `Add to Cart · $${(price * qty).toFixed(2)}`}
                 {!loading && <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>}
