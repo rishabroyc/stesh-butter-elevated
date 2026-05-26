@@ -89,12 +89,14 @@ function ProductPage() {
   const { addToCart, loading } = useCart();
 
   useEffect(() => {
-    getFirstProduct().then((p) => {
-      if (p) {
-        setVariants(p.variants);
-        setSelectedVariantId(p.variants[0]?.id ?? null);
-      }
-    });
+    getFirstProduct()
+      .then((p) => {
+        if (p) {
+          setVariants(p.variants);
+          setSelectedVariantId(p.variants[0]?.id ?? null);
+        }
+      })
+      .catch((err) => console.error("Shopify product fetch failed:", err));
   }, []);
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];

@@ -1,6 +1,6 @@
 const DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN as string;
 const TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN as string;
-const API_URL = `https://${DOMAIN}/api/2024-01/graphql.json`;
+const API_URL = `https://${DOMAIN}/api/2025-01/graphql.json`;
 
 export type CartLine = {
   id: string;
