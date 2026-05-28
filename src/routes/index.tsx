@@ -144,7 +144,7 @@ function Home() {
           </div>
           <div className="flex flex-col justify-center">
             <p className="mb-5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
-              Stesh Pistachio Butter · 10 oz
+              Stesh Pistachio Butter · 8 oz
             </p>
             <h2 className="font-display text-5xl leading-[1] md:text-7xl">
               One spoonful. <em className="not-italic text-pistachio-deep">All</em> the good stuff.

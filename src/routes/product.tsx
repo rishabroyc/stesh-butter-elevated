@@ -147,7 +147,7 @@ function ProductPage() {
 
           {/* Purchase */}
           <div className="flex flex-col">
-            <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">10 oz · Pistachio</p>
+            <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">8 oz · Pistachio</p>
             <h1 className="mt-2 font-display text-3xl leading-tight md:mt-3 md:text-5xl md:leading-none lg:text-6xl">
               Stesh Pistachio Butter
             </h1>
