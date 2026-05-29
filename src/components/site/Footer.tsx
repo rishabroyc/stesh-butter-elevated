@@ -46,10 +46,9 @@ export function Footer() {
           <div>
             <h4 className="mb-5 text-[11px] uppercase tracking-widest-extra text-pistachio-light">Help</h4>
             <ul className="space-y-3 text-sm text-cream/70">
-              <li><a href="mailto:hello@steshbutter.com" className="hover:text-cream">Contact</a></li>
-              <li><a href="https://steshbutter.com" className="hover:text-cream">steshbutter.com</a></li>
-              <li><a href="#" className="hover:text-cream">Privacy</a></li>
-              <li><a href="#" className="hover:text-cream">Terms</a></li>
+              <li><a href="mailto:connect@steshbutter.com" className="hover:text-cream">Contact</a></li>
+              <li><Link to="/privacy" className="hover:text-cream">Privacy</Link></li>
+              <li><Link to="/terms" className="hover:text-cream">Terms</Link></li>
             </ul>
           </div>
         </div>

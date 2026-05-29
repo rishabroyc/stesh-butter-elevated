@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WholesaleRouteImport } from './routes/wholesale'
 import { Route as WhereToBuyRouteImport } from './routes/where-to-buy'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as RecipesRouteImport } from './routes/recipes'
 import { Route as ProductRouteImport } from './routes/product'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +31,11 @@ const WhereToBuyRoute = WhereToBuyRouteImport.update({
   path: '/where-to-buy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RecipesRoute = RecipesRouteImport.update({
   id: '/recipes',
   path: '/recipes',
@@ -37,6 +44,11 @@ const RecipesRoute = RecipesRouteImport.update({
 const ProductRoute = ProductRouteImport.update({
   id: '/product',
   path: '/product',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -69,8 +81,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/faq': typeof FaqRoute
+  '/privacy': typeof PrivacyRoute
   '/product': typeof ProductRoute
   '/recipes': typeof RecipesRouteWithChildren
+  '/terms': typeof TermsRoute
   '/where-to-buy': typeof WhereToBuyRoute
   '/wholesale': typeof WholesaleRoute
   '/recipes/$slug': typeof RecipesSlugRoute
@@ -80,7 +94,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/faq': typeof FaqRoute
+  '/privacy': typeof PrivacyRoute
   '/product': typeof ProductRoute
+  '/terms': typeof TermsRoute
   '/where-to-buy': typeof WhereToBuyRoute
   '/wholesale': typeof WholesaleRoute
   '/recipes/$slug': typeof RecipesSlugRoute
@@ -91,8 +107,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/faq': typeof FaqRoute
+  '/privacy': typeof PrivacyRoute
   '/product': typeof ProductRoute
   '/recipes': typeof RecipesRouteWithChildren
+  '/terms': typeof TermsRoute
   '/where-to-buy': typeof WhereToBuyRoute
   '/wholesale': typeof WholesaleRoute
   '/recipes/$slug': typeof RecipesSlugRoute
@@ -104,8 +122,10 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/faq'
+    | '/privacy'
     | '/product'
     | '/recipes'
+    | '/terms'
     | '/where-to-buy'
     | '/wholesale'
     | '/recipes/$slug'
@@ -115,7 +135,9 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/faq'
+    | '/privacy'
     | '/product'
+    | '/terms'
     | '/where-to-buy'
     | '/wholesale'
     | '/recipes/$slug'
@@ -125,8 +147,10 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/faq'
+    | '/privacy'
     | '/product'
     | '/recipes'
+    | '/terms'
     | '/where-to-buy'
     | '/wholesale'
     | '/recipes/$slug'
@@ -137,8 +161,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   FaqRoute: typeof FaqRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProductRoute: typeof ProductRoute
   RecipesRoute: typeof RecipesRouteWithChildren
+  TermsRoute: typeof TermsRoute
   WhereToBuyRoute: typeof WhereToBuyRoute
   WholesaleRoute: typeof WholesaleRoute
 }
@@ -159,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WhereToBuyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/recipes': {
       id: '/recipes'
       path: '/recipes'
@@ -171,6 +204,13 @@ declare module '@tanstack/react-router' {
       path: '/product'
       fullPath: '/product'
       preLoaderRoute: typeof ProductRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -228,8 +268,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   FaqRoute: FaqRoute,
+  PrivacyRoute: PrivacyRoute,
   ProductRoute: ProductRoute,
   RecipesRoute: RecipesRouteWithChildren,
+  TermsRoute: TermsRoute,
   WhereToBuyRoute: WhereToBuyRoute,
   WholesaleRoute: WholesaleRoute,
 }
