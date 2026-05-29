@@ -30,7 +30,7 @@ export function Footer() {
             <h4 className="mb-5 text-[11px] uppercase tracking-widest-extra text-pistachio-light">Shop</h4>
             <ul className="space-y-3 text-sm text-cream/70">
               <li><Link to="/product" className="hover:text-cream">Pistachio Butter</Link></li>
-              <li><a href="https://www.amazon.com/dp/B0F9586XQ5" className="hover:text-cream">Buy on Amazon</a></li>
+              <li><a href="https://www.amazon.com/dp/B0F9586XQ5" target="_blank" rel="noopener noreferrer" className="hover:text-cream">Buy on Amazon</a></li>
               <li><Link to="/where-to-buy" className="hover:text-cream">Find in Store</Link></li>
             </ul>
           </div>

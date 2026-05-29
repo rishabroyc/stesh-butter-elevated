@@ -17,18 +17,17 @@ const sections: { title: string; items: { q: string; a: string }[] }[] = [
   {
     title: "Storage & Shelf life",
     items: [
-      { q: "Do I need to refrigerate?", a: "Not required, but we recommend it after opening for the freshest flavor and texture." },
-      { q: "How long does an opened jar last?", a: "4–6 weeks stored in a cool spot. Probably less if you're like Monika from Portland." },
-      { q: "Why does mine separate?", a: "No stabilizers means a little natural oil separation can happen. Stir gently before the first use." },
+      { q: "Do I need to refrigerate?", a: "Not required, but if you're looking for a thicker texture you can totally refrigerate it. Otherwise room temperature spreads great!" },
+      { q: "How long does an opened jar last?", a: "3 months stored in a cool spot. Probably less if you're like Monika from Portland." },
+      { q: "Why doesn't Stesh separate like other nut butters?", a: "We harness the power of sunflowers which acts as a natrual stabilizer and preservative. This helps to reduce seperation and keep everything together. Give it a good stir before the first use." },
     ],
   },
   {
-    title: "Shipping & Returns",
+    title: "Shipping ",
     items: [
-      { q: "How fast does it ship?", a: "Orders ship within 1 business day and arrive in 2–3 days via standard shipping." },
-      { q: "Do you offer free shipping?", a: "Yes — on all U.S. orders over $40." },
+      { q: "How fast does it ship?", a: "Orders ship within 2-3 business days." },
+      { q: "Do you offer free shipping?", a: "Yes — on all U.S. orders over $60." },
       { q: "Do you ship internationally?", a: "Not yet, but it's on the roadmap. Sign up for the newsletter to be the first to know." },
-      { q: "What's your return policy?", a: "Love it or your money back, within 30 days. Email hello@steshbutter.com." },
     ],
   },
   {
@@ -74,7 +73,7 @@ function FAQPage() {
       <PageHero
         eyebrow="FAQ"
         title={<>Questions, <em className="not-italic text-pistachio-deep">answered.</em></>}
-        subtitle="Don't see what you're looking for? Email hello@steshbutter.com — we read every message."
+        subtitle="Don't see what you're looking for? Email connect@steshbutter.com — we read every message."
       />
 
       <section className="px-6 pb-28 md:px-12 md:pb-40">
@@ -111,7 +110,7 @@ function FAQPage() {
             <h2 className="font-display text-4xl md:text-5xl">Still curious?</h2>
             <p className="mt-3 text-cream/70">Mr. Turtle is a slow typer but Arsh & Utsab are quick.</p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <a href="mailto:hello@steshbutter.com" className="rounded-full bg-cream px-8 py-4 text-[11px] uppercase tracking-widest-extra text-pistachio-deep hover:bg-pistachio-light">
+              <a href="mailto:connect@steshbutter.com" className="rounded-full bg-cream px-8 py-4 text-[11px] uppercase tracking-widest-extra text-pistachio-deep hover:bg-pistachio-light">
                 Email us
               </a>
               <Link to="/product" className="rounded-full border border-cream/40 px-8 py-4 text-[11px] uppercase tracking-widest-extra text-cream hover:bg-cream/10">

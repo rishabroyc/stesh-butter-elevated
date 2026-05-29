@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Stesh is a premium pistachio butter made with 5 clean ingredients. Vegan, no seed oils, prebiotic, protein-forward. Indulge by the spoonful.",
+          "Stesh is a premium pistachio butter made with 5 clean ingredients. Vegan, no seed oils, prebiotic fiber, protein-forward. Indulge by the spoonful.",
       },
       { property: "og:title", content: "Stesh — THE Better-For-You Pistachio Butter" },
       { property: "og:description", content: "5 ingredients. Zero compromise. Indulge by the spoonful." },
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/")({
 const badges = [
   { icon: Leaf, label: "Vegan" },
   { icon: Sparkles, label: "No Seed Oils" },
-  { icon: FlaskConical, label: "Prebiotic" },
+  { icon: FlaskConical, label: "Prebiotic Fiber" },
   { icon: Heart, label: "Protein-Forward" },
   { icon: Wheat, label: "5 Ingredients" },
 ];
@@ -57,9 +57,9 @@ const reviews = [
 const uses = [
   { img: "https://steshbutter.com/wp-content/uploads/2025/05/yogurtnew.png", title: "Spread it", note: "Toast, bagels and croissants" },
   { img: "https://steshbutter.com/wp-content/uploads/2025/05/smoothienew.png", title: "Blend it", note: "Smoothies or protein shakes" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/pancake-bgnew.png", title: "Drizzle it", note: "Pancakes, yogurt or oatmeal" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/strawberrynew.png", title: "Drizzle it", note: "Pancakes, yogurt or oatmeal" },
   { img: "https://steshbutter.com/wp-content/uploads/2025/05/applesnew.png", title: "Dip it", note: "Strawberries and apples" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/strawberrynew.png", title: "Bake it", note: "Cookies and cakes" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/pancake-bgnew.png", title: "Bake it", note: "Cookies and cakes" },
 ];
 
 function Home() {
@@ -122,7 +122,7 @@ function Home() {
 
       {/* MARQUEE TRUST STRIP */}
       <section className="border-y border-pistachio-deep/15 bg-off-white py-5">
-        <Marquee items={["Vegan", "No Seed Oils", "5 Ingredients", "Prebiotic", "Protein-Forward", "Clean Label"]} />
+        <Marquee items={["Vegan", "No Seed Oils", "5 Ingredients", "Prebiotic Fiber", "Protein-Forward", "Clean Label"]} />
         <div className="h-3" />
         <Marquee
           reverse
@@ -240,11 +240,11 @@ function Home() {
               <span className="text-cream/60">The Other Guys</span>
             </div>
             {[
-              ["Ingredients", "5, all natural", "15+ with fillers"],
-              ["Oils", "Avocado oil", "Seed oils"],
+              ["Ingredients", "5, all natural", "Artificial, with fillers"],
+              ["Oils", "Avocado oil", "Seed oils, hydrogenated fats"],
               ["Added protein", "Almond protein", "None"],
-              ["Prebiotic", "Yes", "No"],
-              ["Taste", "Rich, real pistachio", "Muted, oversweetened"],
+              ["Vegan + Dairy-Free", "Yes", "Usually not"],
+              ["Taste", "Rich with real pistachios", "Bland or oversweetened"],
             ].map(([label, stesh, them]) => (
               <div key={label} className="grid grid-cols-3 items-center border-b border-cream/10 px-4 py-4 text-sm last:border-0 md:px-10 md:py-6 md:text-base lg:text-lg">
                 <span className="font-medium text-cream/80">{label}</span>
@@ -265,7 +265,7 @@ function Home() {
         <div className="mx-auto max-w-[1400px]">
           <div className="mb-16 text-center">
             <p className="mb-4 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
-              10,000+ happy spoonful-ers
+              From all the happy spoonful-ers
             </p>
             <h2 className="mx-auto max-w-3xl font-display text-5xl leading-[1.05] md:text-7xl">
               Don't just take it <em className="not-italic text-pistachio-deep">from our spoon</em>.
@@ -300,7 +300,7 @@ function Home() {
               Ways to <em className="not-italic text-pistachio-deep">enjoy it.</em>
             </h2>
             <p className="max-w-sm text-muted-foreground">
-              Or, you know — eat it straight from the spoon. Mr. Turtle does.
+              Or, you know... eat it straight from the spoon. Mr. Turtle does.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-6">

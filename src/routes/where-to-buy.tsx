@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { MapPin, ExternalLink, Search } from "lucide-react";
 import { PageShell, PageHero } from "@/components/site/PageShell";
@@ -16,10 +16,6 @@ export const Route = createFileRoute("/where-to-buy")({
   component: WhereToBuyPage,
 });
 
-const online = [
-  { name: "steshbutter.com", note: "Ships direct in 2–3 days. Free over $40.", href: "https://steshbutter.com" },
-  { name: "Amazon", note: "Prime eligible — ASIN B0F9586XQ5", href: "https://www.amazon.com/dp/B0F9586XQ5" },
-];
 
 const locations = [
   { name: "Rachel's Garden", neighborhood: "Greenpoint", address: "116 Nassau Ave", city: "New York", state: "NY", zip: "11222", lat: 40.7241, lng: -73.9494 },
@@ -68,7 +64,7 @@ function WhereToBuyPage() {
       <PageHero
         eyebrow="Where to Buy"
         title={<>Find Stesh <em className="not-italic text-pistachio-deep">near you.</em></>}
-        subtitle="Order direct, grab it on Amazon, or pick up a jar at one of our 26 NYC stockists."
+        subtitle="Order direct, grab it on Amazon, or pick up a jar at one of our NYC partners."
       />
 
       {/* Online */}
@@ -76,21 +72,28 @@ function WhereToBuyPage() {
         <div className="mx-auto max-w-[1200px]">
           <h2 className="mb-8 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Online</h2>
           <div className="grid gap-5 md:grid-cols-2">
-            {online.map((o) => (
-              <a
-                key={o.name}
-                href={o.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center justify-between rounded-2xl border border-border bg-off-white p-8 transition-all hover:-translate-y-1 hover:border-pistachio-deep hover:shadow-sm"
-              >
-                <div>
-                  <h3 className="font-display text-3xl">{o.name}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{o.note}</p>
-                </div>
-                <ExternalLink className="h-5 w-5 shrink-0 text-pistachio-deep transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </a>
-            ))}
+            <Link
+              to="/product"
+              className="group flex items-center justify-between rounded-2xl border border-border bg-off-white p-8 transition-all hover:-translate-y-1 hover:border-pistachio-deep hover:shadow-sm"
+            >
+              <div>
+                <h3 className="font-display text-3xl">steshbutter.com</h3>
+                <p className="mt-2 text-sm text-muted-foreground">Ships direct in 2–3 days. Free over $60.</p>
+              </div>
+              <ExternalLink className="h-5 w-5 shrink-0 text-pistachio-deep transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </Link>
+            <a
+              href="https://www.amazon.com/dp/B0F9586XQ5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-between rounded-2xl border border-border bg-off-white p-8 transition-all hover:-translate-y-1 hover:border-pistachio-deep hover:shadow-sm"
+            >
+              <div>
+                <h3 className="font-display text-3xl">Amazon</h3>
+                <p className="mt-2 text-sm text-muted-foreground">Prime eligible</p>
+              </div>
+              <ExternalLink className="h-5 w-5 shrink-0 text-pistachio-deep transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </a>
           </div>
         </div>
       </section>

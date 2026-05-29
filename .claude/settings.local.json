@@ -3,7 +3,11 @@
     "allow": [
       "PowerShell(cd c:\\\\stesh-butter-elevated; Remove-Item -Force bun.lock -ErrorAction SilentlyContinue; & \"$env:USERPROFILE\\\\.bun\\\\bin\\\\bun.exe\" add leaflet @types/leaflet 2>&1 | Select-Object -Last 10)",
       "PowerShell(cd c:\\\\stesh-butter-elevated; & \"$env:USERPROFILE\\\\.bun\\\\bin\\\\bun.exe\" install 2>&1 | Select-Object -Last 8)",
-      "WebFetch(domain:steshbutter.com)"
+      "WebFetch(domain:steshbutter.com)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'fix: point wrangler at built server output instead of source *)",
+      "PowerShell(git push)",
+      "PowerShell(git add 'src/routes/recipes.tsx' 'src/routes/recipes.index.tsx' 'src/routes/recipes.$slug.tsx' src/routeTree.gen.ts)"
     ]
   }
 }

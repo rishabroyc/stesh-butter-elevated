@@ -10,7 +10,7 @@ export const Route = createFileRoute("/product")({
   head: () => ({
     meta: [
       { title: "Stesh Pistachio Butter — $19.00 | Stesh" },
-      { name: "description", content: "Stesh Pistachio Butter: 5 clean ingredients, vegan, no seed oils, prebiotic, protein-forward. $19. Subscribe & Save 15%." },
+      { name: "description", content: "Stesh Pistachio Butter: 5 clean ingredients, vegan, no seed oils, prebiotic fiber, protein-forward. $19. Subscribe & Save 15%." },
       { property: "og:title", content: "Stesh Pistachio Butter" },
       { property: "og:description", content: "5 ingredients. Zero compromise. Indulge by the spoonful." },
       { property: "og:type", content: "product" },
@@ -58,7 +58,7 @@ const ingredients = [
 const badges = [
   { icon: Leaf, label: "Vegan" },
   { icon: Sparkles, label: "No Seed Oils" },
-  { icon: FlaskConical, label: "Prebiotic" },
+  { icon: FlaskConical, label: "Prebiotic Fiber" },
   { icon: Heart, label: "Protein-Forward" },
   { icon: Wheat, label: "5 Ingredients" },
 ];
@@ -66,18 +66,18 @@ const badges = [
 const useImages = [
   { img: "https://steshbutter.com/wp-content/uploads/2025/05/yogurtnew.png", title: "Spread", note: "Spread it on toast, bagels and croissants" },
   { img: "https://steshbutter.com/wp-content/uploads/2025/05/smoothienew.png", title: "Blend", note: "Blend into smoothies or protein shakes" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/pancake-bgnew.png", title: "Drizzle", note: "Drizzle over pancakes, yogurt or oatmeal" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/strawberrynew.png", title: "Drizzle", note: "Drizzle over pancakes, yogurt or oatmeal" },
   { img: "https://steshbutter.com/wp-content/uploads/2025/05/applesnew.png", title: "Dip", note: "Dip in your strawberries and apples" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/strawberrynew.png", title: "Bake", note: "Use in baking cookies and cakes" },
+  { img: "https://steshbutter.com/wp-content/uploads/2025/05/pancake-bgnew.png", title: "Bake", note: "Use in baking cookies and cakes" },
 ];
 
 const faqs = [
   { q: "Is it vegan?", a: "Yes. Stesh is 100% plant-based — no dairy, no honey, no animal products." },
   { q: "Does it contain seed oils?", a: "Never. We use avocado oil, full stop. No canola, sunflower, soybean, or palm." },
   { q: "How much protein?", a: "Roughly 6g per serving, thanks to the almond protein powder we blend in." },
-  { q: "How long does an opened jar last?", a: "Stored in a cool spot, about 4–6 weeks once opened. You probably won't make it that long." },
+  { q: "How long does an opened jar last?", a: "Stored in a cool spot, about 3 months once opened. You probably won't make it that long." },
   { q: "Can I bake with it?", a: "Absolutely. It's gorgeous swirled into cookies, banana bread, brownies, and croissants." },
-  { q: "How is it different from almond butter?", a: "Real pistachio flavor, lower sugar, added protein, and avocado oil instead of seed oils." },
+  { q: "How is it different from other nut butters?", a: "Real pistachio flavor, added protein, and avocado oil instead of seed oils." },
 ];
 
 function ProductPage() {
@@ -224,6 +224,8 @@ function ProductPage() {
 
             <a
               href="https://www.amazon.com/dp/B0F9586XQ5"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-3 text-center text-xs text-muted-foreground hover:text-pistachio-deep"
             >
               Or buy on Amazon →
@@ -244,7 +246,7 @@ function ProductPage() {
             {/* Trust strip */}
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
               <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Secure checkout</span>
-              <span className="flex items-center gap-2"><Truck className="h-4 w-4" /> Free shipping over $40</span>
+              <span className="flex items-center gap-2"><Truck className="h-4 w-4" /> Free shipping over $60</span>
               <span className="flex items-center gap-2"><Check className="h-4 w-4" /> Ships in 2–3 days</span>
             </div>
           </div>

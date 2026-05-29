@@ -44,8 +44,8 @@ function WholesalePage() {
 
           {/* Stack */}
           <div className="rounded-2xl border border-border bg-off-white p-6 md:p-10">
-            <p className="mb-2 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Order via Stack</p>
-            <h2 className="mb-6 font-display text-3xl">Shop on Stack</h2>
+            <p className="mb-2 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Order via AirGoods</p>
+            <h2 className="mb-6 font-display text-3xl">Shop on AirGoods</h2>
             <div className="overflow-hidden rounded-xl">
               <iframe
                 src="https://stack-backend.onrender.com/widget/embed/1e4726f6-e309-44d0-9738-e4bb8d53a130"
@@ -53,7 +53,7 @@ function WholesalePage() {
                 width="100%"
                 height="600"
                 style={{ border: "none" }}
-                title="Stesh on Stack"
+                title="Stesh on AirGoods"
               />
             </div>
           </div>
@@ -70,8 +70,7 @@ function WholesalePage() {
               {[
                 ["High-margin SKU", "Premium pistachio category, fast-growing."],
                 ["Beautiful merchandising", "POS kits, recipe cards, jar-front shelf talkers."],
-                ["Trade terms", "Net-30 for qualified accounts. Reorders ship in 5 days."],
-                ["Minimum order", "1 case (12 jars). MOQ-friendly for first orders."],
+                ["Trade terms", "Net-30 for qualified accounts. Reorders ship in 2 days."],
               ].map(([t, d]) => (
                 <li key={t}>
                   <div className="font-display text-xl text-dark">{t}</div>
