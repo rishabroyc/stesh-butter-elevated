@@ -7,7 +7,9 @@
       "Bash(git add *)",
       "Bash(git commit -m 'fix: point wrangler at built server output instead of source *)",
       "PowerShell(git push)",
-      "PowerShell(git add 'src/routes/recipes.tsx' 'src/routes/recipes.index.tsx' 'src/routes/recipes.$slug.tsx' src/routeTree.gen.ts)"
+      "PowerShell(git add 'src/routes/recipes.tsx' 'src/routes/recipes.index.tsx' 'src/routes/recipes.$slug.tsx' src/routeTree.gen.ts)",
+      "WebFetch(domain:www.google.com)",
+      "PowerShell(git add src/routes/where-to-buy.tsx)"
     ]
   }
 }
