@@ -16,6 +16,8 @@ import { Route as ProductRouteImport } from './routes/product'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RecipesIndexRouteImport } from './routes/recipes.index'
+import { Route as RecipesSlugRouteImport } from './routes/recipes.$slug'
 
 const WholesaleRoute = WholesaleRouteImport.update({
   id: '/wholesale',
@@ -52,24 +54,37 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecipesIndexRoute = RecipesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RecipesRoute,
+} as any)
+const RecipesSlugRoute = RecipesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => RecipesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/faq': typeof FaqRoute
   '/product': typeof ProductRoute
-  '/recipes': typeof RecipesRoute
+  '/recipes': typeof RecipesRouteWithChildren
   '/where-to-buy': typeof WhereToBuyRoute
   '/wholesale': typeof WholesaleRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
+  '/recipes/': typeof RecipesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/faq': typeof FaqRoute
   '/product': typeof ProductRoute
-  '/recipes': typeof RecipesRoute
   '/where-to-buy': typeof WhereToBuyRoute
   '/wholesale': typeof WholesaleRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
+  '/recipes': typeof RecipesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,9 +92,11 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/faq': typeof FaqRoute
   '/product': typeof ProductRoute
-  '/recipes': typeof RecipesRoute
+  '/recipes': typeof RecipesRouteWithChildren
   '/where-to-buy': typeof WhereToBuyRoute
   '/wholesale': typeof WholesaleRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
+  '/recipes/': typeof RecipesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,15 +108,18 @@ export interface FileRouteTypes {
     | '/recipes'
     | '/where-to-buy'
     | '/wholesale'
+    | '/recipes/$slug'
+    | '/recipes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/faq'
     | '/product'
-    | '/recipes'
     | '/where-to-buy'
     | '/wholesale'
+    | '/recipes/$slug'
+    | '/recipes'
   id:
     | '__root__'
     | '/'
@@ -109,6 +129,8 @@ export interface FileRouteTypes {
     | '/recipes'
     | '/where-to-buy'
     | '/wholesale'
+    | '/recipes/$slug'
+    | '/recipes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -116,7 +138,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   FaqRoute: typeof FaqRoute
   ProductRoute: typeof ProductRoute
-  RecipesRoute: typeof RecipesRoute
+  RecipesRoute: typeof RecipesRouteWithChildren
   WhereToBuyRoute: typeof WhereToBuyRoute
   WholesaleRoute: typeof WholesaleRoute
 }
@@ -172,15 +194,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recipes/': {
+      id: '/recipes/'
+      path: '/'
+      fullPath: '/recipes/'
+      preLoaderRoute: typeof RecipesIndexRouteImport
+      parentRoute: typeof RecipesRoute
+    }
+    '/recipes/$slug': {
+      id: '/recipes/$slug'
+      path: '/$slug'
+      fullPath: '/recipes/$slug'
+      preLoaderRoute: typeof RecipesSlugRouteImport
+      parentRoute: typeof RecipesRoute
+    }
   }
 }
+
+interface RecipesRouteChildren {
+  RecipesSlugRoute: typeof RecipesSlugRoute
+  RecipesIndexRoute: typeof RecipesIndexRoute
+}
+
+const RecipesRouteChildren: RecipesRouteChildren = {
+  RecipesSlugRoute: RecipesSlugRoute,
+  RecipesIndexRoute: RecipesIndexRoute,
+}
+
+const RecipesRouteWithChildren =
+  RecipesRoute._addFileChildren(RecipesRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   FaqRoute: FaqRoute,
   ProductRoute: ProductRoute,
-  RecipesRoute: RecipesRoute,
+  RecipesRoute: RecipesRouteWithChildren,
   WhereToBuyRoute: WhereToBuyRoute,
   WholesaleRoute: WholesaleRoute,
 }
