@@ -51,6 +51,16 @@ const locations = [
   { name: "Marbled Meat Shop", neighborhood: "Cold Spring", address: "3091 Route 9, Ste 101", city: "Cold Spring", state: "NY", zip: "10516", lat: 41.4193, lng: -73.9559 },
   { name: "Mixed Pantry", neighborhood: "Belltown", address: "2233 1st Ave", city: "Seattle", state: "WA", zip: "98121", lat: 47.6134, lng: -122.3439 },
   { name: "The Flying Pig Market", neighborhood: "Asbury Park", address: "301 Cookman Ave, Unit 9", city: "Asbury Park", state: "NJ", zip: "07712", lat: 40.2197, lng: -74.0119 },
+  { name: "Hunger Mountain Co-op", neighborhood: "Montpelier", address: "623 Stone Cutters Way", city: "Montpelier", state: "VT", zip: "05602", lat: 44.2601, lng: -72.5806 },
+  { name: "Adams Fairacre Farms", neighborhood: "Poughkeepsie", address: "765 Dutchess Turnpike", city: "Poughkeepsie", state: "NY", zip: "12603", lat: 41.6868, lng: -73.9034 },
+  { name: "Bantam Market", neighborhood: "Bantam", address: "890 Bantam Rd", city: "Bantam", state: "CT", zip: "06750", lat: 41.7295, lng: -73.2379 },
+  { name: "Morning Glory Farm", neighborhood: "Edgartown", address: "120 Meshacket Rd", city: "Edgartown", state: "MA", zip: "02539", lat: 41.3884, lng: -70.5423 },
+  { name: "Adams Fairacre Farms", neighborhood: "Middletown", address: "1740 Route 211 E", city: "Middletown", state: "NY", zip: "10941", lat: 41.4466, lng: -74.3197 },
+  { name: "Pawtuxet Village Market", neighborhood: "Pawtuxet Village", address: "14 Narragansett Blvd", city: "Cranston", state: "RI", zip: "02905", lat: 41.7526, lng: -71.3927 },
+  { name: "Bartlett's Ocean View Farm", neighborhood: "Nantucket", address: "33 Bartlett Farm Rd", city: "Nantucket", state: "MA", zip: "02554", lat: 41.2664, lng: -70.0882 },
+  { name: "Cider Hill Farm", neighborhood: "Amesbury", address: "45 Fern Ave", city: "Amesbury", state: "MA", zip: "01913", lat: 42.8590, lng: -70.9299 },
+  { name: "Northville Market", neighborhood: "Northville", address: "131 Bridge St", city: "Northville", state: "NY", zip: "12134", lat: 43.2261, lng: -74.1715 },
+  { name: "Belmont Marketplace", neighborhood: "Belmont", address: "271 Trapelo Rd", city: "Belmont", state: "MA", zip: "02478", lat: 42.3932, lng: -71.1774 },
 ];
 
 function WhereToBuyPage() {
@@ -71,7 +81,7 @@ function WhereToBuyPage() {
       <PageHero
         eyebrow="Where to Buy"
         title={<>Find Stesh <em className="not-italic text-pistachio-deep">near you.</em></>}
-        subtitle="Order direct, grab it on Amazon, or pick up a jar at one of our 33 retail partners across the US."
+        subtitle="Order direct, grab it on Amazon, or pick up a jar at one of our 43 retail partners across the US."
       />
 
       {/* Online */}
