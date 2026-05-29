@@ -44,6 +44,13 @@ const locations = [
   { name: "Westside Market", neighborhood: "East Village", address: "84 3rd Avenue", city: "New York", state: "NY", zip: "10003", lat: 40.7297, lng: -73.9867 },
   { name: "Amish Market", neighborhood: "Hell's Kitchen", address: "731 9th Avenue", city: "New York", state: "NY", zip: "10019", lat: 40.7619, lng: -73.9917 },
   { name: "Elm Wellness", neighborhood: "West Village", address: "56 7th Avenue", city: "New York", state: "NY", zip: "10011", lat: 40.7334, lng: -74.0025 },
+  { name: "Sweet Lil Sweets Cafe", neighborhood: "Ozone Park", address: "10212 101st Ave", city: "Ozone Park", state: "NY", zip: "11416", lat: 40.6813, lng: -73.8450 },
+  { name: "Cornucopia Health Foods", neighborhood: "Sayville", address: "35 N Main St", city: "Sayville", state: "NY", zip: "11782", lat: 40.7365, lng: -73.0831 },
+  { name: "Seared Living", neighborhood: "North Phoenix", address: "27628 N 37th Ave", city: "Phoenix", state: "AZ", zip: "85083", lat: 33.7358, lng: -112.1076 },
+  { name: "2J's Fresh Market", neighborhood: "Great Falls", address: "105 Smelter Ave NE, Ste 17", city: "Great Falls", state: "MT", zip: "59404", lat: 47.5090, lng: -111.2800 },
+  { name: "Marbled Meat Shop", neighborhood: "Cold Spring", address: "3091 Route 9, Ste 101", city: "Cold Spring", state: "NY", zip: "10516", lat: 41.4193, lng: -73.9559 },
+  { name: "Mixed Pantry", neighborhood: "Belltown", address: "2233 1st Ave", city: "Seattle", state: "WA", zip: "98121", lat: 47.6134, lng: -122.3439 },
+  { name: "The Flying Pig Market", neighborhood: "Asbury Park", address: "301 Cookman Ave, Unit 9", city: "Asbury Park", state: "NJ", zip: "07712", lat: 40.2197, lng: -74.0119 },
 ];
 
 function WhereToBuyPage() {
@@ -64,7 +71,7 @@ function WhereToBuyPage() {
       <PageHero
         eyebrow="Where to Buy"
         title={<>Find Stesh <em className="not-italic text-pistachio-deep">near you.</em></>}
-        subtitle="Order direct, grab it on Amazon, or pick up a jar at one of our NYC partners."
+        subtitle="Order direct, grab it on Amazon, or pick up a jar at one of our 33 retail partners across the US."
       />
 
       {/* Online */}
@@ -101,7 +108,7 @@ function WhereToBuyPage() {
       {/* Interactive map */}
       <section className="px-6 pb-20 md:px-12 md:pb-28">
         <div className="mx-auto max-w-[1200px]">
-          <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">In stores · New York City</h2>
+          <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">In stores · Across the US</h2>
           <div className="h-75 overflow-hidden rounded-2xl border border-border md:h-140">
             <StoreMap locations={locations} />
           </div>
