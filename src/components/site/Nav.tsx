@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X, UserCircle } from "lucide-react";
 import { useCart } from "@/context/cart";
+import { useAuth } from "@/context/auth";
 
 const links = [
   { label: "Shop", to: "/product" as const },
@@ -16,6 +17,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { cart, openDrawer } = useCart();
+  const { user } = useAuth();
   const itemCount = cart?.totalQuantity ?? 0;
 
   useEffect(() => {
@@ -62,6 +64,14 @@ export function Nav() {
               {l.label}
             </Link>
           ))}
+          <Link
+            to={user ? "/profile" : "/auth"}
+            className="flex items-center gap-1.5 text-dark hover:text-pistachio-deep transition-colors"
+            aria-label={user ? "Account" : "Sign in"}
+          >
+            <UserCircle className="h-4 w-4" />
+            <span>{user ? "Account" : "Sign In"}</span>
+          </Link>
           <button onClick={openDrawer} className="relative flex items-center gap-2 text-dark hover:text-pistachio-deep transition-colors" aria-label="Cart">
             <ShoppingBag className="h-4 w-4" />
             <span>Cart ({itemCount})</span>
@@ -93,6 +103,9 @@ export function Nav() {
                 {l.label}
               </Link>
             ))}
+            <Link to={user ? "/profile" : "/auth"} onClick={() => setOpen(false)}>
+              {user ? "Account" : "Sign In"}
+            </Link>
           </nav>
         </div>
       )}

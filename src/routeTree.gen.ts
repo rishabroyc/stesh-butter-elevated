@@ -13,9 +13,11 @@ import { Route as WholesaleRouteImport } from './routes/wholesale'
 import { Route as WhereToBuyRouteImport } from './routes/where-to-buy'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as RecipesRouteImport } from './routes/recipes'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ProductRouteImport } from './routes/product'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RecipesIndexRouteImport } from './routes/recipes.index'
@@ -41,6 +43,11 @@ const RecipesRoute = RecipesRouteImport.update({
   path: '/recipes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductRoute = ProductRouteImport.update({
   id: '/product',
   path: '/product',
@@ -54,6 +61,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -80,9 +92,11 @@ const RecipesSlugRoute = RecipesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/privacy': typeof PrivacyRoute
   '/product': typeof ProductRoute
+  '/profile': typeof ProfileRoute
   '/recipes': typeof RecipesRouteWithChildren
   '/terms': typeof TermsRoute
   '/where-to-buy': typeof WhereToBuyRoute
@@ -93,9 +107,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/privacy': typeof PrivacyRoute
   '/product': typeof ProductRoute
+  '/profile': typeof ProfileRoute
   '/terms': typeof TermsRoute
   '/where-to-buy': typeof WhereToBuyRoute
   '/wholesale': typeof WholesaleRoute
@@ -106,9 +122,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/privacy': typeof PrivacyRoute
   '/product': typeof ProductRoute
+  '/profile': typeof ProfileRoute
   '/recipes': typeof RecipesRouteWithChildren
   '/terms': typeof TermsRoute
   '/where-to-buy': typeof WhereToBuyRoute
@@ -121,9 +139,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/auth'
     | '/faq'
     | '/privacy'
     | '/product'
+    | '/profile'
     | '/recipes'
     | '/terms'
     | '/where-to-buy'
@@ -134,9 +154,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/auth'
     | '/faq'
     | '/privacy'
     | '/product'
+    | '/profile'
     | '/terms'
     | '/where-to-buy'
     | '/wholesale'
@@ -146,9 +168,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/auth'
     | '/faq'
     | '/privacy'
     | '/product'
+    | '/profile'
     | '/recipes'
     | '/terms'
     | '/where-to-buy'
@@ -160,9 +184,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
   FaqRoute: typeof FaqRoute
   PrivacyRoute: typeof PrivacyRoute
   ProductRoute: typeof ProductRoute
+  ProfileRoute: typeof ProfileRoute
   RecipesRoute: typeof RecipesRouteWithChildren
   TermsRoute: typeof TermsRoute
   WhereToBuyRoute: typeof WhereToBuyRoute
@@ -199,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecipesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product': {
       id: '/product'
       path: '/product'
@@ -218,6 +251,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -267,9 +307,11 @@ const RecipesRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
   FaqRoute: FaqRoute,
   PrivacyRoute: PrivacyRoute,
   ProductRoute: ProductRoute,
+  ProfileRoute: ProfileRoute,
   RecipesRoute: RecipesRouteWithChildren,
   TermsRoute: TermsRoute,
   WhereToBuyRoute: WhereToBuyRoute,

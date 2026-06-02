@@ -176,7 +176,7 @@ function Home() {
             </div>
 
             <p className="mt-5 text-xs text-muted-foreground">
-              Free shipping over $40 · Ships in 2–3 days
+              Free shipping over $60 · Ships in 2–3 days
             </p>
           </div>
         </div>

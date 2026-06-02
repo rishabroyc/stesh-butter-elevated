@@ -10,8 +10,10 @@ import {
 
 import appCss from "../styles.css?url";
 import { CartProvider } from "@/context/cart";
+import { AuthProvider } from "@/context/auth";
 import { CartDrawer } from "@/components/site/CartDrawer";
 import { NewsletterPopup } from "@/components/site/NewsletterPopup";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -114,11 +116,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        <Outlet />
-        <CartDrawer />
-        <NewsletterPopup />
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Outlet />
+          <CartDrawer />
+          <NewsletterPopup />
+          <Toaster position="bottom-right" />
+        </CartProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

@@ -1,10 +1,22 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { Check, Star, Minus, Plus, ShieldCheck, Truck, Leaf, Sparkles, Heart, FlaskConical, Wheat } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState, useEffect, useRef } from "react";
+import { Check, Star, Minus, Plus, ShieldCheck, Truck, Leaf, Sparkles, Heart, FlaskConical, Wheat, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 import { PageShell } from "@/components/site/PageShell";
 import { getFirstProduct, getDiscountPricing } from "@/lib/shopify";
 import type { ShopifyVariant, DiscountPricing } from "@/lib/shopify";
 import { useCart } from "@/context/cart";
+import { useAuth } from "@/context/auth";
+import { getSupabaseClient } from "@/lib/supabase";
+
+const PENDING_SUB_KEY = "stesh_pending_sub";
+
+type PendingSub = {
+  variantId: string;
+  variantName: string;
+  cadenceWeeks: 2 | 4 | 8;
+  priceCents: number;
+};
 
 export const Route = createFileRoute("/product")({
   head: () => ({
@@ -81,12 +93,17 @@ const faqs = [
 ];
 
 function ProductPage() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [active, setActive] = useState(0);
   const [qty, setQty] = useState(1);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [variants, setVariants] = useState<ShopifyVariant[]>([]);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [discount, setDiscount] = useState<DiscountPricing>(null);
+  const [purchaseType, setPurchaseType] = useState<"once" | "subscribe">("once");
+  const [cadence, setCadence] = useState<2 | 4 | 8>(4);
+  const pendingHandled = useRef(false);
   const { addToCart, loading } = useCart();
 
   useEffect(() => {
@@ -105,13 +122,86 @@ function ProductPage() {
       .catch((err) => console.error("Shopify product fetch failed:", err));
   }, []);
 
+  // Activate pending subscription after the user signs in and is redirected back
+  useEffect(() => {
+    if (!user || pendingHandled.current) return;
+    const raw = localStorage.getItem(PENDING_SUB_KEY);
+    if (!raw) return;
+    pendingHandled.current = true;
+    const pending: PendingSub = JSON.parse(raw);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (getSupabaseClient() as any)
+      .from("subscriptions")
+      .insert({
+        user_id: user.id,
+        product_name: "Stesh Pistachio Butter",
+        variant_id: pending.variantId,
+        variant_name: pending.variantName,
+        cadence_weeks: pending.cadenceWeeks,
+        price_cents: pending.priceCents,
+        discount_percent: 15,
+      })
+      .then(({ error }: { error: { message: string } | null }) => {
+        localStorage.removeItem(PENDING_SUB_KEY);
+        if (error) {
+          toast.error("Couldn't set up your subscription. Please try again.");
+        } else {
+          toast.success("Subscription activated! You'll save 15% on every order.");
+          addToCart(pending.variantId, 1);
+          setPurchaseType("subscribe");
+          setCadence(pending.cadenceWeeks);
+        }
+      });
+  }, [user, addToCart]);
+
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
-  const price = discount ? discount.discountedPrice : (selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0);
-  const isOnSale = discount !== null;
+  const basePrice = selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0;
+  const subscribePrice = Math.round(basePrice * 0.85 * 100) / 100;
+  const price =
+    purchaseType === "subscribe"
+      ? subscribePrice
+      : discount
+        ? discount.discountedPrice
+        : basePrice;
+  const isOnSale = purchaseType === "once" && discount !== null;
 
   async function handleAddToCart() {
     if (!selectedVariant) return;
     await addToCart(selectedVariant.id, qty);
+  }
+
+  async function handleSubscribeAndSave() {
+    if (!selectedVariant) return;
+    if (!user) {
+      const pending: PendingSub = {
+        variantId: selectedVariant.id,
+        variantName: selectedVariant.title,
+        cadenceWeeks: cadence,
+        priceCents: Math.round(subscribePrice * 100),
+      };
+      localStorage.setItem(PENDING_SUB_KEY, JSON.stringify(pending));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      navigate({ to: "/auth" as any, search: { redirect: "/product" } as any });
+      return;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (getSupabaseClient() as any)
+      .from("subscriptions")
+      .insert({
+        user_id: user.id,
+        product_name: "Stesh Pistachio Butter",
+        variant_id: selectedVariant.id,
+        variant_name: selectedVariant.title,
+        cadence_weeks: cadence,
+        price_cents: Math.round(subscribePrice * 100),
+        discount_percent: 15,
+      });
+    if (error) {
+      toast.error("Couldn't set up subscription. Please try again.");
+      return;
+    }
+    await addToCart(selectedVariant.id, qty);
+    toast.success(`Subscribed! You'll save 15% every ${cadence} weeks.`);
   }
 
   return (
@@ -188,12 +278,74 @@ function ProductPage() {
               </div>
             )}
 
+            {/* Purchase type */}
+            <div className="mt-8">
+              <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">Purchase Type</p>
+              <div className="flex rounded-full border border-border p-1">
+                <button
+                  onClick={() => setPurchaseType("once")}
+                  className={`flex-1 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
+                    purchaseType === "once"
+                      ? "bg-pistachio-deep text-cream"
+                      : "text-dark/60 hover:text-dark"
+                  }`}
+                >
+                  One-time
+                </button>
+                <button
+                  onClick={() => setPurchaseType("subscribe")}
+                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
+                    purchaseType === "subscribe"
+                      ? "bg-pistachio-deep text-cream"
+                      : "text-dark/60 hover:text-dark"
+                  }`}
+                >
+                  <RefreshCw className="h-3 w-3" />
+                  Subscribe &amp; Save 15%
+                </button>
+              </div>
+              {purchaseType === "subscribe" && (
+                <div className="mt-4">
+                  <p className="mb-2.5 text-[11px] uppercase tracking-widest-extra text-dark/60">
+                    Deliver every
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {([2, 4, 8] as const).map((w) => (
+                      <button
+                        key={w}
+                        onClick={() => setCadence(w)}
+                        className={`rounded-full border px-5 py-2 text-sm transition-all ${
+                          cadence === w
+                            ? "border-pistachio-deep bg-pistachio-light/20 text-pistachio-deep font-medium"
+                            : "border-border hover:border-pistachio-deep"
+                        }`}
+                      >
+                        {w === 2 ? "Every 2 Weeks" : w === 4 ? "Every 4 Weeks" : "Every 8 Weeks"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Price */}
-            <div className="mt-5 flex items-baseline gap-3 md:mt-8">
+            <div className="mt-5 flex items-baseline gap-3 md:mt-6">
               <div className="font-display text-3xl md:text-4xl">${price.toFixed(2)}</div>
+              {purchaseType === "subscribe" && (
+                <>
+                  <div className="font-display text-xl text-muted-foreground line-through md:text-2xl">
+                    ${basePrice.toFixed(2)}
+                  </div>
+                  <div className="border-b border-pistachio-deep pb-0.5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+                    15% off
+                  </div>
+                </>
+              )}
               {isOnSale && (
                 <>
-                  <div className="font-display text-xl text-muted-foreground line-through md:text-2xl">${discount!.originalPrice.toFixed(2)}</div>
+                  <div className="font-display text-xl text-muted-foreground line-through md:text-2xl">
+                    ${discount!.originalPrice.toFixed(2)}
+                  </div>
                   <div className="border-b border-pistachio-deep pb-0.5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
                     {discount!.pctOff}% off
                   </div>
@@ -201,25 +353,51 @@ function ProductPage() {
               )}
             </div>
 
-            {/* Qty + ATC */}
+            {/* Qty + CTA */}
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 md:mt-6">
-              <div className="flex w-fit items-center rounded-full border border-border">
-                <button onClick={() => setQty(Math.max(1, qty - 1))} className="p-3" aria-label="Decrease">
-                  <Minus className="h-4 w-4" />
+              {purchaseType === "once" && (
+                <div className="flex w-fit items-center rounded-full border border-border">
+                  <button onClick={() => setQty(Math.max(1, qty - 1))} className="p-3" aria-label="Decrease">
+                    <Minus className="h-4 w-4" />
+                  </button>
+                  <span className="w-10 text-center font-medium">{qty}</span>
+                  <button onClick={() => setQty(qty + 1)} className="p-3" aria-label="Increase">
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+              {purchaseType === "once" ? (
+                <button
+                  onClick={handleAddToCart}
+                  disabled={loading || !selectedVariant}
+                  className="group flex w-full items-center justify-center gap-2 rounded-full bg-pistachio-deep px-5 py-4 text-[11px] uppercase tracking-wide text-cream transition-all hover:bg-dark disabled:cursor-not-allowed disabled:opacity-60 sm:flex-1 sm:px-8 sm:tracking-widest-extra"
+                >
+                  {loading ? "Adding…" : `Add to Cart · $${(price * qty).toFixed(2)}`}
+                  {!loading && (
+                    <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                      →
+                    </span>
+                  )}
                 </button>
-                <span className="w-10 text-center font-medium">{qty}</span>
-                <button onClick={() => setQty(qty + 1)} className="p-3" aria-label="Increase">
-                  <Plus className="h-4 w-4" />
+              ) : (
+                <button
+                  onClick={handleSubscribeAndSave}
+                  disabled={loading || !selectedVariant}
+                  className="group flex w-full items-center justify-center gap-2 rounded-full bg-pistachio-deep px-5 py-4 text-[11px] uppercase tracking-wide text-cream transition-all hover:bg-dark disabled:cursor-not-allowed disabled:opacity-60 sm:px-8 sm:tracking-widest-extra"
+                >
+                  {loading ? "Processing…" : (
+                    <>
+                      <RefreshCw className="h-3.5 w-3.5" />
+                      Subscribe &amp; Save · ${price.toFixed(2)}/order
+                    </>
+                  )}
+                  {!loading && (
+                    <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                      →
+                    </span>
+                  )}
                 </button>
-              </div>
-              <button
-                onClick={handleAddToCart}
-                disabled={loading || !selectedVariant}
-                className="group flex w-full items-center justify-center gap-2 rounded-full bg-pistachio-deep px-5 py-4 text-[11px] uppercase tracking-wide text-cream transition-all hover:bg-dark disabled:opacity-60 disabled:cursor-not-allowed sm:flex-1 sm:px-8 sm:tracking-widest-extra"
-              >
-                {loading ? "Adding…" : `Add to Cart · $${(price * qty).toFixed(2)}`}
-                {!loading && <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>}
-              </button>
+              )}
             </div>
 
             <a
