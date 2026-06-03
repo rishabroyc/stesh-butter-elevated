@@ -36,6 +36,7 @@ type Subscription = {
   created_at: string;
 };
 
+
 const cadenceLabels: Record<2 | 4 | 8, string> = {
   2: "Every 2 weeks",
   4: "Every 4 weeks",
@@ -68,7 +69,8 @@ function ProfilePage() {
     if (loading) return;
     if (!user && !didRedirect.current) {
       didRedirect.current = true;
-      navigate({ to: "/auth", search: { redirect: "/profile" } });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      navigate({ to: "/auth" as any, search: { redirect: "/profile" } as any });
     }
   }, [loading, user, navigate]);
 

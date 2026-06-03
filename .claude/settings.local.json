@@ -9,7 +9,12 @@
       "PowerShell(git push)",
       "PowerShell(git add 'src/routes/recipes.tsx' 'src/routes/recipes.index.tsx' 'src/routes/recipes.$slug.tsx' src/routeTree.gen.ts)",
       "WebFetch(domain:www.google.com)",
-      "PowerShell(git add src/routes/where-to-buy.tsx)"
+      "PowerShell(git add src/routes/where-to-buy.tsx)",
+      "Bash(npx vite *)",
+      "Bash(npm run *)",
+      "Bash(npm --version)",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)"
     ]
   }
 }
