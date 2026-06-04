@@ -27,6 +27,11 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
@@ -87,8 +92,16 @@ export function Nav() {
         </button>
       </div>
 
-      {open && (
-        <div className="fixed inset-0 z-60 bg-dark text-cream md:hidden">
+      <div
+        className={`fixed inset-0 z-60 bg-dark text-cream transition-opacity duration-300 md:hidden ${
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div
+          className={`flex h-full flex-col transition-transform duration-300 ${
+            open ? "translate-y-0" : "-translate-y-3"
+          }`}
+        >
           <div className="flex items-center justify-between px-6 py-4">
             <Link to="/" onClick={() => setOpen(false)} className="font-display text-2xl">
               stesh<span className="text-pistachio-light">.</span>
@@ -107,8 +120,17 @@ export function Nav() {
               {user ? "Account" : "Sign In"}
             </Link>
           </nav>
+          <div className="mt-auto border-t border-cream/10 px-6 py-8">
+            <button
+              onClick={() => { openDrawer(); setOpen(false); }}
+              className="flex items-center gap-2 text-[11px] uppercase tracking-widest-extra text-cream/70"
+            >
+              <ShoppingBag className="h-4 w-4" />
+              Cart ({itemCount})
+            </button>
+          </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }

@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import shopPailImg from "@/assets/Website Pictures/Shop page/Pail - use for main photo for pail (remove current background and place on solid colored one).jpg";
+import shopPailImg from "@/assets/Website Pictures/Shop page/shop-pail.png";
 import shopImg021 from "@/assets/Website Pictures/Shop page/021 - KJ_Utsab.jpg";
 import shopImg011 from "@/assets/Website Pictures/Shop page/011 - KJ_Utsab.jpg";
 import shopUpdates3 from "@/assets/Website Pictures/Shop page/Steshupdates-3.jpg";
@@ -49,14 +49,15 @@ export const Route = createFileRoute("/product")({
   component: ProductPage,
 });
 
-const gallery = [
-  shopPailImg,
-  shopImg021,
-  shopImg011,
+const jarGallery = [
   shopUpdates3,
   shopUpdates8,
+  shopImg011,
+  shopImg021,
   shopNutritionFacts,
 ];
+
+const pailGallery = [shopPailImg];
 
 const ingredients = [
   { name: "Pistachios", note: "Rich in healthy fats & antioxidants" },
@@ -154,6 +155,13 @@ function ProductPage() {
   }, [user, addToCart]);
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
+  const isPail = selectedVariant?.title?.toLowerCase().includes("pail") ?? false;
+  const currentGallery = isPail ? pailGallery : jarGallery;
+
+  useEffect(() => {
+    setActive(0);
+  }, [selectedVariantId]);
+
   const basePrice = selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0;
   const subscribePrice = Math.round(basePrice * 0.85 * 100) / 100;
   const price =
@@ -212,7 +220,7 @@ function ProductPage() {
           <div className="min-w-0">
             <div className="relative overflow-hidden rounded-2xl bg-warm-tan/15 aspect-4/3 md:aspect-4/5">
               <img
-                src={gallery[active]}
+                src={currentGallery[active]}
                 alt="Stesh Pistachio Butter"
                 className="absolute inset-0 h-full w-full object-cover transition-all md:object-contain md:p-6"
                 fetchPriority="high"
@@ -220,7 +228,7 @@ function ProductPage() {
               />
             </div>
             <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
-              {gallery.map((src, i) => (
+              {currentGallery.map((src, i) => (
                 <button
                   key={i}
                   onClick={() => setActive(i)}
