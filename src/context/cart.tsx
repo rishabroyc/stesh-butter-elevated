@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import type { ReactNode } from "react";
 import {
   addCartLine,
+  applyDiscountCode,
   createCart,
   getCart,
   removeCartLine,
@@ -20,6 +21,7 @@ type CartContextValue = {
   addToCart: (variantId: string, quantity: number) => Promise<void>;
   updateQuantity: (lineId: string, quantity: number) => Promise<void>;
   removeItem: (lineId: string) => Promise<void>;
+  applyDiscount: (code: string) => Promise<void>;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -81,6 +83,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const applyDiscount = useCallback(async (code: string) => {
+    const cartId = localStorage.getItem(CART_ID_KEY);
+    if (!cartId) return;
+    setLoading(true);
+    try {
+      setCart(await applyDiscountCode(cartId, code));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -92,6 +105,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         addToCart,
         updateQuantity,
         removeItem,
+        applyDiscount,
       }}
     >
       {children}

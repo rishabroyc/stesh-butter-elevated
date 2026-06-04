@@ -7,6 +7,16 @@ export function CartDrawer() {
   const total = cart ? parseFloat(cart.cost.totalAmount.amount).toFixed(2) : "0.00";
   const currency = cart?.cost.totalAmount.currencyCode ?? "USD";
 
+  const siteUrl = import.meta.env.VITE_SITE_URL as string | undefined;
+  const checkoutUrl = cart?.checkoutUrl
+    ? siteUrl
+      ? cart.checkoutUrl.replace(
+          `https://${import.meta.env.VITE_SHOPIFY_STORE_DOMAIN}`,
+          siteUrl,
+        )
+      : cart.checkoutUrl
+    : "#";
+
   return (
     <>
       {/* Backdrop */}
@@ -138,7 +148,7 @@ export function CartDrawer() {
               Shipping & taxes calculated at checkout
             </p>
             <a
-              href={cart.checkoutUrl}
+              href={checkoutUrl}
               className="flex w-full items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark"
             >
               Checkout →

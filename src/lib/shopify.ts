@@ -249,6 +249,18 @@ export async function removeCartLine(cartId: string, lineId: string): Promise<Ca
   return normalizeCart(data.cartLinesRemove.cart);
 }
 
+export async function applyDiscountCode(cartId: string, code: string): Promise<Cart> {
+  const data = await shopifyFetch<{ cartDiscountCodesUpdate: { cart: Record<string, unknown> } }>(
+    `mutation ApplyDiscount($cartId: ID!, $codes: [String!]!) {
+      cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $codes) {
+        cart { ${CART_FIELDS} }
+      }
+    }`,
+    { cartId, codes: [code] },
+  );
+  return normalizeCart(data.cartDiscountCodesUpdate.cart);
+}
+
 export async function getCart(cartId: string): Promise<Cart | null> {
   const data = await shopifyFetch<{ cart: Record<string, unknown> | null }>(
     `query GetCart($cartId: ID!) {

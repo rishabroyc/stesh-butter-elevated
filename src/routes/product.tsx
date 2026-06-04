@@ -57,7 +57,7 @@ const jarGallery = [
   shopNutritionFacts,
 ];
 
-const pailGallery = [shopPailImg, ...jarGallery];
+const pailGallery = [shopPailImg, shopUpdates8, shopImg011, shopImg021, shopNutritionFacts];
 
 const ingredients = [
   { name: "Pistachios", note: "Rich in healthy fats & antioxidants" },
@@ -104,7 +104,8 @@ function ProductPage() {
   const [purchaseType, setPurchaseType] = useState<"once" | "subscribe">("once");
   const [cadence, setCadence] = useState<2 | 4 | 8>(4);
   const pendingHandled = useRef(false);
-  const { addToCart, loading } = useCart();
+  const { addToCart, cart, updateQuantity, applyDiscount, loading } = useCart();
+  const DISCOUNT_CODE = import.meta.env.VITE_SUBSCRIBE_DISCOUNT_CODE as string | undefined;
 
   useEffect(() => {
     getFirstProduct()
@@ -147,12 +148,18 @@ function ProductPage() {
           toast.error("Couldn't set up your subscription. Please try again.");
         } else {
           toast.success("Subscription activated! You'll save 15% on every order.");
-          addToCart(pending.variantId, 1);
+          const existingLine = cart?.lines.find((l) => l.merchandise.id === pending.variantId);
+          if (existingLine) {
+            await updateQuantity(existingLine.id, 1);
+          } else {
+            await addToCart(pending.variantId, 1);
+          }
+          if (DISCOUNT_CODE) await applyDiscount(DISCOUNT_CODE);
           setPurchaseType("subscribe");
           setCadence(pending.cadenceWeeks);
         }
       });
-  }, [user, addToCart]);
+  }, [user, addToCart, cart, updateQuantity, applyDiscount, DISCOUNT_CODE]);
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
   const isPail = selectedVariant?.title?.toLowerCase().includes("pail") ?? false;
@@ -207,7 +214,13 @@ function ProductPage() {
       toast.error("Couldn't set up subscription. Please try again.");
       return;
     }
-    await addToCart(selectedVariant.id, qty);
+    const existingLine = cart?.lines.find((l) => l.merchandise.id === selectedVariant.id);
+    if (existingLine) {
+      await updateQuantity(existingLine.id, 1);
+    } else {
+      await addToCart(selectedVariant.id, 1);
+    }
+    if (DISCOUNT_CODE) await applyDiscount(DISCOUNT_CODE);
     toast.success(`Subscribed! You'll save 15% every ${cadence} weeks.`);
   }
 
@@ -300,7 +313,7 @@ function ProductPage() {
                   One-time
                 </button>
                 <button
-                  onClick={() => setPurchaseType("subscribe")}
+                  onClick={() => { setPurchaseType("subscribe"); setQty(1); }}
                   className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
                     purchaseType === "subscribe"
                       ? "bg-pistachio-deep text-cream"
