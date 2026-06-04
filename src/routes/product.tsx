@@ -142,7 +142,7 @@ function ProductPage() {
         price_cents: pending.priceCents,
         discount_percent: 15,
       })
-      .then(({ error }: { error: { message: string } | null }) => {
+      .then(async ({ error }: { error: { message: string } | null }) => {
         localStorage.removeItem(PENDING_SUB_KEY);
         if (error) {
           toast.error("Couldn't set up your subscription. Please try again.");
