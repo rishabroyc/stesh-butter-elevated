@@ -81,7 +81,7 @@ function WhereToBuyPage() {
       <PageHero
         eyebrow="Where to Buy"
         title={<>Find Stesh <em className="not-italic text-pistachio-deep">near you.</em></>}
-        subtitle="Order direct, grab it on Amazon, or pick up a jar at one of our 43 retail partners across the US."
+        subtitle="Order direct, grab it on Amazon, or pick up a jar at one of our retail partners across the US."
       />
 
       {/* Online */}

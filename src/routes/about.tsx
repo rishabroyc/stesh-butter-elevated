@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
+import heroFounderImg from "@/assets/Website Pictures/Our Story page/Steshupdates-2.jpg";
+import sideFounderImg from "@/assets/Website Pictures/Our Story page/076 - KJ_Utsab.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -31,7 +33,7 @@ function AboutPage() {
       {/* Founder photo */}
       <section className="px-6 md:px-12">
         <div className="mx-auto max-w-[1400px] overflow-hidden rounded-2xl">
-          <img src="https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-53.png" alt="Arsh and Utsab" className="h-[60vh] w-full object-cover object-top md:h-[80vh]" fetchPriority="high" decoding="async" />
+          <img src={heroFounderImg} alt="Arsh and Utsab" className="h-[60vh] w-full object-cover object-center md:h-[80vh]" fetchPriority="high" decoding="async" />
         </div>
       </section>
 
@@ -40,7 +42,7 @@ function AboutPage() {
         <div className="mx-auto grid max-w-[1200px] items-center gap-16 md:grid-cols-2">
           <div className="overflow-hidden rounded-2xl">
             <img
-              src="https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-55.png"
+              src={sideFounderImg}
               alt="Arsh and Utsab, Stesh founders"
               className="h-full w-full object-cover object-center"
               loading="lazy"

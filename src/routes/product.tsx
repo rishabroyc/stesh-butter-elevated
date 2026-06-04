@@ -1,4 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import shopPailImg from "@/assets/Website Pictures/Shop page/Pail - use for main photo for pail (remove current background and place on solid colored one).jpg";
+import shopImg021 from "@/assets/Website Pictures/Shop page/021 - KJ_Utsab.jpg";
+import shopImg011 from "@/assets/Website Pictures/Shop page/011 - KJ_Utsab.jpg";
+import shopUpdates3 from "@/assets/Website Pictures/Shop page/Steshupdates-3.jpg";
+import shopUpdates8 from "@/assets/Website Pictures/Shop page/Steshupdates-8.jpg";
+import shopNutritionFacts from "@/assets/Website Pictures/Shop page/Nutrition facts - make this the last photo.jpg";
 import { useState, useEffect, useRef } from "react";
 import { Check, Star, Minus, Plus, ShieldCheck, Truck, Leaf, Sparkles, Heart, FlaskConical, Wheat, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
@@ -44,19 +50,12 @@ export const Route = createFileRoute("/product")({
 });
 
 const gallery = [
-  "https://steshbutter.com/wp-content/uploads/2025/05/21-3-600x600-1.png",
-  "https://steshbutter.com/wp-content/uploads/2025/05/10-2.png",
-  "https://steshbutter.com/wp-content/uploads/2025/05/ChatGPT-Image-May-5-2025-09_03_25-PM-1-3.png",
-  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-50-1.png",
-  "https://steshbutter.com/wp-content/uploads/2025/05/Steshupdates-8.jpg",
-  "https://steshbutter.com/wp-content/uploads/2025/05/Steshupdates-2.jpg",
-  "https://steshbutter.com/wp-content/uploads/2025/05/003-KJ_Utsab-scaled.jpg",
-  "https://steshbutter.com/wp-content/uploads/2025/05/104-KJ_Utsab-scaled.jpg",
-  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-21-1-1.png",
-  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-22.png",
-  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-23.png",
-  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-24.png",
-  "https://steshbutter.com/wp-content/uploads/2025/05/Rectangle-25.png",
+  shopPailImg,
+  shopImg021,
+  shopImg011,
+  shopUpdates3,
+  shopUpdates8,
+  shopNutritionFacts,
 ];
 
 const ingredients = [

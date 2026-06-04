@@ -14,7 +14,12 @@
       "Bash(npm run *)",
       "Bash(npm --version)",
       "PowerShell(node --version)",
-      "PowerShell(npm --version)"
+      "PowerShell(npm --version)",
+      "Bash(Get-ChildItem -Path \"c:\\\\stesh-butter-elevated\\\\src\\\\assets\\\\Website Pictures\" -Recurse -File)",
+      "Bash(Select-Object FullName)",
+      "Bash(npx tsc *)",
+      "PowerShell(Get-Command node -All)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" --version)"
     ]
   }
 }

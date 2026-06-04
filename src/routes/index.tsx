@@ -6,10 +6,13 @@ import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Marquee } from "@/components/site/Marquee";
 
-import finalBanner from "@/assets/final-banner.jpg";
-const HERO_IMG = finalBanner;
-const PRODUCT_IMG = "https://steshbutter.com/wp-content/uploads/2025/05/21-3-600x600-1.png";
-const FOUNDERS_IMG = "https://steshbutter.com/wp-content/uploads/2025/05/104-KJ_Utsab-scaled.jpg";
+import heroImg from "@/assets/Website Pictures/Home page/078 - KJ_Utsab.jpg";
+import productImg from "@/assets/Website Pictures/Home page/Steshupdates-3.jpg";
+import foundersImg from "@/assets/Website Pictures/Home page/104 - KJ_Utsab.jpg";
+
+const HERO_IMG = heroImg;
+const PRODUCT_IMG = productImg;
+const FOUNDERS_IMG = foundersImg;
 
 export const Route = createFileRoute("/")({
   head: () => ({
