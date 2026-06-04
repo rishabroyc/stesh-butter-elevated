@@ -57,7 +57,7 @@ const jarGallery = [
   shopNutritionFacts,
 ];
 
-const pailGallery = [shopPailImg];
+const pailGallery = [shopPailImg, ...jarGallery];
 
 const ingredients = [
   { name: "Pistachios", note: "Rich in healthy fats & antioxidants" },
