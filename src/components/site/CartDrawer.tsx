@@ -7,15 +7,7 @@ export function CartDrawer() {
   const total = cart ? parseFloat(cart.cost.totalAmount.amount).toFixed(2) : "0.00";
   const currency = cart?.cost.totalAmount.currencyCode ?? "USD";
 
-  const siteUrl = import.meta.env.VITE_SITE_URL as string | undefined;
-  const checkoutUrl = cart?.checkoutUrl
-    ? siteUrl
-      ? cart.checkoutUrl.replace(
-          `https://${import.meta.env.VITE_SHOPIFY_STORE_DOMAIN}`,
-          siteUrl,
-        )
-      : cart.checkoutUrl
-    : "#";
+  const checkoutUrl = cart?.checkoutUrl ?? "#";
 
   return (
     <>
