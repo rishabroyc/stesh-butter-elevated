@@ -1,11 +1,19 @@
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/cart";
+import shopPailImg from "@/assets/Website Pictures/Shop page/shop-pail.png";
 
 export function CartDrawer() {
   const { cart, loading, drawerOpen, closeDrawer, updateQuantity, removeItem } = useCart();
 
   const total = cart ? parseFloat(cart.cost.totalAmount.amount).toFixed(2) : "0.00";
   const currency = cart?.cost.totalAmount.currencyCode ?? "USD";
+
+  const originalSubtotal = cart
+    ? cart.lines.reduce((sum, line) => sum + parseFloat(line.merchandise.price.amount) * line.quantity, 0)
+    : 0;
+  const actualTotal = cart ? parseFloat(cart.cost.totalAmount.amount) : 0;
+  const savings = originalSubtotal - actualTotal;
+  const hasSavings = savings > 0.01;
 
   const checkoutUrl = cart?.checkoutUrl ?? "#";
 
@@ -56,15 +64,21 @@ export function CartDrawer() {
                 <li key={line.id} className="flex gap-4 py-5">
                   {/* Image */}
                   <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-warm-tan/20">
-                    {line.merchandise.product.featuredImage ? (
-                      <img
-                        src={line.merchandise.product.featuredImage.url}
-                        alt={line.merchandise.product.title}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-warm-tan/30" />
-                    )}
+                    {(() => {
+                      const isPail = line.merchandise.title?.toLowerCase().includes("pail");
+                      const imgSrc = isPail
+                        ? shopPailImg
+                        : (line.merchandise.product.featuredImage?.url ?? null);
+                      return imgSrc ? (
+                        <img
+                          src={imgSrc}
+                          alt={line.merchandise.product.title}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-warm-tan/30" />
+                      );
+                    })()}
                   </div>
 
                   {/* Details */}
@@ -129,6 +143,22 @@ export function CartDrawer() {
         {/* Footer */}
         {cart && cart.lines.length > 0 && (
           <div className="border-t border-border px-6 py-6">
+            {hasSavings && (
+              <>
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Original</span>
+                  <span className="font-display text-lg text-muted-foreground line-through">
+                    ${originalSubtotal.toFixed(2)}
+                  </span>
+                </div>
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="text-sm text-pistachio-deep">Savings</span>
+                  <span className="font-display text-lg text-pistachio-deep">
+                    −${savings.toFixed(2)}
+                  </span>
+                </div>
+              </>
+            )}
             <div className="mb-4 flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Subtotal</span>
               <span className="font-display text-2xl">

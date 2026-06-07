@@ -19,7 +19,10 @@
       "Bash(Select-Object FullName)",
       "Bash(npx tsc *)",
       "PowerShell(Get-Command node -All)",
-      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" --version)"
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" --version)",
+      "Bash(Get-ChildItem -Path \"c:\\\\stesh-butter-elevated\\\\src\" -Recurse -Filter \"*.tsx\" -o Name)",
+      "PowerShell(\\(Get-Content \"c:\\\\stesh-butter-elevated\\\\src\\\\routes\\\\product.tsx\" | Measure-Object -Line\\).Lines)",
+      "WebFetch(domain:maps.app.goo.gl)"
     ]
   }
 }

@@ -104,7 +104,7 @@ function ProductPage() {
   const [purchaseType, setPurchaseType] = useState<"once" | "subscribe">("once");
   const [cadence, setCadence] = useState<2 | 4 | 8>(4);
   const pendingHandled = useRef(false);
-  const { addToCart, cart, updateQuantity, applyDiscount, loading } = useCart();
+  const { addToCart, cart, updateQuantity, applyDiscount, removeDiscount, loading } = useCart();
   const DISCOUNT_CODE = import.meta.env.VITE_SUBSCRIBE_DISCOUNT_CODE as string | undefined;
 
   useEffect(() => {
@@ -181,6 +181,16 @@ function ProductPage() {
 
   async function handleAddToCart() {
     if (!selectedVariant) return;
+    if (isPail && cart) {
+      const origTotal = cart.lines.reduce(
+        (s, l) => s + parseFloat(l.merchandise.price.amount) * l.quantity,
+        0,
+      );
+      if (origTotal - parseFloat(cart.cost.totalAmount.amount) > 0.01) {
+        await removeDiscount();
+        toast.info("Pail added at full price — subscription savings apply to jar orders only.");
+      }
+    }
     await addToCart(selectedVariant.id, qty);
   }
 
