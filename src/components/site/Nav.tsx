@@ -83,13 +83,27 @@ export function Nav() {
           </button>
         </div>
 
-        <button
-          aria-label="Open menu"
-          onClick={() => setOpen(true)}
-          className="md:hidden text-dark"
-        >
-          <Menu className="h-6 w-6" />
-        </button>
+        <div className="flex items-center gap-3 md:hidden">
+          <button
+            onClick={openDrawer}
+            className="relative text-dark"
+            aria-label="Cart"
+          >
+            <ShoppingBag className="h-6 w-6" />
+            {itemCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-pistachio-deep text-[9px] text-cream">
+                {itemCount}
+              </span>
+            )}
+          </button>
+          <button
+            aria-label="Open menu"
+            onClick={() => setOpen(true)}
+            className="text-dark"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+        </div>
       </div>
 
       <div
@@ -106,9 +120,23 @@ export function Nav() {
             <Link to="/" onClick={() => setOpen(false)} className="font-display text-2xl">
               stesh<span className="text-pistachio-light">.</span>
             </Link>
-            <button aria-label="Close menu" onClick={() => setOpen(false)}>
-              <X className="h-6 w-6" />
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => { openDrawer(); setOpen(false); }}
+                className="relative text-cream"
+                aria-label="Cart"
+              >
+                <ShoppingBag className="h-6 w-6" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-pistachio-light text-[9px] text-dark">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
+              <button aria-label="Close menu" onClick={() => setOpen(false)}>
+                <X className="h-6 w-6" />
+              </button>
+            </div>
           </div>
           <nav className="flex flex-col gap-6 px-6 pt-10 font-display text-4xl">
             {links.map((l) => (

@@ -29,7 +29,7 @@ type Subscription = {
   product_name: string;
   variant_name: string | null;
   cadence_weeks: 2 | 4 | 8;
-  status: "active" | "paused" | "cancelled";
+  status: "active" | "paused" | "cancelled" | "pending_payment";
   next_shipment_date: string | null;
   price_cents: number | null;
   discount_percent: number;
@@ -100,7 +100,7 @@ function ProfilePage() {
       .from("subscriptions")
       .select("*")
       .eq("user_id", user.id)
-      .neq("status", "cancelled")
+      .in("status", ["active", "paused"])
       .order("created_at", { ascending: false });
     setSubscriptions((data as Subscription[]) ?? []);
     setSubsLoading(false);
@@ -412,7 +412,7 @@ function ProfilePage() {
                         <p className="mt-1 font-medium">
                           {sub.next_shipment_date
                             ? format(new Date(sub.next_shipment_date), "MMM d, yyyy")
-                            : "TBD — we'll reach out"}
+                            : `${sub.cadence_weeks} weeks from order date`}
                         </p>
                       </div>
 

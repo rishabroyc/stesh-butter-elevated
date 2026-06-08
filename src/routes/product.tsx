@@ -141,6 +141,7 @@ function ProductPage() {
         cadence_weeks: pending.cadenceWeeks,
         price_cents: pending.priceCents,
         discount_percent: 15,
+        status: "pending_payment",
       })
       .then(async ({ error }: { error: { message: string } | null }) => {
         localStorage.removeItem(PENDING_SUB_KEY);
@@ -219,6 +220,7 @@ function ProductPage() {
         cadence_weeks: cadence,
         price_cents: Math.round(subscribePrice * 100),
         discount_percent: 15,
+        status: "pending_payment",
       });
     if (error) {
       toast.error("Couldn't set up subscription. Please try again.");

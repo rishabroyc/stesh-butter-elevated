@@ -2,6 +2,9 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { handleShopifyOrdersPaid } from "./lib/shopify-webhook";
+
+const SHOPIFY_WEBHOOK_PATH = "/api/webhooks/shopify/orders-paid";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -68,6 +71,11 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const url = new URL(request.url);
+    if (request.method === "POST" && url.pathname === SHOPIFY_WEBHOOK_PATH) {
+      return handleShopifyOrdersPaid(request);
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
