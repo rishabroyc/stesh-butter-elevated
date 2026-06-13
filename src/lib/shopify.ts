@@ -282,3 +282,50 @@ export async function getCart(cartId: string): Promise<Cart | null> {
   );
   return data.cart ? normalizeCart(data.cart) : null;
 }
+
+export type BuyerAddress = {
+  firstName?: string;
+  lastName?: string;
+  address1?: string;
+  address2?: string;
+  city?: string;
+  province?: string;
+  zip?: string;
+  phone?: string;
+};
+
+export async function updateBuyerIdentity(
+  cartId: string,
+  email?: string | null,
+  address?: BuyerAddress,
+): Promise<void> {
+  const buyerIdentity: Record<string, unknown> = { countryCode: "US" };
+  if (email) buyerIdentity.email = email;
+  if (address?.address1) {
+    buyerIdentity.deliveryAddressPreferences = [
+      {
+        oneTimeUse: true,
+        deliveryAddress: { ...address, country: "United States" },
+      },
+    ];
+  }
+
+  const data = await shopifyFetch<{
+    cartBuyerIdentityUpdate: {
+      userErrors: Array<{ field: string[]; message: string }>;
+    };
+  }>(
+    `mutation UpdateBuyerIdentity($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+      cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+        cart { id }
+        userErrors { field message }
+      }
+    }`,
+    { cartId, buyerIdentity },
+  );
+
+  const errs = data.cartBuyerIdentityUpdate?.userErrors;
+  if (errs?.length) {
+    console.error("[shopify] cartBuyerIdentityUpdate userErrors:", errs);
+  }
+}

@@ -1,9 +1,12 @@
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/cart";
+import { useAuth } from "@/context/auth";
+import { updateBuyerIdentity } from "@/lib/shopify";
 import shopPailImg from "@/assets/Website Pictures/Shop page/shop-pail.png";
 
 export function CartDrawer() {
   const { cart, loading, drawerOpen, closeDrawer, updateQuantity, removeItem } = useCart();
+  const { user, profile } = useAuth();
 
   const total = cart ? parseFloat(cart.cost.totalAmount.amount).toFixed(2) : "0.00";
   const currency = cart?.cost.totalAmount.currencyCode ?? "USD";
@@ -16,6 +19,27 @@ export function CartDrawer() {
   const hasSavings = savings > 0.01;
 
   const checkoutUrl = cart?.checkoutUrl ?? "#";
+
+  async function handleCheckout() {
+    if (cart && user) {
+      try {
+        const nameParts = profile?.name?.trim().split(/\s+/) ?? [];
+        await updateBuyerIdentity(cart.id, user.email, {
+          firstName: nameParts[0],
+          lastName: nameParts.slice(1).join(" ") || undefined,
+          address1: profile?.address_line1 ?? undefined,
+          address2: profile?.address_line2 ?? undefined,
+          city: profile?.city ?? undefined,
+          province: profile?.state ?? undefined,
+          zip: profile?.zip ?? undefined,
+          phone: profile?.phone ?? undefined,
+        });
+      } catch (err) {
+        console.error("[checkout] buyer identity pre-fill failed:", err);
+      }
+    }
+    window.location.href = checkoutUrl;
+  }
 
   return (
     <>
@@ -169,12 +193,12 @@ export function CartDrawer() {
             <p className="mb-4 text-center text-xs text-muted-foreground">
               Shipping & taxes calculated at checkout
             </p>
-            <a
-              href={checkoutUrl}
+            <button
+              onClick={handleCheckout}
               className="flex w-full items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark"
             >
               Checkout →
-            </a>
+            </button>
           </div>
         )}
       </aside>
