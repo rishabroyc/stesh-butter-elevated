@@ -9,6 +9,11 @@ import { Marquee } from "@/components/site/Marquee";
 import heroImg from "@/assets/Website Pictures/Home page/078 - KJ_Utsab.jpg";
 import productImg from "@/assets/Website Pictures/Home page/Steshupdates-3.jpg";
 import foundersImg from "@/assets/Website Pictures/Home page/104 - KJ_Utsab.jpg";
+import usesToast from "@/assets/toast.jpg";
+import usesSmoothies from "@/assets/smoothies.jpg";
+import usesYogurt from "@/assets/yogurt bowl.jpg";
+import usesFruits from "@/assets/fruits.jpg";
+import usesCake from "@/assets/cake.jpg";
 
 const HERO_IMG = heroImg;
 const PRODUCT_IMG = productImg;
@@ -58,11 +63,11 @@ const reviews = [
 ];
 
 const uses = [
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/yogurtnew.png", title: "Spread it", note: "Toast, bagels and croissants" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/smoothienew.png", title: "Blend it", note: "Smoothies or protein shakes" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/strawberrynew.png", title: "Drizzle it", note: "Pancakes, yogurt or oatmeal" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/applesnew.png", title: "Dip it", note: "Strawberries and apples" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/pancake-bgnew.png", title: "Bake it", note: "Cookies and cakes" },
+  { img: usesToast, title: "Spread it", note: "Toast, bagels and croissants" },
+  { img: usesSmoothies, title: "Blend it", note: "Smoothies or protein shakes" },
+  { img: usesYogurt, title: "Drizzle it", note: "Pancakes, yogurt or oatmeal" },
+  { img: usesFruits, title: "Dip it", note: "Strawberries and apples" },
+  { img: usesCake, title: "Bake it", note: "Cookies and cakes" },
 ];
 
 function Home() {
@@ -309,11 +314,11 @@ function Home() {
           <div className="grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-6">
             {uses.map((u) => (
               <div key={u.title} className="group cursor-pointer">
-                <div className="aspect-[4/5] overflow-hidden rounded-xl bg-cream">
+                <div className="aspect-[4/5] overflow-hidden rounded-2xl">
                   <img
                     src={u.img}
                     alt={u.title}
-                    className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    className="h-full w-full scale-90 object-cover object-center transition-transform duration-700 group-hover:scale-95"
                     loading="lazy"
                     decoding="async"
                   />

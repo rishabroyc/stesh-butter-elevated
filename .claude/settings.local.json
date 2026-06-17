@@ -24,7 +24,10 @@
       "PowerShell(\\(Get-Content \"c:\\\\stesh-butter-elevated\\\\src\\\\routes\\\\product.tsx\" | Measure-Object -Line\\).Lines)",
       "WebFetch(domain:maps.app.goo.gl)",
       "Bash(git -C \"c:/stesh-butter-elevated\" log --oneline -- src/routes/where-to-buy.tsx)",
-      "PowerShell(npm install --prefix \"c:\\\\stesh-butter-elevated\")"
+      "PowerShell(npm install --prefix \"c:\\\\stesh-butter-elevated\")",
+      "PowerShell(npm run dev 2>&1)",
+      "PowerShell($nodePath = \"C:\\\\Users\\\\rroychowdhury\\\\Downloads\\\\node-v24.16.0-win-x64\"; Test-Path $nodePath; Get-ChildItem $nodePath -ErrorAction SilentlyContinue | Select-Object Name | Select-Object -First 10; & \"$nodePath\\\\node.exe\" --version 2>&1; & \"$nodePath\\\\npm.cmd\" --version 2>&1)",
+      "PowerShell($innerPath = \"C:\\\\Users\\\\rroychowdhury\\\\Downloads\\\\node-v24.16.0-win-x64\\\\node-v24.16.0-win-x64\"; Test-Path \"$innerPath\\\\node.exe\"; & \"$innerPath\\\\node.exe\" --version 2>&1; & \"$innerPath\\\\npm.cmd\" --version 2>&1)"
     ]
   }
 }
