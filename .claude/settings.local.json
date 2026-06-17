@@ -23,7 +23,8 @@
       "Bash(Get-ChildItem -Path \"c:\\\\stesh-butter-elevated\\\\src\" -Recurse -Filter \"*.tsx\" -o Name)",
       "PowerShell(\\(Get-Content \"c:\\\\stesh-butter-elevated\\\\src\\\\routes\\\\product.tsx\" | Measure-Object -Line\\).Lines)",
       "WebFetch(domain:maps.app.goo.gl)",
-      "Bash(git -C \"c:/stesh-butter-elevated\" log --oneline -- src/routes/where-to-buy.tsx)"
+      "Bash(git -C \"c:/stesh-butter-elevated\" log --oneline -- src/routes/where-to-buy.tsx)",
+      "PowerShell(npm install --prefix \"c:\\\\stesh-butter-elevated\")"
     ]
   }
 }
