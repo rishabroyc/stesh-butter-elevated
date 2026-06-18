@@ -95,7 +95,7 @@ function Home() {
         <img
           src={HERO_IMG}
           alt="Open jar of Stesh pistachio butter"
-          className="absolute inset-0 h-full w-full object-cover object-center md:object-[50%_75%]"
+          className="absolute inset-0 h-full w-full object-cover object-center md:object-[50%_65%]"
           fetchPriority="high"
           decoding="async"
         />
@@ -174,7 +174,7 @@ function Home() {
             </div>
 
             <div className="mt-10 flex items-center gap-6">
-              <span className="font-display text-4xl">From $18.99</span>
+              <span className="font-display text-4xl">From $17.99</span>
             </div>
 
             <div className="mt-6">
@@ -314,7 +314,7 @@ function Home() {
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-6">
             {uses.map((u) => (
-              <Link key={u.title} to="/recipes/$slug" params={{ slug: u.slug }} className="group cursor-pointer">
+              <Link key={u.title} to="/recipes/$slug" params={{ slug: u.slug }} className="group block cursor-pointer">
                 <div className="aspect-[4/5] overflow-hidden rounded-2xl">
                   <img
                     src={u.img}
