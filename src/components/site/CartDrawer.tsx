@@ -38,7 +38,9 @@ export function CartDrawer() {
         console.error("[checkout] buyer identity pre-fill failed:", err);
       }
     }
-    window.location.href = checkoutUrl;
+    const url = new URL(checkoutUrl);
+    url.searchParams.set("return_url", "https://steshbutter.com");
+    window.location.href = url.toString();
   }
 
   return (
