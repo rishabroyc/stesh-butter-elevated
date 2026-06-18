@@ -6,14 +6,15 @@ import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Marquee } from "@/components/site/Marquee";
 
+import steshIcon from "@/assets/stesh_icon.svg";
 import heroImg from "@/assets/Website Pictures/Home page/078 - KJ_Utsab.jpg";
 import productImg from "@/assets/Website Pictures/Home page/Steshupdates-3.jpg";
 import foundersImg from "@/assets/Website Pictures/Home page/104 - KJ_Utsab.jpg";
-import usesToast from "@/assets/toast.jpg";
-import usesSmoothies from "@/assets/smoothies.jpg";
-import usesYogurt from "@/assets/yogurt bowl.jpg";
-import usesFruits from "@/assets/fruits.jpg";
-import usesCake from "@/assets/cake.jpg";
+import useToastImg from "@/assets/use-toast.jpg";
+import useSmoothieImg from "@/assets/use-smoothie.jpg";
+import usePancakesImg from "@/assets/use-pancakes.jpg";
+import useDipImg from "@/assets/use-dip.jpg";
+import useBakeImg from "@/assets/use-bake.jpg";
 
 const HERO_IMG = heroImg;
 const PRODUCT_IMG = productImg;
@@ -63,11 +64,11 @@ const reviews = [
 ];
 
 const uses = [
-  { img: usesToast, title: "Spread it", note: "Toast, bagels and croissants" },
-  { img: usesSmoothies, title: "Blend it", note: "Smoothies or protein shakes" },
-  { img: usesYogurt, title: "Drizzle it", note: "Pancakes, yogurt or oatmeal" },
-  { img: usesFruits, title: "Dip it", note: "Strawberries and apples" },
-  { img: usesCake, title: "Bake it", note: "Cookies and cakes" },
+  { img: useToastImg, title: "Spread it", note: "Toast, bagels and croissants", slug: "stesh-toast-five-ways" },
+  { img: useSmoothieImg, title: "Blend it", note: "Smoothies or protein shakes", slug: "green-stesh-smoothie" },
+  { img: usePancakesImg, title: "Drizzle it", note: "Pancakes, yogurt or oatmeal", slug: "pistachio-banana-pancakes" },
+  { img: useDipImg, title: "Dip it", note: "Strawberries and apples", slug: "strawberry-stesh-dipping-board" },
+  { img: useBakeImg, title: "Bake it", note: "Cookies and cakes", slug: "pistachio-swirl-cookies" },
 ];
 
 function Home() {
@@ -94,7 +95,7 @@ function Home() {
         <img
           src={HERO_IMG}
           alt="Open jar of Stesh pistachio butter"
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className="absolute inset-0 h-full w-full object-cover object-center md:object-[50%_75%]"
           fetchPriority="high"
           decoding="async"
         />
@@ -105,8 +106,8 @@ function Home() {
               Pistachio butter · No shells · No nonsense
             </p>
             <h1 className="font-display text-[11vw] leading-[0.92] text-cream md:text-[110px] md:leading-[0.9] animate-fade-up" style={{ animationDelay: "120ms" }}>
-              The better-<br />
-              <em className="not-italic text-pistachio-light">for-you</em><br />
+              Indulge in the<br />
+              <em className="not-italic text-pistachio-light">better-for-you</em><br />
               pistachio butter.
             </h1>
           </div>
@@ -114,7 +115,7 @@ function Home() {
         <div className="absolute inset-x-0 bottom-10 z-10 px-6 md:px-12">
           <div className="mx-auto flex max-w-[1400px] flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
             <p className="max-w-md text-base text-cream/90 md:text-lg animate-fade-up" style={{ animationDelay: "240ms" }}>
-              One that you can indulge in freely. Made with 5 simple all-natural ingredients — a lot of love, a ton of care, and a hint of magic.
+              Creamy, velvety pistachios without the guilt. Made with 5 simple all-natural ingredients — a lot of love, a ton of care, and a hint of magic.
             </p>
             <Link
               to="/product"
@@ -192,7 +193,7 @@ function Home() {
 
       {/* STORY */}
       <section id="story" className="relative overflow-hidden bg-off-white px-6 py-28 md:px-12 md:py-40">
-        <img src="https://steshbutter.com/wp-content/uploads/2025/05/stesh_icon.svg" alt="" aria-hidden="true" className="pointer-events-none absolute -right-10 top-20 hidden h-44 w-auto opacity-90 animate-float md:block" />
+        <img src={steshIcon} alt="" aria-hidden="true" className="pointer-events-none absolute -right-10 top-20 hidden h-44 w-auto opacity-90 animate-float md:block" />
         <div className="mx-auto grid max-w-[1400px] gap-16 md:grid-cols-12 md:gap-20">
           <div className="md:col-span-6">
             <div className="overflow-hidden rounded-2xl">
@@ -313,12 +314,12 @@ function Home() {
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-6">
             {uses.map((u) => (
-              <div key={u.title} className="group cursor-pointer">
+              <Link key={u.title} to="/recipes/$slug" params={{ slug: u.slug }} className="group cursor-pointer">
                 <div className="aspect-[4/5] overflow-hidden rounded-2xl">
                   <img
                     src={u.img}
                     alt={u.title}
-                    className="h-full w-full scale-90 object-cover object-center transition-transform duration-700 group-hover:scale-95"
+                    className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
                   />
@@ -327,7 +328,7 @@ function Home() {
                   <h3 className="font-display text-2xl">{u.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{u.note}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

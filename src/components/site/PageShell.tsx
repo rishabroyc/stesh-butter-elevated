@@ -5,7 +5,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="bg-cream text-dark">
       <Nav />
-      <main className="pt-24">{children}</main>
+      <main className="pt-32">{children}</main>
       <Footer />
     </div>
   );

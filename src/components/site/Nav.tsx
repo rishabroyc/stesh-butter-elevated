@@ -9,7 +9,6 @@ const links = [
   { label: "Recipes", to: "/recipes" as const },
   { label: "Our Story", to: "/about" as const },
   { label: "Where to Buy", to: "/where-to-buy" as const },
-  { label: "Wholesale", to: "/wholesale" as const },
   { label: "FAQ", to: "/faq" as const },
 ];
 
@@ -40,44 +39,47 @@ export function Nav() {
           : "bg-transparent"
       }`}
     >
+      <div className="w-full bg-pistachio-deep py-2 text-center text-[10px] uppercase tracking-widest-extra text-cream">
+        Free shipping over $60 · Ships in 2–3 days
+      </div>
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-10">
-        <nav className="hidden flex-1 items-center gap-7 text-[11px] uppercase tracking-widest-extra text-dark md:flex">
+        <nav className={`hidden flex-1 items-center gap-7 text-[11px] uppercase tracking-widest-extra md:flex transition-colors duration-500 ${scrolled ? "text-dark" : "text-pistachio-light"}`}>
           {links.slice(0, 3).map((l) => (
             <Link
               key={l.to}
               to={l.to}
-              className="hover:text-pistachio-deep transition-colors"
-              activeProps={{ className: "text-pistachio-deep" }}
+              className="hover:opacity-70 transition-opacity"
+              activeProps={{ className: "opacity-70" }}
             >
               {l.label}
             </Link>
           ))}
         </nav>
 
-        <Link to="/" className="font-display text-2xl tracking-tight text-pistachio-deep md:flex-none">
+        <Link to="/" className={`font-display text-2xl tracking-tight md:flex-none transition-colors duration-500 ${scrolled ? "text-pistachio-deep" : "text-pistachio-light"}`}>
           stesh<span className="text-warm-tan">.</span>
         </Link>
 
-        <div className="hidden flex-1 items-center justify-end gap-7 text-[11px] uppercase tracking-widest-extra text-dark md:flex">
+        <div className={`hidden flex-1 items-center justify-end gap-7 text-[11px] uppercase tracking-widest-extra md:flex transition-colors duration-500 ${scrolled ? "text-dark" : "text-pistachio-light"}`}>
           {links.slice(3).map((l) => (
             <Link
               key={l.to}
               to={l.to}
-              className="hover:text-pistachio-deep transition-colors"
-              activeProps={{ className: "text-pistachio-deep" }}
+              className="hover:opacity-70 transition-opacity"
+              activeProps={{ className: "opacity-70" }}
             >
               {l.label}
             </Link>
           ))}
           <Link
             to={user ? "/profile" : "/auth"}
-            className="flex items-center gap-1.5 text-dark hover:text-pistachio-deep transition-colors"
+            className="flex items-center gap-1.5 hover:opacity-70 transition-opacity"
             aria-label={user ? "Account" : "Sign in"}
           >
             <UserCircle className="h-4 w-4" />
             <span>{user ? "Account" : "Sign In"}</span>
           </Link>
-          <button onClick={openDrawer} className="relative flex items-center gap-2 text-dark hover:text-pistachio-deep transition-colors" aria-label="Cart">
+          <button onClick={openDrawer} className="relative flex items-center gap-2 hover:opacity-70 transition-opacity" aria-label="Cart">
             <ShoppingBag className="h-4 w-4" />
             <span>Cart ({itemCount})</span>
           </button>
