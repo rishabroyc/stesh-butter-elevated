@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 import heroFounderImg from "@/assets/Website Pictures/Our Story page/Steshupdates-2.jpg";
 import sideFounderImg from "@/assets/Website Pictures/Our Story page/076 - KJ_Utsab.jpg";
+import steshIcon from "@/assets/stesh_icon.svg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -93,7 +94,7 @@ function AboutPage() {
         <div className="mx-auto grid max-w-[1200px] items-center gap-16 md:grid-cols-2">
           <div className="relative">
             <div className="rounded-2xl bg-pistachio-light/30 p-6 md:p-20">
-              <img src="https://steshbutter.com/wp-content/uploads/2025/05/stesh_icon.svg" alt="Mr. Turtle" className="mx-auto h-64 w-auto animate-float" />
+              <img src={steshIcon} alt="Mr. Turtle" className="mx-auto h-64 w-auto animate-float" />
             </div>
           </div>
           <div>
