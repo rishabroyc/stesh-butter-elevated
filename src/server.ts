@@ -3,8 +3,10 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 import { handleShopifyOrdersPaid } from "./lib/shopify-webhook";
+import { handleMetaCheckout } from "./lib/meta-checkout";
 
 const SHOPIFY_WEBHOOK_PATH = "/api/webhooks/shopify/orders-paid";
+const META_CHECKOUT_PATH = "/api/meta-checkout";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -74,6 +76,9 @@ export default {
     const url = new URL(request.url);
     if (request.method === "POST" && url.pathname === SHOPIFY_WEBHOOK_PATH) {
       return handleShopifyOrdersPaid(request);
+    }
+    if (request.method === "GET" && url.pathname === META_CHECKOUT_PATH) {
+      return handleMetaCheckout(request);
     }
 
     try {

@@ -201,6 +201,20 @@ export async function getDiscountPricing(variantId: string): Promise<DiscountPri
   return { originalPrice, discountedPrice, discountTitle, pctOff };
 }
 
+export async function createCartWithLines(
+  lines: Array<{ variantId: string; quantity: number }>,
+): Promise<Cart> {
+  const data = await shopifyFetch<{ cartCreate: { cart: Record<string, unknown> } }>(
+    `mutation CreateCart($lines: [CartLineInput!]) {
+      cartCreate(input: { lines: $lines }) {
+        cart { ${CART_FIELDS} }
+      }
+    }`,
+    { lines: lines.map((l) => ({ merchandiseId: l.variantId, quantity: l.quantity })) },
+  );
+  return normalizeCart(data.cartCreate.cart);
+}
+
 export async function createCart(variantId: string, quantity: number): Promise<Cart> {
   const data = await shopifyFetch<{ cartCreate: { cart: Record<string, unknown> } }>(
     `mutation CreateCart($lines: [CartLineInput!]) {
