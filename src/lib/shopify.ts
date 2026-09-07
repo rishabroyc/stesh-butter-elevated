@@ -27,13 +27,39 @@ export type Cart = {
   };
 };
 
+export type ShopifySelectedOption = { name: string; value: string };
+
 export type ShopifyVariant = {
   id: string;
   title: string;
   price: { amount: string; currencyCode: string };
   compareAtPrice: { amount: string; currencyCode: string } | null;
   availableForSale: boolean;
+  /** True when inventory is 0 but the variant is still purchasable ("continue selling when out of stock") — i.e. a pre-order. */
+  currentlyNotInStock: boolean;
+  selectedOptions: ShopifySelectedOption[];
+  image: { url: string; altText: string | null } | null;
 };
+
+export type ShopifyProductOption = { name: string; values: string[] };
+
+export type ShopifyProduct = {
+  id: string;
+  handle: string;
+  options: ShopifyProductOption[];
+  variants: ShopifyVariant[];
+};
+
+const VARIANT_FIELDS = `
+  id
+  title
+  price { amount currencyCode }
+  compareAtPrice { amount currencyCode }
+  availableForSale
+  currentlyNotInStock
+  selectedOptions { name value }
+  image { url altText }
+`;
 
 const CART_FIELDS = `
   id
@@ -87,15 +113,9 @@ export async function getProductVariants(handle: string): Promise<ShopifyVariant
   const data = await shopifyFetch<{ product: { variants: { edges: { node: ShopifyVariant }[] } } | null }>(
     `query GetProduct($handle: String!) {
       product(handle: $handle) {
-        variants(first: 10) {
+        variants(first: 100) {
           edges {
-            node {
-              id
-              title
-              price { amount currencyCode }
-              compareAtPrice { amount currencyCode }
-              availableForSale
-            }
+            node { ${VARIANT_FIELDS} }
           }
         }
       }
@@ -105,9 +125,18 @@ export async function getProductVariants(handle: string): Promise<ShopifyVariant
   return data.product?.variants.edges.map((e) => e.node) ?? [];
 }
 
-export async function getFirstProduct(): Promise<{ id: string; handle: string; variants: ShopifyVariant[] } | null> {
+export async function getFirstProduct(): Promise<ShopifyProduct | null> {
   const data = await shopifyFetch<{
-    products: { edges: { node: { id: string; handle: string; variants: { edges: { node: ShopifyVariant }[] } } }[] };
+    products: {
+      edges: {
+        node: {
+          id: string;
+          handle: string;
+          options: ShopifyProductOption[];
+          variants: { edges: { node: ShopifyVariant }[] };
+        };
+      }[];
+    };
   }>(
     `query {
       products(first: 1) {
@@ -115,15 +144,10 @@ export async function getFirstProduct(): Promise<{ id: string; handle: string; v
           node {
             id
             handle
-            variants(first: 10) {
+            options { name values }
+            variants(first: 100) {
               edges {
-                node {
-                  id
-                  title
-                  price { amount currencyCode }
-                  compareAtPrice { amount currencyCode }
-                  availableForSale
-                }
+                node { ${VARIANT_FIELDS} }
               }
             }
           }
@@ -133,7 +157,12 @@ export async function getFirstProduct(): Promise<{ id: string; handle: string; v
   );
   const node = data.products?.edges[0]?.node;
   if (!node) return null;
-  return { id: node.id, handle: node.handle, variants: node.variants.edges.map((e) => e.node) };
+  return {
+    id: node.id,
+    handle: node.handle,
+    options: node.options ?? [],
+    variants: node.variants.edges.map((e) => e.node),
+  };
 }
 
 export type DiscountPricing = {

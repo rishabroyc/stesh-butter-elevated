@@ -10,12 +10,23 @@ import { Check, Star, Minus, Plus, ShieldCheck, Truck, Leaf, Sparkles, Heart, Fl
 import { toast } from "sonner";
 import { PageShell } from "@/components/site/PageShell";
 import { getFirstProduct, getDiscountPricing } from "@/lib/shopify";
-import type { ShopifyVariant, DiscountPricing } from "@/lib/shopify";
+import type { ShopifyVariant, ShopifyProduct, DiscountPricing } from "@/lib/shopify";
 import { useCart } from "@/context/cart";
 import { useAuth } from "@/context/auth";
 import { getSupabaseClient } from "@/lib/supabase";
 
 const PENDING_SUB_KEY = "stesh_pending_sub";
+
+// Shown on pre-order variants (inventory 0 + "continue selling when out of stock").
+// Edit this string when the pre-order ship window changes.
+const PREORDER_SHIP_ESTIMATE = "Ships by early October";
+
+// Option rows render in this order on the product page; anything else follows.
+const OPTION_ORDER = ["flavor", "size"];
+function optionRank(name: string) {
+  const i = OPTION_ORDER.indexOf(name.toLowerCase());
+  return i === -1 ? OPTION_ORDER.length : i;
+}
 
 type PendingSub = {
   variantId: string;
@@ -59,6 +70,8 @@ const jarGallery = [
 
 const pailGallery = [shopPailImg, shopUpdates8, shopImg011, shopImg021, shopNutritionFacts];
 
+type GalleryImage = { src: string; contain: boolean };
+
 const ingredients = [
   { name: "Pistachios", note: "Rich in healthy fats & antioxidants" },
   { name: "Almond Protein Powder", note: "6g of clean protein per serving" },
@@ -98,8 +111,10 @@ function ProductPage() {
   const [active, setActive] = useState(0);
   const [qty, setQty] = useState(1);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [product, setProduct] = useState<ShopifyProduct | null>(null);
   const [variants, setVariants] = useState<ShopifyVariant[]>([]);
-  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
+  // Chosen value per option name, e.g. { Flavor: "Original", Size: "8 Ounce" }.
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [discount, setDiscount] = useState<DiscountPricing>(null);
   const [purchaseType, setPurchaseType] = useState<"once" | "subscribe">("once");
   const [cadence, setCadence] = useState<2 | 4 | 8>(4);
@@ -110,14 +125,15 @@ function ProductPage() {
   useEffect(() => {
     getFirstProduct()
       .then((p) => {
-        if (p) {
-          setVariants(p.variants);
-          setSelectedVariantId(p.variants[0]?.id ?? null);
-          if (p.variants[0]?.id) {
-            getDiscountPricing(p.variants[0].id)
-              .then(setDiscount)
-              .catch(() => null);
-          }
+        if (!p) return;
+        setProduct(p);
+        setVariants(p.variants);
+        const first = p.variants[0];
+        if (first) {
+          setSelectedOptions(
+            Object.fromEntries(first.selectedOptions.map((o) => [o.name, o.value])),
+          );
+          getDiscountPricing(first.id).then(setDiscount).catch(() => null);
         }
       })
       .catch((err) => console.error("Shopify product fetch failed:", err));
@@ -162,13 +178,65 @@ function ProductPage() {
       });
   }, [user, addToCart, cart, updateQuantity, applyDiscount, DISCOUNT_CODE]);
 
-  const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
-  const isPail = selectedVariant?.title?.toLowerCase().includes("pail") ?? false;
-  const currentGallery = isPail ? pailGallery : jarGallery;
+  // Option rows to render (Flavor, then Size), skipping any single-value option.
+  const optionRows = (product?.options ?? [])
+    .filter((o) => o.values.length > 1)
+    .slice()
+    .sort((a, b) => optionRank(a.name) - optionRank(b.name));
+
+  const variantMatches = (v: ShopifyVariant, opts: Record<string, string>) =>
+    v.selectedOptions.every((o) => opts[o.name] === o.value);
+
+  const selectedVariant =
+    variants.find((v) => variantMatches(v, selectedOptions)) ?? variants[0];
+
+  // Pick a value for one option; carry the other options where a real variant
+  // supports it, otherwise snap to the closest available variant for that value.
+  function selectOption(name: string, value: string) {
+    const withValue = variants.filter((v) =>
+      v.selectedOptions.some((o) => o.name === name && o.value === value),
+    );
+    if (withValue.length === 0) return;
+    const wanted = { ...selectedOptions, [name]: value };
+    const chosen =
+      withValue.find((v) => variantMatches(v, wanted)) ??
+      withValue.find((v) => v.availableForSale) ??
+      withValue[0];
+    setSelectedOptions(
+      Object.fromEntries(chosen.selectedOptions.map((o) => [o.name, o.value])),
+    );
+  }
+
+  const isPail =
+    (selectedOptions["Size"]?.toLowerCase().match(/pail|gallon/) ?? false) ||
+    (selectedVariant?.title?.toLowerCase().includes("pail") ?? false);
+  // Each slide carries how it should sit in the frame: packshots and the
+  // nutrition graphic are centered on white ("contain"); lifestyle photos fill
+  // the frame edge to edge ("cover").
+  const localGallery: GalleryImage[] = (isPail ? pailGallery : jarGallery).map((src) => ({
+    src,
+    contain: src === shopNutritionFacts,
+  }));
+  // Lead with the Shopify variant image (the photo uploaded in admin), then the
+  // curated lifestyle/nutrition shots.
+  const currentGallery: GalleryImage[] = selectedVariant?.image?.url
+    ? [{ src: selectedVariant.image.url, contain: true }, ...localGallery]
+    : localGallery;
+  const activeImage = currentGallery[active] ?? currentGallery[0];
+
+  // Pre-order: inventory is 0 but Shopify still allows purchase.
+  const isPreorder = Boolean(
+    selectedVariant?.availableForSale && selectedVariant?.currentlyNotInStock,
+  );
 
   useEffect(() => {
     setActive(0);
-  }, [selectedVariantId]);
+  }, [selectedVariant?.id]);
+
+  // Subscribe & Save isn't offered on pre-order items — keep it one-time.
+  useEffect(() => {
+    if (isPreorder) setPurchaseType("once");
+  }, [isPreorder]);
 
   const basePrice = selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0;
   const subscribePrice = Math.round(basePrice * 0.85 * 100) / 100;
@@ -243,25 +311,33 @@ function ProductPage() {
         <div className="mx-auto grid max-w-[1400px] gap-6 md:grid-cols-2 md:gap-16">
           {/* Gallery */}
           <div className="min-w-0">
-            <div className="relative overflow-hidden rounded-2xl bg-warm-tan/15 aspect-4/3 md:aspect-4/5">
+            <div className="relative overflow-hidden rounded-2xl bg-white aspect-4/3 md:aspect-4/5">
               <img
-                src={currentGallery[active]}
+                src={activeImage.src}
                 alt="Stesh Pistachio Butter"
-                className="absolute inset-0 h-full w-full object-cover transition-all md:object-contain md:p-6"
+                className={`absolute inset-0 h-full w-full transition-all duration-300 ${
+                  activeImage.contain ? "object-contain p-6 md:p-10" : "object-cover"
+                }`}
                 fetchPriority="high"
                 decoding="async"
               />
             </div>
             <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
-              {currentGallery.map((src, i) => (
+              {currentGallery.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`aspect-square h-11 w-11 shrink-0 overflow-hidden rounded-lg border-2 transition-all md:h-16 md:w-16 lg:h-20 lg:w-20 ${
-                    active === i ? "border-pistachio-deep" : "border-transparent opacity-60 hover:opacity-90"
+                  className={`aspect-square h-11 w-11 shrink-0 overflow-hidden rounded-lg border-2 bg-white transition-all md:h-16 md:w-16 lg:h-20 lg:w-20 ${
+                    active === i ? "border-pistachio-deep" : "border-border/60 opacity-70 hover:opacity-100"
                   }`}
                 >
-                  <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+                  <img
+                    src={img.src}
+                    alt=""
+                    className={`h-full w-full ${img.contain ? "object-contain p-1" : "object-cover"}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </button>
               ))}
             </div>
@@ -286,79 +362,96 @@ function ProductPage() {
               Stesh pistachio butter is a velvety smooth butter that brings the rich taste of pistachios into every spoonful. Say goodbye to cracking shells and say hello to the newest addition to your daily routine.
             </p>
 
-            {/* Variant selector */}
-            {variants.length > 1 && (
-              <div className="mt-8">
-                <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">Size</p>
+            {/* Variant selector — one row per option, Flavor then Size */}
+            {optionRows.map((option) => (
+              <div key={option.name} className="mt-8">
+                <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">
+                  {option.name}
+                </p>
                 <div className="flex flex-wrap gap-2">
-                  {variants.map((v) => (
-                    <button
-                      key={v.id}
-                      onClick={() => setSelectedVariantId(v.id)}
-                      disabled={!v.availableForSale}
-                      className={`rounded-full border px-5 py-2 text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
-                        selectedVariantId === v.id
-                          ? "border-pistachio-deep bg-pistachio-light/20 text-pistachio-deep font-medium"
-                          : "border-border hover:border-pistachio-deep"
-                      }`}
-                    >
-                      {v.title}
-                      {!v.availableForSale && " — Sold out"}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Purchase type */}
-            <div className="mt-8">
-              <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">Purchase Type</p>
-              <div className="flex rounded-full border border-border p-1">
-                <button
-                  onClick={() => setPurchaseType("once")}
-                  className={`flex-1 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
-                    purchaseType === "once"
-                      ? "bg-pistachio-deep text-cream"
-                      : "text-dark/60 hover:text-dark"
-                  }`}
-                >
-                  One-time
-                </button>
-                <button
-                  onClick={() => { setPurchaseType("subscribe"); setQty(1); }}
-                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
-                    purchaseType === "subscribe"
-                      ? "bg-pistachio-deep text-cream"
-                      : "text-dark/60 hover:text-dark"
-                  }`}
-                >
-                  <RefreshCw className="h-3 w-3" />
-                  Subscribe &amp; Save 15%
-                </button>
-              </div>
-              {purchaseType === "subscribe" && (
-                <div className="mt-4">
-                  <p className="mb-2.5 text-[11px] uppercase tracking-widest-extra text-dark/60">
-                    Deliver every
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {([2, 4, 8] as const).map((w) => (
+                  {option.values.map((value) => {
+                    const existsAny = variants.some((v) =>
+                      v.selectedOptions.some((o) => o.name === option.name && o.value === value),
+                    );
+                    const match = variants.find((v) =>
+                      variantMatches(v, { ...selectedOptions, [option.name]: value }),
+                    );
+                    const soldOut = Boolean(match && !match.availableForSale);
+                    // Exists as an option value, but not in combination with the
+                    // other picked options (e.g. Unsweetened + 134 oz gallon).
+                    const unavailableCombo = existsAny && !match;
+                    const isSelected = selectedOptions[option.name] === value;
+                    return (
                       <button
-                        key={w}
-                        onClick={() => setCadence(w)}
-                        className={`rounded-full border px-5 py-2 text-sm transition-all ${
-                          cadence === w
+                        key={value}
+                        onClick={() => selectOption(option.name, value)}
+                        disabled={!existsAny || soldOut}
+                        className={`rounded-full border px-5 py-2 text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
+                          isSelected
                             ? "border-pistachio-deep bg-pistachio-light/20 text-pistachio-deep font-medium"
                             : "border-border hover:border-pistachio-deep"
-                        }`}
+                        } ${unavailableCombo ? "opacity-40" : ""}`}
                       >
-                        {w === 2 ? "Every 2 Weeks" : w === 4 ? "Every 4 Weeks" : "Every 8 Weeks"}
+                        {value}
+                        {soldOut && " — Sold out"}
                       </button>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
-              )}
-            </div>
+              </div>
+            ))}
+
+            {/* Purchase type — not offered on pre-order items */}
+            {!isPreorder && (
+              <div className="mt-8">
+                <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">Purchase Type</p>
+                <div className="flex rounded-full border border-border p-1">
+                  <button
+                    onClick={() => setPurchaseType("once")}
+                    className={`flex-1 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
+                      purchaseType === "once"
+                        ? "bg-pistachio-deep text-cream"
+                        : "text-dark/60 hover:text-dark"
+                    }`}
+                  >
+                    One-time
+                  </button>
+                  <button
+                    onClick={() => { setPurchaseType("subscribe"); setQty(1); }}
+                    className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
+                      purchaseType === "subscribe"
+                        ? "bg-pistachio-deep text-cream"
+                        : "text-dark/60 hover:text-dark"
+                    }`}
+                  >
+                    <RefreshCw className="h-3 w-3" />
+                    Subscribe &amp; Save 15%
+                  </button>
+                </div>
+                {purchaseType === "subscribe" && (
+                  <div className="mt-4">
+                    <p className="mb-2.5 text-[11px] uppercase tracking-widest-extra text-dark/60">
+                      Deliver every
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {([2, 4, 8] as const).map((w) => (
+                        <button
+                          key={w}
+                          onClick={() => setCadence(w)}
+                          className={`rounded-full border px-5 py-2 text-sm transition-all ${
+                            cadence === w
+                              ? "border-pistachio-deep bg-pistachio-light/20 text-pistachio-deep font-medium"
+                              : "border-border hover:border-pistachio-deep"
+                          }`}
+                        >
+                          {w === 2 ? "Every 2 Weeks" : w === 4 ? "Every 4 Weeks" : "Every 8 Weeks"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Price */}
             <div className="mt-5 flex items-baseline gap-3 md:mt-6">
@@ -404,7 +497,11 @@ function ProductPage() {
                   disabled={loading || !selectedVariant}
                   className="group flex w-full items-center justify-center gap-2 rounded-full bg-pistachio-deep px-5 py-4 text-[11px] uppercase tracking-wide text-cream transition-all hover:bg-dark disabled:cursor-not-allowed disabled:opacity-60 sm:flex-1 sm:px-8 sm:tracking-widest-extra"
                 >
-                  {loading ? "Adding…" : `Add to Cart · $${(price * qty).toFixed(2)}`}
+                  {loading
+                    ? "Adding…"
+                    : isPreorder
+                      ? `Pre-order Now · $${(price * qty).toFixed(2)}`
+                      : `Add to Cart · $${(price * qty).toFixed(2)}`}
                   {!loading && (
                     <span aria-hidden className="transition-transform group-hover:translate-x-1">
                       →
@@ -431,6 +528,13 @@ function ProductPage() {
                 </button>
               )}
             </div>
+
+            {isPreorder && (
+              <p className="mt-3 flex items-center gap-1.5 text-xs text-pistachio-deep">
+                <Truck className="h-3.5 w-3.5" />
+                Pre-order — {PREORDER_SHIP_ESTIMATE}
+              </p>
+            )}
 
             <a
               href="https://www.amazon.com/dp/B0F9586XQ5"
