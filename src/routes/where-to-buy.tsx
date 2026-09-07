@@ -119,7 +119,7 @@ function WhereToBuyPage() {
       <section className="px-6 pb-20 md:px-12 md:pb-28">
         <div className="mx-auto max-w-[1200px]">
           <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">In stores · Across the US</h2>
-          <div className="h-75 overflow-hidden rounded-2xl border border-border md:h-140">
+          <div className="relative isolate h-75 overflow-hidden rounded-2xl border border-border md:h-140">
             <StoreMap locations={locations} />
           </div>
           <p className="mt-3 text-xs text-muted-foreground">Click any pin to see the store name and address.</p>

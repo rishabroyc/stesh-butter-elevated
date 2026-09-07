@@ -5,6 +5,11 @@ import shopImg011 from "@/assets/Website Pictures/Shop page/011 - KJ_Utsab.jpg";
 import shopUpdates3 from "@/assets/Website Pictures/Shop page/Steshupdates-3.jpg";
 import shopUpdates8 from "@/assets/Website Pictures/Shop page/Steshupdates-8.jpg";
 import shopNutritionFacts from "@/assets/Website Pictures/Shop page/Nutrition facts - make this the last photo.jpg";
+import useToastImg from "@/assets/use-toast.jpg";
+import useSmoothieImg from "@/assets/use-smoothie.jpg";
+import usePancakesImg from "@/assets/use-pancakes.jpg";
+import useDipImg from "@/assets/use-dip.jpg";
+import useBakeImg from "@/assets/use-bake.jpg";
 import { useState, useEffect, useRef } from "react";
 import { Check, Star, Minus, Plus, ShieldCheck, Truck, Leaf, Sparkles, Heart, FlaskConical, Wheat, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
@@ -89,11 +94,11 @@ const badges = [
 ];
 
 const useImages = [
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/yogurtnew.png", title: "Spread", note: "Spread it on toast, bagels and croissants" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/smoothienew.png", title: "Blend", note: "Blend into smoothies or protein shakes" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/strawberrynew.png", title: "Drizzle", note: "Drizzle over pancakes, yogurt or oatmeal" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/applesnew.png", title: "Dip", note: "Dip in your strawberries and apples" },
-  { img: "https://steshbutter.com/wp-content/uploads/2025/05/pancake-bgnew.png", title: "Bake", note: "Use in baking cookies and cakes" },
+  { img: useToastImg, title: "Spread", note: "Spread it on toast, bagels and croissants" },
+  { img: useSmoothieImg, title: "Blend", note: "Blend into smoothies or protein shakes" },
+  { img: usePancakesImg, title: "Drizzle", note: "Drizzle over pancakes, yogurt or oatmeal" },
+  { img: useDipImg, title: "Dip", note: "Dip in your strawberries and apples" },
+  { img: useBakeImg, title: "Bake", note: "Use in baking cookies and cakes" },
 ];
 
 const faqs = [
