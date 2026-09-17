@@ -5,9 +5,13 @@ import { PageShell, PageHero } from "@/components/site/PageShell";
 export const Route = createFileRoute("/wholesale")({
   head: () => ({
     meta: [
-      { title: "Wholesale — Stesh" },
-      { name: "description", content: "Carry Stesh Pistachio Butter in your store, cafe, or hotel. Wholesale inquiries welcome." },
-      { property: "og:title", content: "Wholesale — Stesh" },
+      { title: "Wholesale | Stesh" },
+      {
+        name: "description",
+        content:
+          "Carry Stesh Pistachio Butter in your store, cafe, or hotel. Wholesale inquiries welcome.",
+      },
+      { property: "og:title", content: "Wholesale | Stesh" },
       { property: "og:description", content: "Bring Stesh to your shelf." },
     ],
   }),
@@ -20,23 +24,34 @@ function WholesalePage() {
     <PageShell>
       <PageHero
         eyebrow="Wholesale · B2B"
-        title={<>Bring Stesh to <em className="not-italic text-pistachio-deep">your shelf.</em></>}
+        title={
+          <>
+            Bring Stesh to <em className="not-italic text-pistachio-deep">your shelf.</em>
+          </>
+        }
         subtitle="We partner with specialty grocers, cafes, gyms, hotels, and gift shops. Tell us about your business and we'll be in touch within 48 hours."
       />
 
       {/* Partner platforms */}
       <section className="px-6 pb-16 md:px-12">
         <div className="mx-auto max-w-[1200px] space-y-12">
-
           {/* Faire */}
           <div className="rounded-2xl border border-border bg-off-white p-6 md:p-10">
-            <p className="mb-2 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Order via Faire</p>
+            <p className="mb-2 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+              Order via Faire
+            </p>
             <h2 className="mb-6 font-display text-3xl">Shop on Faire</h2>
             <div className="overflow-hidden rounded-xl">
               <iframe
                 src="https://www.faire.com/embed/bw_ux5auhqbbs"
                 scrolling="no"
-                style={{ margin: "0 auto", border: "none", display: "block", width: "100%", height: "600px" }}
+                style={{
+                  margin: "0 auto",
+                  border: "none",
+                  display: "block",
+                  width: "100%",
+                  height: "600px",
+                }}
                 title="Stesh on Faire"
               />
             </div>
@@ -44,7 +59,9 @@ function WholesalePage() {
 
           {/* Stack */}
           <div className="rounded-2xl border border-border bg-off-white p-6 md:p-10">
-            <p className="mb-2 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Order via AirGoods</p>
+            <p className="mb-2 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+              Order via AirGoods
+            </p>
             <h2 className="mb-6 font-display text-3xl">Shop on AirGoods</h2>
             <div className="overflow-hidden rounded-xl">
               <iframe
@@ -57,7 +74,6 @@ function WholesalePage() {
               />
             </div>
           </div>
-
         </div>
       </section>
 
@@ -105,7 +121,9 @@ function WholesalePage() {
                     ["City / State", "city", "text"],
                   ].map(([label, name, type]) => (
                     <label key={name} className="block">
-                      <span className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">{label}</span>
+                      <span className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+                        {label}
+                      </span>
                       <input
                         name={name}
                         type={type}
@@ -116,7 +134,9 @@ function WholesalePage() {
                   ))}
                 </div>
                 <label className="mt-5 block">
-                  <span className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Tell us about your store</span>
+                  <span className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+                    Tell us about your store
+                  </span>
                   <textarea
                     rows={5}
                     required

@@ -24,7 +24,7 @@ export async function handleMetaCheckout(request: Request): Promise<Response> {
   const coupon = url.searchParams.get("coupon");
 
   if (!productsParam) {
-    console.warn("[meta-checkout] Missing products param — redirecting home");
+    console.warn("[meta-checkout] Missing products param, redirecting home");
     return Response.redirect(HOME, 302);
   }
 

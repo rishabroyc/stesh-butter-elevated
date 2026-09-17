@@ -14,7 +14,9 @@ export function Marquee({ items, reverse }: Props) {
             className="mx-8 inline-flex items-center gap-8 text-[11px] uppercase tracking-widest-extra text-pistachio-deep"
           >
             {t}
-            <span aria-hidden className="text-warm-tan">✦</span>
+            <span aria-hidden className="text-warm-tan">
+              ✦
+            </span>
           </span>
         ))}
       </div>

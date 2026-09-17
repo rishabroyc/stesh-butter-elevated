@@ -7,10 +7,14 @@ import steshIcon from "@/assets/stesh_icon.svg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "Our Story — Stesh" },
-      { name: "description", content: "Stesh was founded by Arsh and Utsab to make a pistachio butter actually worth eating. 5 ingredients. Zero compromise." },
-      { property: "og:title", content: "Our Story — Stesh" },
-      { property: "og:description", content: "Meet Arsh and Utsab — the founders behind Stesh." },
+      { title: "Our Story | Stesh" },
+      {
+        name: "description",
+        content:
+          "Stesh was founded by Arsh and Utsab to make a pistachio butter actually worth eating. 5 ingredients. Zero compromise.",
+      },
+      { property: "og:title", content: "Our Story | Stesh" },
+      { property: "og:description", content: "Meet Arsh and Utsab, the founders behind Stesh." },
     ],
   }),
   component: AboutPage,
@@ -26,7 +30,8 @@ function AboutPage() {
             Our Story
           </p>
           <h1 className="font-display text-5xl leading-[0.95] md:text-8xl">
-            We made the pistachio butter <em className="not-italic text-pistachio-deep">we wanted to eat.</em>
+            We made the pistachio butter{" "}
+            <em className="not-italic text-pistachio-deep">we wanted to eat.</em>
           </h1>
         </div>
       </section>
@@ -34,7 +39,13 @@ function AboutPage() {
       {/* Founder photo */}
       <section className="px-6 md:px-12">
         <div className="mx-auto max-w-[1400px] overflow-hidden rounded-2xl">
-          <img src={heroFounderImg} alt="Arsh and Utsab" className="h-[60vh] w-full object-cover object-center md:h-[80vh]" fetchPriority="high" decoding="async" />
+          <img
+            src={heroFounderImg}
+            alt="Arsh and Utsab"
+            className="h-[60vh] w-full object-cover object-center md:h-[80vh]"
+            fetchPriority="high"
+            decoding="async"
+          />
         </div>
       </section>
 
@@ -56,16 +67,23 @@ function AboutPage() {
             </p>
             <div className="space-y-6 text-xl leading-relaxed text-dark/80 md:text-2xl">
               <p>
-                At Stesh, we believe you can indulge by the spoonful without compromising your health. That's why we set out to create a better-for-you pistachio butter that can be the BEST part of your everyday routine.
+                At Stesh, we believe you can indulge by the spoonful without compromising your
+                health. That's why we set out to create a better-for-you pistachio butter that can
+                be the BEST part of your everyday routine.
               </p>
               <p>
-                We're harnessing the power of pistachios — a nutrient rich nut — and keeping it simple. Made with just <em className="not-italic text-pistachio-deep">5 simple all-natural ingredients</em> + a lot of love, a ton of care, and a hint of magic from our good friend, Mr. Turtle.
+                We're harnessing the power of pistachios (a nutrient rich nut) and keeping it
+                simple. Made with just{" "}
+                <em className="not-italic text-pistachio-deep">5 simple all-natural ingredients</em>{" "}
+                + a lot of love, a ton of care, and a hint of magic from our good friend, Mr.
+                Turtle.
               </p>
               <p>
-                Pistachios, almond protein powder, avocado oil, organic cane sugar, sunflower lecithin. That's the whole list.
+                Pistachios, almond protein powder, avocado oil, organic cane sugar, sunflower
+                lecithin. That's the whole list.
               </p>
               <p className="font-display text-3xl text-pistachio-deep md:text-4xl">
-                "Made for you with love." — Arsh & Utsab
+                "Made for you with love." - Arsh & Utsab
               </p>
             </div>
           </div>
@@ -76,9 +94,21 @@ function AboutPage() {
       <section className="bg-pistachio-deep px-6 py-24 text-cream md:px-12 md:py-32">
         <div className="mx-auto grid max-w-[1200px] gap-10 md:grid-cols-3">
           {[
-            { n: "01", t: "Clean", d: "Five real ingredients. Nothing artificial. No seed oils. Ever." },
-            { n: "02", t: "Indulgent", d: "Rich, creamy, eat-it-straight-from-the-spoon delicious." },
-            { n: "03", t: "Honest", d: "We tell you what's in it. We tell you what's not. No labels-as-marketing." },
+            {
+              n: "01",
+              t: "Clean",
+              d: "Five real ingredients. Nothing artificial. No seed oils. Ever.",
+            },
+            {
+              n: "02",
+              t: "Indulgent",
+              d: "Rich, creamy, eat-it-straight-from-the-spoon delicious.",
+            },
+            {
+              n: "03",
+              t: "Honest",
+              d: "We tell you what's in it. We tell you what's not. No labels-as-marketing.",
+            },
           ].map((c) => (
             <div key={c.n}>
               <span className="font-display text-5xl text-pistachio-light/60">{c.n}</span>
@@ -105,7 +135,9 @@ function AboutPage() {
               And then there's <em className="not-italic text-pistachio-deep">Mr. Turtle.</em>
             </h2>
             <p className="mt-6 text-lg text-muted-foreground">
-              Mr. Turtle is our resident taste-tester, unofficial CMO, and the only member of the team who's truly never compromised on anything. He prefers his Stesh straight from the spoon. We trust his palate completely.
+              Mr. Turtle is our resident taste-tester, unofficial CMO, and the only member of the
+              team who's truly never compromised on anything. He prefers his Stesh straight from the
+              spoon. We trust his palate completely.
             </p>
             <p className="mt-4 text-lg text-muted-foreground">
               You'll spot him around the brand. Say hi.
@@ -121,17 +153,21 @@ function AboutPage() {
             Help us share our <em className="not-italic text-pistachio-deep">stash of Stesh.</em>
           </h2>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link to="/product" className="rounded-full bg-pistachio-deep px-10 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-colors hover:bg-dark">
+            <Link
+              to="/product"
+              className="rounded-full bg-pistachio-deep px-10 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-colors hover:bg-dark"
+            >
               Shop Stesh →
             </Link>
-            <a href="https://www.instagram.com/getstesh/" className="rounded-full border border-pistachio-deep px-10 py-5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep hover:bg-pistachio-deep hover:text-cream">
+            <a
+              href="https://www.instagram.com/getstesh/"
+              className="rounded-full border border-pistachio-deep px-10 py-5 text-[11px] uppercase tracking-widest-extra text-pistachio-deep hover:bg-pistachio-deep hover:text-cream"
+            >
               Follow @getstesh
             </a>
           </div>
         </div>
       </section>
-
-
     </PageShell>
   );
 }

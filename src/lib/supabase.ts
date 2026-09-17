@@ -1,10 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
+import type { Database } from "./database.types";
 
-let _client: ReturnType<typeof createClient> | null = null;
+let _client: ReturnType<typeof createClient<Database>> | null = null;
 
 export function getSupabaseClient() {
   if (!_client) {
-    _client = createClient(
+    _client = createClient<Database>(
       import.meta.env.VITE_SUPABASE_URL as string,
       import.meta.env.VITE_SUPABASE_ANON_KEY as string,
     );

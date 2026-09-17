@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import type { Map as LeafletMap } from "leaflet";
 
 interface StoreLocation {
   name: string;
@@ -10,19 +11,19 @@ interface StoreLocation {
 
 export function StoreMap({ locations }: { locations: StoreLocation[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<unknown>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
-    let map: { remove: () => void } | null = null;
+    let map: LeafletMap | null = null;
     let cancelled = false;
 
     (async () => {
       const L = (await import("leaflet")).default;
       if (cancelled) return;
 
-      if (!document.querySelector('link[data-leaflet-css]')) {
+      if (!document.querySelector("link[data-leaflet-css]")) {
         const link = document.createElement("link");
         link.rel = "stylesheet";
         link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
@@ -30,13 +31,13 @@ export function StoreMap({ locations }: { locations: StoreLocation[] }) {
         document.head.appendChild(link);
       }
 
-      map = L.map(containerRef.current!).setView([40.722, -73.980], 12);
+      map = L.map(containerRef.current!).setView([40.722, -73.98], 12);
       mapRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 19,
-      }).addTo(map as any);
+      }).addTo(map);
 
       const pinSvg =
         `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 36" width="24" height="36">` +
@@ -56,13 +57,13 @@ export function StoreMap({ locations }: { locations: StoreLocation[] }) {
         L.marker([loc.lat, loc.lng], { icon })
           .bindPopup(
             `<div style="font-family:'Inter',system-ui,sans-serif;min-width:150px;line-height:1.45;padding:2px 0">` +
-            `<div style="font-weight:600;font-size:13px;color:#1a1a1a">${loc.name}</div>` +
-            `<div style="font-size:11px;color:#4a6741;margin-top:2px;font-weight:500">${loc.neighborhood}</div>` +
-            `<div style="font-size:11px;color:#777;margin-top:3px">${loc.address}</div>` +
-            `</div>`,
-            { maxWidth: 240, className: "stesh-popup" }
+              `<div style="font-weight:600;font-size:13px;color:#1a1a1a">${loc.name}</div>` +
+              `<div style="font-size:11px;color:#4a6741;margin-top:2px;font-weight:500">${loc.neighborhood}</div>` +
+              `<div style="font-size:11px;color:#777;margin-top:3px">${loc.address}</div>` +
+              `</div>`,
+            { maxWidth: 240, className: "stesh-popup" },
           )
-          .addTo(map as any);
+          .addTo(map);
       }
     })();
 
@@ -73,7 +74,7 @@ export function StoreMap({ locations }: { locations: StoreLocation[] }) {
         mapRef.current = null;
       }
     };
-  }, []);
+  }, [locations]);
 
   return <div ref={containerRef} style={{ height: "100%", width: "100%" }} />;
 }

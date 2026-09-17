@@ -56,7 +56,7 @@ type PendingSub = {
 export const Route = createFileRoute("/product")({
   head: () => ({
     meta: [
-      { title: "Stesh Pistachio Butter — $19.00 | Stesh" },
+      { title: "Stesh Pistachio Butter ($19.00) | Stesh" },
       {
         name: "description",
         content:
@@ -125,7 +125,7 @@ const useImages = [
 const faqs = [
   {
     q: "Is it vegan?",
-    a: "Yes. Stesh is 100% plant-based — no dairy, no honey, no animal products.",
+    a: "Yes. Stesh is 100% plant-based: no dairy, no honey, no animal products.",
   },
   {
     q: "Does it contain seed oils?",
@@ -192,8 +192,7 @@ function ProductPage() {
     if (!raw) return;
     pendingHandled.current = true;
     const pending: PendingSub = JSON.parse(raw);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (getSupabaseClient() as any)
+    getSupabaseClient()
       .from("subscriptions")
       .insert({
         user_id: user.id,
@@ -260,7 +259,7 @@ function ProductPage() {
   ).toLowerCase();
 
   // Extra photos uploaded to the product in Shopify admin but not assigned as
-  // any single variant's image — looked up by filename so the site stays in
+  // any single variant's image, looked up by filename so the site stays in
   // sync as Shopify's CDN URLs change.
   const remoteImages = product?.images ?? [];
   const findRemoteImage = (needle: string) =>
@@ -271,7 +270,7 @@ function ProductPage() {
   // the frame edge to edge ("cover").
   let localGallery: GalleryImage[];
   if (flavor === "unsweetened") {
-    // Packshot is already the live Shopify variant image (slide 0) — just add
+    // Packshot is already the live Shopify variant image (slide 0); just add
     // the hand shot and the Unsweetened nutrition panel.
     const hand = findRemoteImage("Unsweetened_hand_pic");
     const nutrition = findRemoteImage("Nutrition_facts");
@@ -280,7 +279,7 @@ function ProductPage() {
       ...(nutrition ? [{ src: nutrition, contain: true }] : []),
     ];
   } else if (flavor === "variety") {
-    // Both-jars packshot is already the live Shopify variant image (slide 0) —
+    // Both-jars packshot is already the live Shopify variant image (slide 0);
     // add both flavors' nutrition panels.
     const unsweetenedNutrition = findRemoteImage("Nutrition_facts");
     localGallery = [
@@ -309,7 +308,7 @@ function ProductPage() {
     setActive(0);
   }, [selectedVariant?.id]);
 
-  // Subscribe & Save isn't offered on pre-order items — keep it one-time.
+  // Subscribe & Save isn't offered on pre-order items, so keep it one-time.
   useEffect(() => {
     if (isPreorder) setPurchaseType("once");
   }, [isPreorder]);
@@ -329,7 +328,7 @@ function ProductPage() {
       );
       if (origTotal - parseFloat(cart.cost.totalAmount.amount) > 0.01) {
         await removeDiscount();
-        toast.info("Pail added at full price — subscription savings apply to jar orders only.");
+        toast.info("Pail added at full price. Subscription savings apply to jar orders only.");
       }
     }
     await addToCart(selectedVariant.id, qty);
@@ -345,21 +344,21 @@ function ProductPage() {
         priceCents: Math.round(subscribePrice * 100),
       };
       localStorage.setItem(PENDING_SUB_KEY, JSON.stringify(pending));
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      navigate({ to: "/auth" as any, search: { redirect: "/product" } as any });
+      navigate({ to: "/auth", search: { redirect: "/product" } });
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (getSupabaseClient() as any).from("subscriptions").insert({
-      user_id: user.id,
-      product_name: "Stesh Pistachio Butter",
-      variant_id: selectedVariant.id,
-      variant_name: selectedVariant.title,
-      cadence_weeks: cadence,
-      price_cents: Math.round(subscribePrice * 100),
-      discount_percent: 15,
-      status: "pending_payment",
-    });
+    const { error } = await getSupabaseClient()
+      .from("subscriptions")
+      .insert({
+        user_id: user.id,
+        product_name: "Stesh Pistachio Butter",
+        variant_id: selectedVariant.id,
+        variant_name: selectedVariant.title,
+        cadence_weeks: cadence,
+        price_cents: Math.round(subscribePrice * 100),
+        discount_percent: 15,
+        status: "pending_payment",
+      });
     if (error) {
       toast.error("Couldn't set up subscription. Please try again.");
       return;
@@ -441,7 +440,7 @@ function ProductPage() {
               newest addition to your daily routine.
             </p>
 
-            {/* Variant selector — one row per option, Flavor then Size */}
+            {/* Variant selector: one row per option, Flavor then Size */}
             {optionRows.map((option) => (
               <div key={option.name} className="mt-8">
                 <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">
@@ -472,7 +471,7 @@ function ProductPage() {
                         } ${unavailableCombo ? "opacity-40" : ""}`}
                       >
                         {value}
-                        {soldOut && " — Sold out"}
+                        {soldOut && " (Sold out)"}
                       </button>
                     );
                   })}
@@ -480,7 +479,7 @@ function ProductPage() {
               </div>
             ))}
 
-            {/* Purchase type — not offered on pre-order items */}
+            {/* Purchase type: not offered on pre-order items */}
             {!isPreorder && (
               <div className="mt-8">
                 <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">
@@ -622,7 +621,7 @@ function ProductPage() {
             {isPreorder && (
               <p className="mt-3 flex items-center gap-1.5 text-xs text-pistachio-deep">
                 <Truck className="h-3.5 w-3.5" />
-                Pre-order — {PREORDER_SHIP_ESTIMATE}
+                Pre-order · {PREORDER_SHIP_ESTIMATE}
               </p>
             )}
 

@@ -93,7 +93,7 @@ export function CartDrawer() {
                     {(() => {
                       const isPail = line.merchandise.title?.toLowerCase().includes("pail");
                       // Prefer the variant's own image (so flavor/size selection shows
-                      // correctly) — Shopify's hosted checkout does this natively, which
+                      // correctly). Shopify's hosted checkout does this natively, which
                       // is why the image looked right there but not here. Fall back to
                       // the local pail photo, then the product's default image.
                       const imgSrc =

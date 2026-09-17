@@ -14,11 +14,9 @@ export async function subscribeEmail(
     return;
   }
 
-  const { error } = await getClient()
-    .from("email_subscribers")
-    .insert({ email, source });
+  const { error } = await getClient().from("email_subscribers").insert({ email, source });
 
-  // 23505 = unique_violation — duplicate email, treat as success
+  // 23505 = unique_violation (duplicate email), treat as success
   if (error && error.code !== "23505") {
     throw new Error(error.message);
   }

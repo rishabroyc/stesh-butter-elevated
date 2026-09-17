@@ -30,10 +30,7 @@ async function verifyShopifyWebhook(
   return diff === 0;
 }
 
-async function getUserIdByEmail(
-  email: string,
-  serviceKey: string,
-): Promise<string | null> {
+async function getUserIdByEmail(email: string, serviceKey: string): Promise<string | null> {
   const res = await fetch(
     `${SUPABASE_URL}/auth/v1/admin/users?email=${encodeURIComponent(email)}&page=1&per_page=1`,
     {
@@ -60,7 +57,7 @@ export async function handleShopifyOrdersPaid(request: Request): Promise<Respons
 
   const valid = await verifyShopifyWebhook(rawBody, hmacHeader, secret);
   if (!valid) {
-    console.warn("[webhook] Invalid HMAC signature — rejecting request");
+    console.warn("[webhook] Invalid HMAC signature, rejecting request");
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -82,7 +79,7 @@ export async function handleShopifyOrdersPaid(request: Request): Promise<Respons
 
   const userId = await getUserIdByEmail(email, serviceKey);
   if (!userId) {
-    // Customer not in our system — not an error
+    // Customer not in our system, not an error
     return new Response("OK", { status: 200 });
   }
 

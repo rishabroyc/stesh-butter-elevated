@@ -49,7 +49,8 @@ function AuthPage() {
       await signIn(values.email, values.password);
       navigate({ to: (redirect ?? "/profile") as "/profile", replace: true });
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Sign in failed. Check your credentials.";
+      const message =
+        err instanceof Error ? err.message : "Sign in failed. Check your credentials.";
       toast.error(message);
     }
   }
@@ -79,7 +80,8 @@ function AuthPage() {
             </div>
             <h1 className="font-display text-4xl">Check your email</h1>
             <p className="mt-4 text-muted-foreground">
-              We sent a confirmation link to your inbox. Click it to activate your account, then sign in.
+              We sent a confirmation link to your inbox. Click it to activate your account, then
+              sign in.
             </p>
             <button
               onClick={() => {
@@ -114,9 +116,7 @@ function AuthPage() {
             <button
               onClick={() => setTab("signin")}
               className={`flex-1 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
-                tab === "signin"
-                  ? "bg-pistachio-deep text-cream"
-                  : "text-dark/60 hover:text-dark"
+                tab === "signin" ? "bg-pistachio-deep text-cream" : "text-dark/60 hover:text-dark"
               }`}
             >
               Sign In
@@ -124,9 +124,7 @@ function AuthPage() {
             <button
               onClick={() => setTab("signup")}
               className={`flex-1 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
-                tab === "signup"
-                  ? "bg-pistachio-deep text-cream"
-                  : "text-dark/60 hover:text-dark"
+                tab === "signup" ? "bg-pistachio-deep text-cream" : "text-dark/60 hover:text-dark"
               }`}
             >
               Create Account
@@ -147,7 +145,9 @@ function AuthPage() {
                   placeholder="you@example.com"
                 />
                 {signInForm.formState.errors.email && (
-                  <p className="mt-1 text-xs text-red-500">{signInForm.formState.errors.email.message}</p>
+                  <p className="mt-1 text-xs text-red-500">
+                    {signInForm.formState.errors.email.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -171,7 +171,9 @@ function AuthPage() {
                   </button>
                 </div>
                 {signInForm.formState.errors.password && (
-                  <p className="mt-1 text-xs text-red-500">{signInForm.formState.errors.password.message}</p>
+                  <p className="mt-1 text-xs text-red-500">
+                    {signInForm.formState.errors.password.message}
+                  </p>
                 )}
               </div>
               <button
@@ -207,7 +209,9 @@ function AuthPage() {
                   placeholder="Your name"
                 />
                 {signUpForm.formState.errors.name && (
-                  <p className="mt-1 text-xs text-red-500">{signUpForm.formState.errors.name.message}</p>
+                  <p className="mt-1 text-xs text-red-500">
+                    {signUpForm.formState.errors.name.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -222,7 +226,9 @@ function AuthPage() {
                   placeholder="you@example.com"
                 />
                 {signUpForm.formState.errors.email && (
-                  <p className="mt-1 text-xs text-red-500">{signUpForm.formState.errors.email.message}</p>
+                  <p className="mt-1 text-xs text-red-500">
+                    {signUpForm.formState.errors.email.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -246,7 +252,9 @@ function AuthPage() {
                   </button>
                 </div>
                 {signUpForm.formState.errors.password && (
-                  <p className="mt-1 text-xs text-red-500">{signUpForm.formState.errors.password.message}</p>
+                  <p className="mt-1 text-xs text-red-500">
+                    {signUpForm.formState.errors.password.message}
+                  </p>
                 )}
               </div>
               <button

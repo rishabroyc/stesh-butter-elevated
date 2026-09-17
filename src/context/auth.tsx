@@ -20,7 +20,11 @@ type AuthContextValue = {
   profile: Profile | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, name?: string) => Promise<{ needsConfirmation: boolean }>;
+  signUp: (
+    email: string,
+    password: string,
+    name?: string,
+  ) => Promise<{ needsConfirmation: boolean }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 };

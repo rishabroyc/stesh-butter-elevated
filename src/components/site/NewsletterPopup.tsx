@@ -33,7 +33,9 @@ export function NewsletterPopup() {
     setVisible(false);
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ at: Date.now() }));
-    } catch {}
+    } catch {
+      // localStorage unavailable (private browsing, blocked, etc.) — dismissal just won't persist
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -42,7 +44,11 @@ export function NewsletterPopup() {
     try {
       await subscribeEmail(email, "popup");
       setStatus("success");
-      try { localStorage.setItem(STORAGE_KEY, "subscribed"); } catch {}
+      try {
+        localStorage.setItem(STORAGE_KEY, "subscribed");
+      } catch {
+        // localStorage unavailable — not fatal, the subscription itself already succeeded
+      }
     } catch {
       setStatus("error");
     }
@@ -59,7 +65,6 @@ export function NewsletterPopup() {
 
       <div className="fixed inset-x-4 bottom-4 z-[91] mx-auto max-w-md md:inset-x-auto md:left-1/2 md:top-1/2 md:bottom-auto md:-translate-x-1/2 md:-translate-y-1/2">
         <div className="relative overflow-hidden rounded-2xl bg-cream shadow-2xl">
-
           {/* Top pistachio strip */}
           <div className="h-1.5 w-full bg-pistachio-deep" />
 
@@ -71,7 +76,8 @@ export function NewsletterPopup() {
                 </div>
                 <h3 className="font-display text-4xl">You're in.</h3>
                 <p className="mt-3 text-muted-foreground">
-                  Use code <span className="font-semibold text-pistachio-deep">WELCOME10</span> at checkout for 10% off your first order.
+                  Use code <span className="font-semibold text-pistachio-deep">WELCOME10</span> at
+                  checkout for 10% off your first order.
                 </p>
                 <button
                   onClick={() => setVisible(false)}
@@ -90,12 +96,17 @@ export function NewsletterPopup() {
                   <X className="h-4 w-4" />
                 </button>
 
-                <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">For you</p>
+                <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+                  For you
+                </p>
                 <h3 className="mt-2 font-display text-4xl leading-tight md:text-5xl">
-                  10% off your<br />first order.
+                  10% off your
+                  <br />
+                  first order.
                 </h3>
                 <p className="mt-3 text-sm text-muted-foreground">
-                  Drop your email and we'll send your discount right away — plus recipes and updates from Arsh & Utsab.
+                  Drop your email and we'll send your discount right away, plus recipes and updates
+                  from Arsh & Utsab.
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-3">
@@ -115,7 +126,9 @@ export function NewsletterPopup() {
                     {status === "loading" ? "Subscribing…" : "Claim 10% off →"}
                   </button>
                   {status === "error" && (
-                    <p className="text-center text-xs text-red-500">Something went wrong — please try again.</p>
+                    <p className="text-center text-xs text-red-500">
+                      Something went wrong, please try again.
+                    </p>
                   )}
                 </form>
 

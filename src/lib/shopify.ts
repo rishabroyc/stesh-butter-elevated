@@ -36,7 +36,7 @@ export type ShopifyVariant = {
   price: { amount: string; currencyCode: string };
   compareAtPrice: { amount: string; currencyCode: string } | null;
   availableForSale: boolean;
-  /** True when inventory is 0 but the variant is still purchasable ("continue selling when out of stock") — i.e. a pre-order. */
+  /** True when inventory is 0 but the variant is still purchasable ("continue selling when out of stock"), i.e. a pre-order. */
   currentlyNotInStock: boolean;
   selectedOptions: ShopifySelectedOption[];
   image: { url: string; altText: string | null } | null;

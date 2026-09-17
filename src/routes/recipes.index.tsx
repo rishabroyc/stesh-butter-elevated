@@ -11,9 +11,13 @@ import heroJar from "@/assets/hero-jar.jpg";
 export const Route = createFileRoute("/recipes/")({
   head: () => ({
     meta: [
-      { title: "Recipes — Stesh" },
-      { name: "description", content: "Pistachio butter recipes: toast, smoothies, overnight oats, pancakes, energy bites, and more — all made with Stesh." },
-      { property: "og:title", content: "Recipes — Stesh" },
+      { title: "Recipes | Stesh" },
+      {
+        name: "description",
+        content:
+          "Pistachio butter recipes: toast, smoothies, overnight oats, pancakes, energy bites, and more, all made with Stesh.",
+      },
+      { property: "og:title", content: "Recipes | Stesh" },
       { property: "og:description", content: "Six things to make with Stesh this week." },
     ],
   }),
@@ -21,12 +25,54 @@ export const Route = createFileRoute("/recipes/")({
 });
 
 const recipes = [
-  { img: useToast, title: "Stesh Toast, Five Ways", tag: "Breakfast", time: "5 min", size: "lg", slug: "stesh-toast-five-ways" },
-  { img: useSmoothie, title: "The Green Stesh Smoothie", tag: "Smoothies", time: "3 min", size: "sm", slug: "green-stesh-smoothie" },
-  { img: usePancakes, title: "Pistachio Banana Pancakes", tag: "Breakfast", time: "20 min", size: "sm", slug: "pistachio-banana-pancakes" },
-  { img: useBake, title: "Pistachio Swirl Cookies", tag: "Baking", time: "35 min", size: "lg", slug: "pistachio-swirl-cookies" },
-  { img: useDip, title: "Strawberry Stesh Dipping Board", tag: "Snacks", time: "10 min", size: "sm", slug: "strawberry-stesh-dipping-board" },
-  { img: heroJar, title: "Pistachio Overnight Oats", tag: "Breakfast", time: "5 min + overnight", size: "sm", slug: "pistachio-overnight-oats" },
+  {
+    img: useToast,
+    title: "Stesh Toast, Five Ways",
+    tag: "Breakfast",
+    time: "5 min",
+    size: "lg",
+    slug: "stesh-toast-five-ways",
+  },
+  {
+    img: useSmoothie,
+    title: "The Green Stesh Smoothie",
+    tag: "Smoothies",
+    time: "3 min",
+    size: "sm",
+    slug: "green-stesh-smoothie",
+  },
+  {
+    img: usePancakes,
+    title: "Pistachio Banana Pancakes",
+    tag: "Breakfast",
+    time: "20 min",
+    size: "sm",
+    slug: "pistachio-banana-pancakes",
+  },
+  {
+    img: useBake,
+    title: "Pistachio Swirl Cookies",
+    tag: "Baking",
+    time: "35 min",
+    size: "lg",
+    slug: "pistachio-swirl-cookies",
+  },
+  {
+    img: useDip,
+    title: "Strawberry Stesh Dipping Board",
+    tag: "Snacks",
+    time: "10 min",
+    size: "sm",
+    slug: "strawberry-stesh-dipping-board",
+  },
+  {
+    img: heroJar,
+    title: "Pistachio Overnight Oats",
+    tag: "Breakfast",
+    time: "5 min + overnight",
+    size: "sm",
+    slug: "pistachio-overnight-oats",
+  },
 ];
 
 function RecipesPage() {
@@ -34,8 +80,12 @@ function RecipesPage() {
     <PageShell>
       <PageHero
         eyebrow="Recipes · Stesh kitchen"
-        title={<>Six things to make <em className="not-italic text-pistachio-deep">this week.</em></>}
-        subtitle="Real recipes from the Stesh kitchen — and from the @getstesh community. Eat it straight from the spoon. Or, you know, try one of these."
+        title={
+          <>
+            Six things to make <em className="not-italic text-pistachio-deep">this week.</em>
+          </>
+        }
+        subtitle="Real recipes from the Stesh kitchen, and from the @getstesh community. Eat it straight from the spoon. Or, you know, try one of these."
       />
 
       <section className="px-6 pb-28 md:px-12 md:pb-40">
@@ -59,11 +109,11 @@ function RecipesPage() {
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
                 <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest-extra text-cream/80">
                   <span>{r.tag}</span>
-                  <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {r.time}</span>
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" /> {r.time}
+                  </span>
                 </div>
-                <h2 className="mt-3 font-display text-2xl text-cream md:text-3xl">
-                  {r.title}
-                </h2>
+                <h2 className="mt-3 font-display text-2xl text-cream md:text-3xl">{r.title}</h2>
               </div>
             </Link>
           ))}

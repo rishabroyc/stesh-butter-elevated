@@ -8,7 +8,8 @@ import useDip from "@/assets/use-dip.jpg";
 import useBake from "@/assets/use-bake.jpg";
 import heroJar from "@/assets/hero-jar.jpg";
 
-type Ingredient = { type: "item"; text: string } | { type: "header"; text: string } | { type: "spacer" };
+type Ingredient =
+  { type: "item"; text: string } | { type: "header"; text: string } | { type: "spacer" };
 
 type Recipe = {
   slug: string;
@@ -22,8 +23,12 @@ type Recipe = {
   steps: string[];
 };
 
-function item(text: string): Ingredient { return { type: "item", text }; }
-function header(text: string): Ingredient { return { type: "header", text }; }
+function item(text: string): Ingredient {
+  return { type: "item", text };
+}
+function header(text: string): Ingredient {
+  return { type: "header", text };
+}
 const spacer: Ingredient = { type: "spacer" };
 
 const RECIPES: Recipe[] = [
@@ -34,10 +39,11 @@ const RECIPES: Recipe[] = [
     time: "5 min",
     servings: "1 per variation",
     img: useToast,
-    description: "Toast is the canvas. Stesh is the star. Here are five ways to take your morning toast from forgettable to something worth getting out of bed for.",
+    description:
+      "Toast is the canvas. Stesh is the star. Here are five ways to take your morning toast from forgettable to something worth getting out of bed for.",
     ingredients: [
       item("Stesh Pistachio Butter (2 tbsp per slice)"),
-      item("Your bread of choice — sourdough, multigrain, or rye"),
+      item("Your bread of choice: sourdough, multigrain, or rye"),
       spacer,
       header("Way 1 · The Classic"),
       item("Drizzle of honey"),
@@ -62,7 +68,7 @@ const RECIPES: Recipe[] = [
       item("Drizzle of honey"),
     ],
     steps: [
-      "Toast your bread to your preferred doneness — a little char on sourdough never hurts.",
+      "Toast your bread to your preferred doneness. A little char on sourdough never hurts.",
       "While still warm, spread 2 generous tablespoons of Stesh across the surface. It'll melt slightly and that's exactly what you want.",
       "The Classic: drizzle honey over the Stesh, finish with a generous pinch of flaky salt.",
       "Berry Bliss: press raspberries or strawberries gently into the Stesh, sprinkle with chia seeds.",
@@ -79,7 +85,8 @@ const RECIPES: Recipe[] = [
     time: "3 min",
     servings: "1",
     img: useSmoothie,
-    description: "Creamy, nutty, and bright green — this smoothie packs 6g of protein from Stesh alone. It tastes like a treat and acts like a meal.",
+    description:
+      "Creamy, nutty, and bright green, this smoothie packs 6g of protein from Stesh alone. It tastes like a treat and acts like a meal.",
     ingredients: [
       item("2 tbsp Stesh Pistachio Butter"),
       item("1 cup fresh baby spinach"),
@@ -93,7 +100,7 @@ const RECIPES: Recipe[] = [
       item("1 tbsp chia seeds"),
     ],
     steps: [
-      "Add the almond milk to your blender first — this helps everything blend smoothly without air pockets.",
+      "Add the almond milk to your blender first. This helps everything blend smoothly without air pockets.",
       "Add the spinach, frozen banana, Stesh Pistachio Butter, and ice.",
       "If using protein powder or chia seeds, add them now.",
       "Blend on high for 60–90 seconds until completely smooth and creamy.",
@@ -108,7 +115,8 @@ const RECIPES: Recipe[] = [
     time: "20 min",
     servings: "2 (about 8 pancakes)",
     img: usePancakes,
-    description: "Fluffy weekend pancakes with a pistachio twist. The mashed banana adds natural sweetness, and a spoonful of Stesh on top makes these something special.",
+    description:
+      "Fluffy weekend pancakes with a pistachio twist. The mashed banana adds natural sweetness, and a spoonful of Stesh on top makes these something special.",
     ingredients: [
       item("1 cup all-purpose flour"),
       item("1 tbsp baking powder"),
@@ -123,7 +131,7 @@ const RECIPES: Recipe[] = [
     steps: [
       "In a large bowl, whisk together flour, baking powder, and salt.",
       "In a separate bowl, whisk together milk, egg, mashed banana, Stesh, and maple syrup until well combined.",
-      "Pour the wet ingredients into the dry and fold until just combined. A few lumps are totally fine — don't overmix or the pancakes will be tough.",
+      "Pour the wet ingredients into the dry and fold until just combined. A few lumps are totally fine, so don't overmix or the pancakes will be tough.",
       "Heat a nonstick skillet or griddle over medium heat. Add a small knob of butter and let it melt.",
       "Pour ¼ cup of batter per pancake. Cook until bubbles form across the surface and the edges look set, about 2–3 minutes.",
       "Flip and cook for another 1–2 minutes until the underside is golden.",
@@ -137,7 +145,8 @@ const RECIPES: Recipe[] = [
     time: "35 min",
     servings: "About 18 cookies",
     img: useBake,
-    description: "Soft-centered, crispy-edged cookies with Stesh baked right in. The pistachio flavor is subtle but unmistakably there — and the flaky salt on top takes them over the edge.",
+    description:
+      "Soft-centered, crispy-edged cookies with Stesh baked right in. The pistachio flavor is subtle but unmistakably there, and the flaky salt on top takes them over the edge.",
     ingredients: [
       item("1¾ cups all-purpose flour"),
       item("½ tsp baking soda"),
@@ -155,11 +164,11 @@ const RECIPES: Recipe[] = [
       "In a medium bowl, whisk together flour, baking soda, and fine salt. Set aside.",
       "In a large bowl, beat the softened butter, Stesh, granulated sugar, and brown sugar together until light and fluffy, about 3 minutes.",
       "Add the egg and vanilla extract. Beat until combined, scraping down the sides of the bowl as needed.",
-      "Fold in the flour mixture until just combined — the dough will be soft.",
+      "Fold in the flour mixture until just combined. The dough will be soft.",
       "Scoop heaping tablespoons of dough onto prepared baking sheets, spacing about 2 inches apart.",
       "Gently press each ball slightly flat. Sprinkle generously with flaky sea salt.",
       "Bake for 11–13 minutes, until the edges are lightly golden but the centers still look underdone.",
-      "Remove from oven and let cool on the pan for 5 minutes before transferring. They firm up as they cool — resist the urge to overbake.",
+      "Remove from oven and let cool on the pan for 5 minutes before transferring. They firm up as they cool, so resist the urge to overbake.",
     ],
   },
   {
@@ -169,7 +178,8 @@ const RECIPES: Recipe[] = [
     time: "10 min",
     servings: "2–4",
     img: useDip,
-    description: "The easiest thing to bring to any gathering. A big bowl of Stesh, fresh strawberries, and a drizzle of chocolate. It looks like you tried hard. You didn't.",
+    description:
+      "The easiest thing to bring to any gathering. A big bowl of Stesh, fresh strawberries, and a drizzle of chocolate. It looks like you tried hard. You didn't.",
     ingredients: [
       item("½ cup Stesh Pistachio Butter"),
       item("1 lb fresh strawberries, hulled and halved"),
@@ -201,7 +211,8 @@ const RECIPES: Recipe[] = [
     time: "5 min + overnight",
     servings: "1",
     img: heroJar,
-    description: "Wake up to breakfast that's already made. The Stesh swirl keeps its richness overnight and turns a simple jar of oats into something you'll actually look forward to.",
+    description:
+      "Wake up to breakfast that's already made. The Stesh swirl keeps its richness overnight and turns a simple jar of oats into something you'll actually look forward to.",
     ingredients: [
       item("½ cup old-fashioned rolled oats"),
       item("¾ cup unsweetened almond milk"),
@@ -219,7 +230,7 @@ const RECIPES: Recipe[] = [
     steps: [
       "Add rolled oats, almond milk, chia seeds, honey, vanilla extract, and salt to a mason jar or airtight container.",
       "Stir everything together until well combined.",
-      "Drop in a generous spoonful of Stesh and give it one gentle swirl — you want ribbons of pistachio butter running through, not a fully mixed jar.",
+      "Drop in a generous spoonful of Stesh and give it one gentle swirl. You want ribbons of pistachio butter running through, not a fully mixed jar.",
       "Seal and refrigerate overnight, or for at least 4 hours.",
       "In the morning, give it a stir. Add a splash more almond milk if you prefer a thinner consistency.",
       "Top with sliced banana, crushed pistachios, and an extra drizzle of Stesh.",
@@ -231,10 +242,10 @@ const RECIPES: Recipe[] = [
 export const Route = createFileRoute("/recipes/$slug")({
   head: ({ params }) => {
     const recipe = RECIPES.find((r) => r.slug === params.slug);
-    if (!recipe) return { meta: [{ title: "Recipe Not Found — Stesh" }] };
+    if (!recipe) return { meta: [{ title: "Recipe Not Found | Stesh" }] };
     return {
       meta: [
-        { title: `${recipe.title} — Stesh Recipes` },
+        { title: `${recipe.title} | Stesh Recipes` },
         { name: "description", content: recipe.description },
         { property: "og:title", content: recipe.title },
         { property: "og:description", content: recipe.description },
@@ -254,7 +265,10 @@ function RecipeDetailPage() {
         <div className="flex min-h-[60vh] items-center justify-center px-6">
           <div className="text-center">
             <h1 className="font-display text-4xl">Recipe not found.</h1>
-            <Link to="/recipes" className="mt-6 inline-block border-b border-pistachio-deep pb-0.5 text-pistachio-deep">
+            <Link
+              to="/recipes"
+              className="mt-6 inline-block border-b border-pistachio-deep pb-0.5 text-pistachio-deep"
+            >
               ← Back to recipes
             </Link>
           </div>
@@ -285,10 +299,18 @@ function RecipeDetailPage() {
             </Link>
             <div className="mt-4 flex flex-wrap items-center gap-4 text-[11px] uppercase tracking-widest-extra text-cream/70">
               <span>{recipe.tag}</span>
-              <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" />{recipe.time}</span>
-              <span className="flex items-center gap-1.5"><Users className="h-3 w-3" />{recipe.servings}</span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="h-3 w-3" />
+                {recipe.time}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Users className="h-3 w-3" />
+                {recipe.servings}
+              </span>
             </div>
-            <h1 className="mt-3 font-display text-3xl leading-tight text-cream md:text-6xl">{recipe.title}</h1>
+            <h1 className="mt-3 font-display text-3xl leading-tight text-cream md:text-6xl">
+              {recipe.title}
+            </h1>
           </div>
         </div>
       </div>
@@ -296,20 +318,28 @@ function RecipeDetailPage() {
       {/* Recipe body */}
       <section className="px-6 py-14 md:px-12 md:py-24">
         <div className="mx-auto max-w-[1000px]">
-          <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">{recipe.description}</p>
+          <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
+            {recipe.description}
+          </p>
 
           <div className="mt-14 grid gap-12 md:grid-cols-[280px_1fr] md:gap-16">
             {/* Ingredients */}
             <div>
-              <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Ingredients</h2>
+              <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+                Ingredients
+              </h2>
               <ul className="space-y-2.5">
                 {recipe.ingredients.map((ing, i) => {
                   if (ing.type === "spacer") return <li key={i} className="h-2" />;
-                  if (ing.type === "header") return (
-                    <li key={i} className="pt-2 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
-                      {ing.text}
-                    </li>
-                  );
+                  if (ing.type === "header")
+                    return (
+                      <li
+                        key={i}
+                        className="pt-2 text-[11px] uppercase tracking-widest-extra text-pistachio-deep"
+                      >
+                        {ing.text}
+                      </li>
+                    );
                   return (
                     <li key={i} className="flex items-start gap-3 text-dark/80">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-pistachio-deep/60" />
@@ -322,7 +352,9 @@ function RecipeDetailPage() {
 
             {/* Instructions */}
             <div>
-              <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Instructions</h2>
+              <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+                Instructions
+              </h2>
               <ol className="space-y-8">
                 {recipe.steps.map((step, i) => (
                   <li key={i} className="flex gap-5">

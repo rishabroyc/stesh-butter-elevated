@@ -7,8 +7,11 @@ import { StoreMap } from "@/components/site/StoreMap";
 export const Route = createFileRoute("/where-to-buy")({
   head: () => ({
     meta: [
-      { title: "Where to Buy — Stesh" },
-      { name: "description", content: "Buy Stesh Pistachio Butter direct, on Amazon, or at a retailer near you." },
+      { title: "Where to Buy | Stesh" },
+      {
+        name: "description",
+        content: "Buy Stesh Pistachio Butter direct, on Amazon, or at a retailer near you.",
+      },
       { property: "og:title", content: "Where to Buy Stesh" },
       { property: "og:description", content: "Find Stesh online or in stores." },
     ],
@@ -16,51 +19,437 @@ export const Route = createFileRoute("/where-to-buy")({
   component: WhereToBuyPage,
 });
 
-
 const locations = [
-  { name: "Rachel's Garden", neighborhood: "Greenpoint", address: "116 Nassau Ave", city: "New York", state: "NY", zip: "11222", lat: 40.7241, lng: -73.9494 },
-  { name: "Mulberry Market", neighborhood: "Nolita", address: "251 Mulberry St", city: "New York", state: "NY", zip: "10012", lat: 40.7213, lng: -73.9966 },
-  { name: "Health and Harmony", neighborhood: "Greenwich Village", address: "470 Hudson St", city: "New York", state: "NY", zip: "10014", lat: 40.7280, lng: -74.0046 },
-  { name: "Eden Gourmet Marketplace", neighborhood: "Gramercy Park", address: "275 3rd Ave", city: "New York", state: "NY", zip: "10001", lat: 40.7406, lng: -73.9838 },
-  { name: "Lincoln Market", neighborhood: "Greenpoint", address: "1133 Manhattan Ave", city: "New York", state: "NY", zip: "11222", lat: 40.7284, lng: -73.9513 },
-  { name: "Sunac Natural Market", neighborhood: "Hell's Kitchen", address: "600 W 42nd St", city: "New York", state: "NY", zip: "10036", lat: 40.7588, lng: -74.0027 },
-  { name: "Brooklyn Fare", neighborhood: "Hudson Yards", address: "431 W 37th Street", city: "New York", state: "NY", zip: "10018", lat: 40.7527, lng: -74.0023 },
-  { name: "Brooklyn Fare", neighborhood: "Boerum Hill", address: "200 Schermerhorn Street", city: "New York", state: "NY", zip: "11201", lat: 40.6891, lng: -73.9898 },
-  { name: "Brooklyn Fare", neighborhood: "Upper West Side", address: "75 West End Avenue", city: "New York", state: "NY", zip: "10023", lat: 40.7741, lng: -73.9897 },
-  { name: "Foodtown", neighborhood: "Park Slope", address: "409 5th Ave", city: "New York", state: "NY", zip: "11215", lat: 40.6659, lng: -73.9793 },
-  { name: "Foodtown", neighborhood: "Prospect Heights", address: "632 Vanderbilt Avenue", city: "New York", state: "NY", zip: "11238", lat: 40.6779, lng: -73.9680 },
-  { name: "Foodtown", neighborhood: "Brooklyn Heights", address: "101 Clinton St", city: "New York", state: "NY", zip: "11201", lat: 40.6929, lng: -73.9983 },
-  { name: "Natural Frontier Market", neighborhood: "Astoria", address: "31-28 Ditmars Blvd", city: "New York", state: "NY", zip: "11105", lat: 40.7741, lng: -73.9288 },
-  { name: "Food Garden Market", neighborhood: "Crown Heights", address: "608 Franklin Avenue", city: "New York", state: "NY", zip: "11238", lat: 40.6693, lng: -73.9559 },
-  { name: "Food Garden Market", neighborhood: "Boerum Hill", address: "102 4th Ave", city: "New York", state: "NY", zip: "11217", lat: 40.6852, lng: -73.9854 },
-  { name: "A Matter Of Health", neighborhood: "Upper East Side", address: "1347 1st Avenue", city: "New York", state: "NY", zip: "10021", lat: 40.7673, lng: -73.9560 },
-  { name: "Pop Up Grocer", neighborhood: "West Village", address: "205 Bleecker St", city: "New York", state: "NY", zip: "10012", lat: 40.7277, lng: -74.0027 },
-  { name: "LifeThyme Natural Market", neighborhood: "West Village", address: "410 6th Ave", city: "New York", state: "NY", zip: "10011", lat: 40.7324, lng: -74.0005 },
-  { name: "Healthy Way Organic Market", neighborhood: "Williamsburg", address: "265 Bedford Ave", city: "New York", state: "NY", zip: "11211", lat: 40.7139, lng: -73.9598 },
-  { name: "Dumbo Market", neighborhood: "Cobble Hill", address: "205 Smith Street", city: "New York", state: "NY", zip: "11201", lat: 40.6882, lng: -73.9959 },
-  { name: "Lincoln Market", neighborhood: "Chelsea", address: "501 6th Ave", city: "New York", state: "NY", zip: "10011", lat: 40.7452, lng: -74.0003 },
-  { name: "Westside Market", neighborhood: "Gramercy Park", address: "180 3rd Avenue", city: "New York", state: "NY", zip: "10003", lat: 40.7390, lng: -73.9839 },
-  { name: "Westside Market", neighborhood: "Chelsea", address: "170 West 23rd Street", city: "New York", state: "NY", zip: "10011", lat: 40.7445, lng: -73.9993 },
-  { name: "Westside Market", neighborhood: "East Village", address: "84 3rd Avenue", city: "New York", state: "NY", zip: "10003", lat: 40.7297, lng: -73.9867 },
-  { name: "Amish Market", neighborhood: "Hell's Kitchen", address: "731 9th Avenue", city: "New York", state: "NY", zip: "10019", lat: 40.7619, lng: -73.9917 },
-  { name: "Elm Wellness", neighborhood: "West Village", address: "56 7th Avenue", city: "New York", state: "NY", zip: "10011", lat: 40.7334, lng: -74.0025 },
-  { name: "Sweet Lil Sweets Cafe", neighborhood: "Ozone Park", address: "10212 101st Ave", city: "Ozone Park", state: "NY", zip: "11416", lat: 40.6813, lng: -73.8450 },
-  { name: "Cornucopia Health Foods", neighborhood: "Sayville", address: "35 N Main St", city: "Sayville", state: "NY", zip: "11782", lat: 40.7365, lng: -73.0831 },
-  { name: "Seared Living", neighborhood: "North Phoenix", address: "27628 N 37th Ave", city: "Phoenix", state: "AZ", zip: "85083", lat: 33.7358, lng: -112.1076 },
-  { name: "2J's Fresh Market", neighborhood: "Great Falls", address: "105 Smelter Ave NE, Ste 17", city: "Great Falls", state: "MT", zip: "59404", lat: 47.5090, lng: -111.2800 },
-  { name: "Marbled Meat Shop", neighborhood: "Cold Spring", address: "3091 Route 9, Ste 101", city: "Cold Spring", state: "NY", zip: "10516", lat: 41.4193, lng: -73.9559 },
-  { name: "Mixed Pantry", neighborhood: "Belltown", address: "2233 1st Ave", city: "Seattle", state: "WA", zip: "98121", lat: 47.6134, lng: -122.3439 },
-  { name: "The Flying Pig Market", neighborhood: "Asbury Park", address: "301 Cookman Ave, Unit 9", city: "Asbury Park", state: "NJ", zip: "07712", lat: 40.2197, lng: -74.0119 },
-  { name: "Hunger Mountain Co-op", neighborhood: "Montpelier", address: "623 Stone Cutters Way", city: "Montpelier", state: "VT", zip: "05602", lat: 44.2601, lng: -72.5806 },
-  { name: "Adams Fairacre Farms", neighborhood: "Poughkeepsie", address: "765 Dutchess Turnpike", city: "Poughkeepsie", state: "NY", zip: "12603", lat: 41.6868, lng: -73.9034 },
-  { name: "Bantam Market", neighborhood: "Bantam", address: "793 Bantam Rd", city: "Bantam", state: "CT", zip: "06750", lat: 41.7262, lng: -73.2420 },
-  { name: "Morning Glory Farm", neighborhood: "Edgartown", address: "120 Meshacket Rd", city: "Edgartown", state: "MA", zip: "02539", lat: 41.3884, lng: -70.5423 },
-  { name: "Adams Fairacre Farms", neighborhood: "Middletown", address: "1740 Route 211 E", city: "Middletown", state: "NY", zip: "10941", lat: 41.4466, lng: -74.3197 },
-  { name: "Pawtuxet Village Market", neighborhood: "Pawtuxet Village", address: "2180 Broad St", city: "Cranston", state: "RI", zip: "02905", lat: 41.7750, lng: -71.4380 },
-  { name: "Bartlett's Ocean View Farm", neighborhood: "Nantucket", address: "33 Bartlett Farm Rd", city: "Nantucket", state: "MA", zip: "02554", lat: 41.2664, lng: -70.0882 },
-  { name: "Cider Hill Farm", neighborhood: "Amesbury", address: "45 Fern Ave", city: "Amesbury", state: "MA", zip: "01913", lat: 42.8590, lng: -70.9299 },
-  { name: "Northville Market", neighborhood: "New Milford", address: "301 Litchfield Rd #2", city: "New Milford", state: "CT", zip: "06776", lat: 41.5860, lng: -73.4063 },
-  { name: "Belmont Marketplace", neighborhood: "Wakefield", address: "600 Kingstown Rd", city: "Wakefield", state: "RI", zip: "02879", lat: 41.4440, lng: -71.5210 },
+  {
+    name: "Rachel's Garden",
+    neighborhood: "Greenpoint",
+    address: "116 Nassau Ave",
+    city: "New York",
+    state: "NY",
+    zip: "11222",
+    lat: 40.7241,
+    lng: -73.9494,
+  },
+  {
+    name: "Mulberry Market",
+    neighborhood: "Nolita",
+    address: "251 Mulberry St",
+    city: "New York",
+    state: "NY",
+    zip: "10012",
+    lat: 40.7213,
+    lng: -73.9966,
+  },
+  {
+    name: "Health and Harmony",
+    neighborhood: "Greenwich Village",
+    address: "470 Hudson St",
+    city: "New York",
+    state: "NY",
+    zip: "10014",
+    lat: 40.728,
+    lng: -74.0046,
+  },
+  {
+    name: "Eden Gourmet Marketplace",
+    neighborhood: "Gramercy Park",
+    address: "275 3rd Ave",
+    city: "New York",
+    state: "NY",
+    zip: "10001",
+    lat: 40.7406,
+    lng: -73.9838,
+  },
+  {
+    name: "Lincoln Market",
+    neighborhood: "Greenpoint",
+    address: "1133 Manhattan Ave",
+    city: "New York",
+    state: "NY",
+    zip: "11222",
+    lat: 40.7284,
+    lng: -73.9513,
+  },
+  {
+    name: "Sunac Natural Market",
+    neighborhood: "Hell's Kitchen",
+    address: "600 W 42nd St",
+    city: "New York",
+    state: "NY",
+    zip: "10036",
+    lat: 40.7588,
+    lng: -74.0027,
+  },
+  {
+    name: "Brooklyn Fare",
+    neighborhood: "Hudson Yards",
+    address: "431 W 37th Street",
+    city: "New York",
+    state: "NY",
+    zip: "10018",
+    lat: 40.7527,
+    lng: -74.0023,
+  },
+  {
+    name: "Brooklyn Fare",
+    neighborhood: "Boerum Hill",
+    address: "200 Schermerhorn Street",
+    city: "New York",
+    state: "NY",
+    zip: "11201",
+    lat: 40.6891,
+    lng: -73.9898,
+  },
+  {
+    name: "Brooklyn Fare",
+    neighborhood: "Upper West Side",
+    address: "75 West End Avenue",
+    city: "New York",
+    state: "NY",
+    zip: "10023",
+    lat: 40.7741,
+    lng: -73.9897,
+  },
+  {
+    name: "Foodtown",
+    neighborhood: "Park Slope",
+    address: "409 5th Ave",
+    city: "New York",
+    state: "NY",
+    zip: "11215",
+    lat: 40.6659,
+    lng: -73.9793,
+  },
+  {
+    name: "Foodtown",
+    neighborhood: "Prospect Heights",
+    address: "632 Vanderbilt Avenue",
+    city: "New York",
+    state: "NY",
+    zip: "11238",
+    lat: 40.6779,
+    lng: -73.968,
+  },
+  {
+    name: "Foodtown",
+    neighborhood: "Brooklyn Heights",
+    address: "101 Clinton St",
+    city: "New York",
+    state: "NY",
+    zip: "11201",
+    lat: 40.6929,
+    lng: -73.9983,
+  },
+  {
+    name: "Natural Frontier Market",
+    neighborhood: "Astoria",
+    address: "31-28 Ditmars Blvd",
+    city: "New York",
+    state: "NY",
+    zip: "11105",
+    lat: 40.7741,
+    lng: -73.9288,
+  },
+  {
+    name: "Food Garden Market",
+    neighborhood: "Crown Heights",
+    address: "608 Franklin Avenue",
+    city: "New York",
+    state: "NY",
+    zip: "11238",
+    lat: 40.6693,
+    lng: -73.9559,
+  },
+  {
+    name: "Food Garden Market",
+    neighborhood: "Boerum Hill",
+    address: "102 4th Ave",
+    city: "New York",
+    state: "NY",
+    zip: "11217",
+    lat: 40.6852,
+    lng: -73.9854,
+  },
+  {
+    name: "A Matter Of Health",
+    neighborhood: "Upper East Side",
+    address: "1347 1st Avenue",
+    city: "New York",
+    state: "NY",
+    zip: "10021",
+    lat: 40.7673,
+    lng: -73.956,
+  },
+  {
+    name: "Pop Up Grocer",
+    neighborhood: "West Village",
+    address: "205 Bleecker St",
+    city: "New York",
+    state: "NY",
+    zip: "10012",
+    lat: 40.7277,
+    lng: -74.0027,
+  },
+  {
+    name: "LifeThyme Natural Market",
+    neighborhood: "West Village",
+    address: "410 6th Ave",
+    city: "New York",
+    state: "NY",
+    zip: "10011",
+    lat: 40.7324,
+    lng: -74.0005,
+  },
+  {
+    name: "Healthy Way Organic Market",
+    neighborhood: "Williamsburg",
+    address: "265 Bedford Ave",
+    city: "New York",
+    state: "NY",
+    zip: "11211",
+    lat: 40.7139,
+    lng: -73.9598,
+  },
+  {
+    name: "Dumbo Market",
+    neighborhood: "Cobble Hill",
+    address: "205 Smith Street",
+    city: "New York",
+    state: "NY",
+    zip: "11201",
+    lat: 40.6882,
+    lng: -73.9959,
+  },
+  {
+    name: "Lincoln Market",
+    neighborhood: "Chelsea",
+    address: "501 6th Ave",
+    city: "New York",
+    state: "NY",
+    zip: "10011",
+    lat: 40.7452,
+    lng: -74.0003,
+  },
+  {
+    name: "Westside Market",
+    neighborhood: "Gramercy Park",
+    address: "180 3rd Avenue",
+    city: "New York",
+    state: "NY",
+    zip: "10003",
+    lat: 40.739,
+    lng: -73.9839,
+  },
+  {
+    name: "Westside Market",
+    neighborhood: "Chelsea",
+    address: "170 West 23rd Street",
+    city: "New York",
+    state: "NY",
+    zip: "10011",
+    lat: 40.7445,
+    lng: -73.9993,
+  },
+  {
+    name: "Westside Market",
+    neighborhood: "East Village",
+    address: "84 3rd Avenue",
+    city: "New York",
+    state: "NY",
+    zip: "10003",
+    lat: 40.7297,
+    lng: -73.9867,
+  },
+  {
+    name: "Amish Market",
+    neighborhood: "Hell's Kitchen",
+    address: "731 9th Avenue",
+    city: "New York",
+    state: "NY",
+    zip: "10019",
+    lat: 40.7619,
+    lng: -73.9917,
+  },
+  {
+    name: "Elm Wellness",
+    neighborhood: "West Village",
+    address: "56 7th Avenue",
+    city: "New York",
+    state: "NY",
+    zip: "10011",
+    lat: 40.7334,
+    lng: -74.0025,
+  },
+  {
+    name: "Sweet Lil Sweets Cafe",
+    neighborhood: "Ozone Park",
+    address: "10212 101st Ave",
+    city: "Ozone Park",
+    state: "NY",
+    zip: "11416",
+    lat: 40.6813,
+    lng: -73.845,
+  },
+  {
+    name: "Cornucopia Health Foods",
+    neighborhood: "Sayville",
+    address: "35 N Main St",
+    city: "Sayville",
+    state: "NY",
+    zip: "11782",
+    lat: 40.7365,
+    lng: -73.0831,
+  },
+  {
+    name: "Seared Living",
+    neighborhood: "North Phoenix",
+    address: "27628 N 37th Ave",
+    city: "Phoenix",
+    state: "AZ",
+    zip: "85083",
+    lat: 33.7358,
+    lng: -112.1076,
+  },
+  {
+    name: "2J's Fresh Market",
+    neighborhood: "Great Falls",
+    address: "105 Smelter Ave NE, Ste 17",
+    city: "Great Falls",
+    state: "MT",
+    zip: "59404",
+    lat: 47.509,
+    lng: -111.28,
+  },
+  {
+    name: "Marbled Meat Shop",
+    neighborhood: "Cold Spring",
+    address: "3091 Route 9, Ste 101",
+    city: "Cold Spring",
+    state: "NY",
+    zip: "10516",
+    lat: 41.4193,
+    lng: -73.9559,
+  },
+  {
+    name: "Mixed Pantry",
+    neighborhood: "Belltown",
+    address: "2233 1st Ave",
+    city: "Seattle",
+    state: "WA",
+    zip: "98121",
+    lat: 47.6134,
+    lng: -122.3439,
+  },
+  {
+    name: "The Flying Pig Market",
+    neighborhood: "Asbury Park",
+    address: "301 Cookman Ave, Unit 9",
+    city: "Asbury Park",
+    state: "NJ",
+    zip: "07712",
+    lat: 40.2197,
+    lng: -74.0119,
+  },
+  {
+    name: "Hunger Mountain Co-op",
+    neighborhood: "Montpelier",
+    address: "623 Stone Cutters Way",
+    city: "Montpelier",
+    state: "VT",
+    zip: "05602",
+    lat: 44.2601,
+    lng: -72.5806,
+  },
+  {
+    name: "Adams Fairacre Farms",
+    neighborhood: "Poughkeepsie",
+    address: "765 Dutchess Turnpike",
+    city: "Poughkeepsie",
+    state: "NY",
+    zip: "12603",
+    lat: 41.6868,
+    lng: -73.9034,
+  },
+  {
+    name: "Bantam Market",
+    neighborhood: "Bantam",
+    address: "793 Bantam Rd",
+    city: "Bantam",
+    state: "CT",
+    zip: "06750",
+    lat: 41.7262,
+    lng: -73.242,
+  },
+  {
+    name: "Morning Glory Farm",
+    neighborhood: "Edgartown",
+    address: "120 Meshacket Rd",
+    city: "Edgartown",
+    state: "MA",
+    zip: "02539",
+    lat: 41.3884,
+    lng: -70.5423,
+  },
+  {
+    name: "Adams Fairacre Farms",
+    neighborhood: "Middletown",
+    address: "1740 Route 211 E",
+    city: "Middletown",
+    state: "NY",
+    zip: "10941",
+    lat: 41.4466,
+    lng: -74.3197,
+  },
+  {
+    name: "Pawtuxet Village Market",
+    neighborhood: "Pawtuxet Village",
+    address: "2180 Broad St",
+    city: "Cranston",
+    state: "RI",
+    zip: "02905",
+    lat: 41.775,
+    lng: -71.438,
+  },
+  {
+    name: "Bartlett's Ocean View Farm",
+    neighborhood: "Nantucket",
+    address: "33 Bartlett Farm Rd",
+    city: "Nantucket",
+    state: "MA",
+    zip: "02554",
+    lat: 41.2664,
+    lng: -70.0882,
+  },
+  {
+    name: "Cider Hill Farm",
+    neighborhood: "Amesbury",
+    address: "45 Fern Ave",
+    city: "Amesbury",
+    state: "MA",
+    zip: "01913",
+    lat: 42.859,
+    lng: -70.9299,
+  },
+  {
+    name: "Northville Market",
+    neighborhood: "New Milford",
+    address: "301 Litchfield Rd #2",
+    city: "New Milford",
+    state: "CT",
+    zip: "06776",
+    lat: 41.586,
+    lng: -73.4063,
+  },
+  {
+    name: "Belmont Marketplace",
+    neighborhood: "Wakefield",
+    address: "600 Kingstown Rd",
+    city: "Wakefield",
+    state: "RI",
+    zip: "02879",
+    lat: 41.444,
+    lng: -71.521,
+  },
 ];
 
 function WhereToBuyPage() {
@@ -80,14 +469,20 @@ function WhereToBuyPage() {
     <PageShell>
       <PageHero
         eyebrow="Where to Buy"
-        title={<>Find Stesh <em className="not-italic text-pistachio-deep">near you.</em></>}
+        title={
+          <>
+            Find Stesh <em className="not-italic text-pistachio-deep">near you.</em>
+          </>
+        }
         subtitle="Order direct, grab it on Amazon, or pick up a jar at one of our retail partners across the US."
       />
 
       {/* Online */}
       <section className="px-6 pb-20 md:px-12 md:pb-28">
         <div className="mx-auto max-w-[1200px]">
-          <h2 className="mb-8 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Online</h2>
+          <h2 className="mb-8 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+            Online
+          </h2>
           <div className="grid gap-5 md:grid-cols-2">
             <Link
               to="/product"
@@ -95,7 +490,9 @@ function WhereToBuyPage() {
             >
               <div>
                 <h3 className="font-display text-3xl">steshbutter.com</h3>
-                <p className="mt-2 text-sm text-muted-foreground">Ships direct in 2–3 days. Free over $60.</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Ships direct in 2–3 days. Free over $60.
+                </p>
               </div>
               <ExternalLink className="h-5 w-5 shrink-0 text-pistachio-deep transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </Link>
@@ -118,11 +515,15 @@ function WhereToBuyPage() {
       {/* Interactive map */}
       <section className="px-6 pb-20 md:px-12 md:pb-28">
         <div className="mx-auto max-w-[1200px]">
-          <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">In stores · Across the US</h2>
+          <h2 className="mb-6 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+            In stores · Across the US
+          </h2>
           <div className="relative isolate h-75 overflow-hidden rounded-2xl border border-border md:h-140">
             <StoreMap locations={locations} />
           </div>
-          <p className="mt-3 text-xs text-muted-foreground">Click any pin to see the store name and address.</p>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Click any pin to see the store name and address.
+          </p>
         </div>
       </section>
 
@@ -152,14 +553,21 @@ function WhereToBuyPage() {
             {filtered.map((l) => {
               const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${l.name} ${l.address} ${l.city} ${l.state} ${l.zip}`)}`;
               return (
-                <div key={`${l.name}-${l.address}`} className="flex items-start gap-4 rounded-xl bg-cream p-6">
+                <div
+                  key={`${l.name}-${l.address}`}
+                  className="flex items-start gap-4 rounded-xl bg-cream p-6"
+                >
                   <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-pistachio-light/40 text-pistachio-deep">
                     <MapPin className="h-4 w-4" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="font-display text-xl leading-tight">{l.name}</h3>
-                    <p className="mt-0.5 text-sm font-medium text-pistachio-deep/80">{l.neighborhood}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">{l.address}, {l.city}, {l.state} {l.zip}</p>
+                    <p className="mt-0.5 text-sm font-medium text-pistachio-deep/80">
+                      {l.neighborhood}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {l.address}, {l.city}, {l.state} {l.zip}
+                    </p>
                   </div>
                   <a
                     href={mapsUrl}

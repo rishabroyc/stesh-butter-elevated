@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -36,7 +36,6 @@ type Subscription = {
   created_at: string;
 };
 
-
 const cadenceLabels: Record<2 | 4 | 8, string> = {
   2: "Every 2 weeks",
   4: "Every 4 weeks",
@@ -69,8 +68,7 @@ function ProfilePage() {
     if (loading) return;
     if (!user && !didRedirect.current) {
       didRedirect.current = true;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      navigate({ to: "/auth" as any, search: { redirect: "/profile" } as any });
+      navigate({ to: "/auth", search: { redirect: "/profile" } });
     }
   }, [loading, user, navigate]);
 
@@ -88,12 +86,7 @@ function ProfilePage() {
     }
   }, [profile, form]);
 
-  useEffect(() => {
-    if (!user) return;
-    loadSubscriptions();
-  }, [user]);
-
-  async function loadSubscriptions() {
+  const loadSubscriptions = useCallback(async () => {
     if (!user) return;
     setSubsLoading(true);
     const { data } = await getSupabaseClient()
@@ -104,7 +97,12 @@ function ProfilePage() {
       .order("created_at", { ascending: false });
     setSubscriptions((data as Subscription[]) ?? []);
     setSubsLoading(false);
-  }
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    loadSubscriptions();
+  }, [user, loadSubscriptions]);
 
   async function onSaveProfile(values: z.infer<typeof profileSchema>) {
     if (!user) return;
@@ -172,7 +170,9 @@ function ProfilePage() {
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">Account</p>
+            <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+              Account
+            </p>
             <h1 className="mt-2 font-display text-4xl md:text-5xl">
               Hi, {profile?.name?.split(" ")[0] || "there"}.
             </h1>
@@ -423,7 +423,9 @@ function ProfilePage() {
                           </p>
                           <p className="mt-1 font-medium">
                             ${(sub.price_cents / 100).toFixed(2)}{" "}
-                            <span className="text-pistachio-deep">· {sub.discount_percent}% off</span>
+                            <span className="text-pistachio-deep">
+                              · {sub.discount_percent}% off
+                            </span>
                           </p>
                         </div>
                       )}

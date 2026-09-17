@@ -23,14 +23,17 @@ const FOUNDERS_IMG = foundersImg;
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Stesh — THE Better-For-You Pistachio Butter" },
+      { title: "Stesh | THE Better-For-You Pistachio Butter" },
       {
         name: "description",
         content:
           "Stesh is a premium pistachio butter made with 5 clean ingredients. Vegan, no seed oils, prebiotic fiber, protein-forward. Indulge by the spoonful.",
       },
-      { property: "og:title", content: "Stesh — THE Better-For-You Pistachio Butter" },
-      { property: "og:description", content: "5 ingredients. Zero compromise. Indulge by the spoonful." },
+      { property: "og:title", content: "Stesh | THE Better-For-You Pistachio Butter" },
+      {
+        property: "og:description",
+        content: "5 ingredients. Zero compromise. Indulge by the spoonful.",
+      },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -47,7 +50,7 @@ const badges = [
 
 const reviews = [
   {
-    text: "Like spreading a melted version of that luxurious Dubai chocolate filling on toast — indulgent, but with solid macro benefits.",
+    text: "Like spreading a melted version of that luxurious Dubai chocolate filling on toast, indulgent, but with solid macro benefits.",
     name: "John D.",
     location: "New York, NY",
   },
@@ -64,10 +67,30 @@ const reviews = [
 ];
 
 const uses = [
-  { img: useToastImg, title: "Spread it", note: "Toast, bagels and croissants", slug: "stesh-toast-five-ways" },
-  { img: useSmoothieImg, title: "Blend it", note: "Smoothies or protein shakes", slug: "green-stesh-smoothie" },
-  { img: usePancakesImg, title: "Drizzle it", note: "Pancakes, yogurt or oatmeal", slug: "pistachio-banana-pancakes" },
-  { img: useDipImg, title: "Dip it", note: "Strawberries and apples", slug: "strawberry-stesh-dipping-board" },
+  {
+    img: useToastImg,
+    title: "Spread it",
+    note: "Toast, bagels and croissants",
+    slug: "stesh-toast-five-ways",
+  },
+  {
+    img: useSmoothieImg,
+    title: "Blend it",
+    note: "Smoothies or protein shakes",
+    slug: "green-stesh-smoothie",
+  },
+  {
+    img: usePancakesImg,
+    title: "Drizzle it",
+    note: "Pancakes, yogurt or oatmeal",
+    slug: "pistachio-banana-pancakes",
+  },
+  {
+    img: useDipImg,
+    title: "Dip it",
+    note: "Strawberries and apples",
+    slug: "strawberry-stesh-dipping-board",
+  },
   { img: useBakeImg, title: "Bake it", note: "Cookies and cakes", slug: "pistachio-swirl-cookies" },
 ];
 
@@ -105,17 +128,26 @@ function Home() {
             <p className="mb-6 text-[11px] uppercase tracking-widest-extra text-cream/90 animate-fade-up">
               Pistachio butter · No shells · No nonsense
             </p>
-            <h1 className="font-display text-[11vw] leading-[0.92] text-cream md:text-[110px] md:leading-[0.9] animate-fade-up" style={{ animationDelay: "120ms" }}>
-              Indulge in the<br />
-              <em className="not-italic text-pistachio-light">better-for-you</em><br />
+            <h1
+              className="font-display text-[11vw] leading-[0.92] text-cream md:text-[110px] md:leading-[0.9] animate-fade-up"
+              style={{ animationDelay: "120ms" }}
+            >
+              Indulge in the
+              <br />
+              <em className="not-italic text-pistachio-light">better-for-you</em>
+              <br />
               pistachio butter.
             </h1>
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-10 z-10 px-6 md:px-12">
           <div className="mx-auto flex max-w-[1400px] flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
-            <p className="max-w-md text-base text-cream/90 md:text-lg animate-fade-up" style={{ animationDelay: "240ms" }}>
-              Creamy, velvety pistachios without the guilt. Made with 5 simple all-natural ingredients — a lot of love, a ton of care, and a hint of magic.
+            <p
+              className="max-w-md text-base text-cream/90 md:text-lg animate-fade-up"
+              style={{ animationDelay: "240ms" }}
+            >
+              Creamy, velvety pistachios without the guilt. Made with 5 simple all-natural
+              ingredients, a lot of love, a ton of care, and a hint of magic.
             </p>
             <Link
               to="/product"
@@ -123,7 +155,9 @@ function Home() {
               style={{ animationDelay: "360ms" }}
             >
               Shop Stesh
-              <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+              <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                →
+              </span>
             </Link>
           </div>
         </div>
@@ -131,7 +165,16 @@ function Home() {
 
       {/* MARQUEE TRUST STRIP */}
       <section className="border-y border-pistachio-deep/15 bg-off-white py-5">
-        <Marquee items={["Vegan", "No Seed Oils", "5 Ingredients", "Prebiotic Fiber", "Protein-Forward", "Clean Label"]} />
+        <Marquee
+          items={[
+            "Vegan",
+            "No Seed Oils",
+            "5 Ingredients",
+            "Prebiotic Fiber",
+            "Protein-Forward",
+            "Clean Label",
+          ]}
+        />
         <div className="h-3" />
         <Marquee
           reverse
@@ -159,7 +202,9 @@ function Home() {
               One spoonful. <em className="not-italic text-pistachio-deep">All</em> the good stuff.
             </h2>
             <p className="mt-6 max-w-md text-lg text-muted-foreground">
-              Experience rich pistachio flavor with zero guilt and clean, powerful ingredients. Designed for those who crave both wellness and indulgence in every bite, Stesh combines bold taste with a short, natural ingredient list.
+              Experience rich pistachio flavor with zero guilt and clean, powerful ingredients.
+              Designed for those who crave both wellness and indulgence in every bite, Stesh
+              combines bold taste with a short, natural ingredient list.
             </p>
 
             <div className="mt-8 grid grid-cols-5 gap-3">
@@ -178,9 +223,14 @@ function Home() {
             </div>
 
             <div className="mt-6">
-              <Link to="/product" className="group inline-flex items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark">
+              <Link
+                to="/product"
+                className="group inline-flex items-center justify-center gap-3 rounded-full bg-pistachio-deep px-8 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark"
+              >
                 Shop Now
-                <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+                <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                  →
+                </span>
               </Link>
             </div>
 
@@ -192,8 +242,16 @@ function Home() {
       </section>
 
       {/* STORY */}
-      <section id="story" className="relative overflow-hidden bg-off-white px-6 py-28 md:px-12 md:py-40">
-        <img src={steshIcon} alt="" aria-hidden="true" className="pointer-events-none absolute -right-10 top-20 hidden h-44 w-auto opacity-90 animate-float md:block" />
+      <section
+        id="story"
+        className="relative overflow-hidden bg-off-white px-6 py-28 md:px-12 md:py-40"
+      >
+        <img
+          src={steshIcon}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-10 top-20 hidden h-44 w-auto opacity-90 animate-float md:block"
+        />
         <div className="mx-auto grid max-w-[1400px] gap-16 md:grid-cols-12 md:gap-20">
           <div className="md:col-span-6">
             <div className="overflow-hidden rounded-2xl">
@@ -211,12 +269,19 @@ function Home() {
               Meet Arsh & Utsab
             </p>
             <h2 className="font-display text-5xl leading-[1.05] md:text-6xl">
-              We didn't set out to build a food brand. We set out to find a pistachio butter <em className="not-italic text-pistachio-deep">worth eating</em>.
+              We didn't set out to build a food brand. We set out to find a pistachio butter{" "}
+              <em className="not-italic text-pistachio-deep">worth eating</em>.
             </h2>
             <p className="mt-8 max-w-md text-lg text-muted-foreground">
-              At Stesh, we believe you can indulge by the spoonful without compromising your health. That's why we set out to create a better-for-you pistachio butter that can be the BEST part of your everyday routine. Made with just 5 simple all-natural ingredients + a lot of love, a ton of care, and a hint of magic from our good friend, Mr. Turtle.
+              At Stesh, we believe you can indulge by the spoonful without compromising your health.
+              That's why we set out to create a better-for-you pistachio butter that can be the BEST
+              part of your everyday routine. Made with just 5 simple all-natural ingredients + a lot
+              of love, a ton of care, and a hint of magic from our good friend, Mr. Turtle.
             </p>
-            <a href="#" className="mt-10 inline-flex w-fit items-center gap-3 border-b border-pistachio-deep pb-1 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+            <a
+              href="#"
+              className="mt-10 inline-flex w-fit items-center gap-3 border-b border-pistachio-deep pb-1 text-[11px] uppercase tracking-widest-extra text-pistachio-deep"
+            >
               Read our story
               <span aria-hidden>→</span>
             </a>
@@ -233,7 +298,8 @@ function Home() {
                 Why Stesh
               </p>
               <h2 className="font-display text-5xl leading-[1] md:text-7xl">
-                Stesh vs.<br />
+                Stesh vs.
+                <br />
                 <em className="not-italic text-pistachio-light/80">the other guys.</em>
               </h2>
             </div>
@@ -255,7 +321,10 @@ function Home() {
               ["Vegan + Dairy-Free", "Yes", "Usually not"],
               ["Taste", "Rich with real pistachios", "Bland or oversweetened"],
             ].map(([label, stesh, them]) => (
-              <div key={label} className="grid grid-cols-3 items-center border-b border-cream/10 px-4 py-4 text-sm last:border-0 md:px-10 md:py-6 md:text-base lg:text-lg">
+              <div
+                key={label}
+                className="grid grid-cols-3 items-center border-b border-cream/10 px-4 py-4 text-sm last:border-0 md:px-10 md:py-6 md:text-base lg:text-lg"
+              >
                 <span className="font-medium text-cream/80">{label}</span>
                 <span className="flex items-center gap-1 text-pistachio-light">
                   <Check className="h-3 w-3 shrink-0 md:h-4 md:w-4" /> {stesh}
@@ -314,7 +383,12 @@ function Home() {
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-6">
             {uses.map((u) => (
-              <Link key={u.title} to="/recipes/$slug" params={{ slug: u.slug }} className="group block cursor-pointer">
+              <Link
+                key={u.title}
+                to="/recipes/$slug"
+                params={{ slug: u.slug }}
+                className="group block cursor-pointer"
+              >
                 <div className="aspect-[4/5] overflow-hidden rounded-2xl">
                   <img
                     src={u.img}
@@ -350,7 +424,8 @@ function Home() {
             <div className="mx-auto mt-10 max-w-lg rounded-2xl border border-pistachio-deep/20 bg-pistachio-light/20 px-8 py-6 text-center">
               <p className="font-display text-2xl text-pistachio-deep">You're in.</p>
               <p className="mt-2 text-sm text-muted-foreground">
-                Use <span className="font-semibold text-pistachio-deep">WELCOME10</span> at checkout for 10% off.
+                Use <span className="font-semibold text-pistachio-deep">WELCOME10</span> at checkout
+                for 10% off.
               </p>
             </div>
           ) : (
@@ -375,7 +450,9 @@ function Home() {
             </form>
           )}
           {nlStatus === "error" && (
-            <p className="mt-3 text-center text-sm text-red-500">Something went wrong — please try again.</p>
+            <p className="mt-3 text-center text-sm text-red-500">
+              Something went wrong, please try again.
+            </p>
           )}
         </div>
       </section>

@@ -28,22 +28,24 @@ export function Nav() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-cream/85 backdrop-blur-md border-b border-border/60"
-          : "bg-transparent"
+        scrolled ? "bg-cream/85 backdrop-blur-md border-b border-border/60" : "bg-transparent"
       }`}
     >
       <div className="w-full bg-pistachio-deep py-2 text-center text-[10px] uppercase tracking-widest-extra text-cream">
         Free shipping over $60 · Ships in 2–3 days
       </div>
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-10">
-        <nav className={`hidden flex-1 items-center gap-7 text-[11px] uppercase tracking-widest-extra md:flex transition-colors duration-500 ${scrolled ? "text-dark" : "text-pistachio-light"}`}>
+        <nav
+          className={`hidden flex-1 items-center gap-7 text-[11px] uppercase tracking-widest-extra md:flex transition-colors duration-500 ${scrolled ? "text-dark" : "text-pistachio-light"}`}
+        >
           {links.slice(0, 3).map((l) => (
             <Link
               key={l.to}
@@ -56,11 +58,16 @@ export function Nav() {
           ))}
         </nav>
 
-        <Link to="/" className={`font-display text-2xl tracking-tight md:flex-none transition-colors duration-500 ${scrolled ? "text-pistachio-deep" : "text-pistachio-light"}`}>
+        <Link
+          to="/"
+          className={`font-display text-2xl tracking-tight md:flex-none transition-colors duration-500 ${scrolled ? "text-pistachio-deep" : "text-pistachio-light"}`}
+        >
           stesh<span className="text-warm-tan">.</span>
         </Link>
 
-        <div className={`hidden flex-1 items-center justify-end gap-7 text-[11px] uppercase tracking-widest-extra md:flex transition-colors duration-500 ${scrolled ? "text-dark" : "text-pistachio-light"}`}>
+        <div
+          className={`hidden flex-1 items-center justify-end gap-7 text-[11px] uppercase tracking-widest-extra md:flex transition-colors duration-500 ${scrolled ? "text-dark" : "text-pistachio-light"}`}
+        >
           {links.slice(3).map((l) => (
             <Link
               key={l.to}
@@ -79,18 +86,18 @@ export function Nav() {
             <UserCircle className="h-4 w-4" />
             <span>{user ? "Account" : "Sign In"}</span>
           </Link>
-          <button onClick={openDrawer} className="relative flex items-center gap-2 hover:opacity-70 transition-opacity" aria-label="Cart">
+          <button
+            onClick={openDrawer}
+            className="relative flex items-center gap-2 hover:opacity-70 transition-opacity"
+            aria-label="Cart"
+          >
             <ShoppingBag className="h-4 w-4" />
             <span>Cart ({itemCount})</span>
           </button>
         </div>
 
         <div className="flex items-center gap-3 md:hidden">
-          <button
-            onClick={openDrawer}
-            className="relative text-dark"
-            aria-label="Cart"
-          >
+          <button onClick={openDrawer} className="relative text-dark" aria-label="Cart">
             <ShoppingBag className="h-6 w-6" />
             {itemCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-pistachio-deep text-[9px] text-cream">
@@ -98,11 +105,7 @@ export function Nav() {
               </span>
             )}
           </button>
-          <button
-            aria-label="Open menu"
-            onClick={() => setOpen(true)}
-            className="text-dark"
-          >
+          <button aria-label="Open menu" onClick={() => setOpen(true)} className="text-dark">
             <Menu className="h-6 w-6" />
           </button>
         </div>
@@ -124,7 +127,10 @@ export function Nav() {
             </Link>
             <div className="flex items-center gap-3">
               <button
-                onClick={() => { openDrawer(); setOpen(false); }}
+                onClick={() => {
+                  openDrawer();
+                  setOpen(false);
+                }}
                 className="relative text-cream"
                 aria-label="Cart"
               >
@@ -152,7 +158,10 @@ export function Nav() {
           </nav>
           <div className="mt-auto border-t border-cream/10 px-6 py-8">
             <button
-              onClick={() => { openDrawer(); setOpen(false); }}
+              onClick={() => {
+                openDrawer();
+                setOpen(false);
+              }}
               className="flex items-center gap-2 text-[11px] uppercase tracking-widest-extra text-cream/70"
             >
               <ShoppingBag className="h-4 w-4" />
