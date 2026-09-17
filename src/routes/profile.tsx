@@ -9,19 +9,39 @@ import { User, Package, ChevronDown, Loader2, LogOut } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
 import { useAuth } from "@/context/auth";
 import { getSupabaseClient } from "@/lib/supabase";
+import { deleteAccount } from "@/lib/account";
+import {
+  nameSchema,
+  phoneSchema,
+  addressLineSchema,
+  citySchema,
+  stateSchema,
+  zipSchema,
+} from "@/lib/validation";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export const Route = createFileRoute("/profile")({
   component: ProfilePage,
 });
 
 const profileSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  phone: z.string().optional(),
-  address_line1: z.string().optional(),
-  address_line2: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  zip: z.string().optional(),
+  name: nameSchema,
+  phone: phoneSchema,
+  address_line1: addressLineSchema,
+  address_line2: addressLineSchema,
+  city: citySchema,
+  state: stateSchema,
+  zip: zipSchema,
 });
 
 type Subscription = {
@@ -44,11 +64,12 @@ const cadenceLabels: Record<2 | 4 | 8, string> = {
 
 function ProfilePage() {
   const navigate = useNavigate();
-  const { user, profile, loading, signOut, refreshProfile } = useAuth();
+  const { user, profile, session, loading, signOut, refreshProfile } = useAuth();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [subsLoading, setSubsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"profile" | "subscriptions">("profile");
   const [changingCadence, setChangingCadence] = useState<string | null>(null);
+  const [deletingAccount, setDeletingAccount] = useState(false);
   const didRedirect = useRef(false);
 
   const form = useForm({
@@ -150,6 +171,22 @@ function ProfilePage() {
     }
   }
 
+  async function handleDeleteAccount() {
+    if (!session) return;
+    setDeletingAccount(true);
+    try {
+      await deleteAccount({ data: session.access_token });
+      await signOut().catch(() => {});
+      toast.success("Your account has been deleted.");
+      navigate({ to: "/" });
+    } catch {
+      toast.error(
+        "Couldn't delete your account. Please try again or email connect@steshbutter.com.",
+      );
+      setDeletingAccount(false);
+    }
+  }
+
   if (loading) {
     return (
       <PageShell>
@@ -223,104 +260,179 @@ function ProfilePage() {
 
         {/* ─── Profile Tab ─── */}
         {activeTab === "profile" && (
-          <form onSubmit={form.handleSubmit(onSaveProfile)} className="mt-10 max-w-xl space-y-5">
-            <div>
-              <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
-                Full Name
-              </label>
-              <input
-                {...form.register("name")}
-                className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
-                placeholder="Your name"
-              />
-              {form.formState.errors.name && (
-                <p className="mt-1 text-xs text-red-500">{form.formState.errors.name.message}</p>
-              )}
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
+          <>
+            <form onSubmit={form.handleSubmit(onSaveProfile)} className="mt-10 max-w-xl space-y-5">
               <div>
                 <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
-                  Email
+                  Full Name
                 </label>
                 <input
-                  value={user.email ?? ""}
-                  readOnly
-                  className="w-full cursor-not-allowed rounded-xl border border-border bg-off-white/70 px-4 py-3 text-sm text-muted-foreground outline-none"
+                  {...form.register("name")}
+                  maxLength={100}
+                  className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
+                  placeholder="Your name"
                 />
+                {form.formState.errors.name && (
+                  <p className="mt-1 text-xs text-red-500">{form.formState.errors.name.message}</p>
+                )}
               </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
+                    Email
+                  </label>
+                  <input
+                    value={user.email ?? ""}
+                    readOnly
+                    className="w-full cursor-not-allowed rounded-xl border border-border bg-off-white/70 px-4 py-3 text-sm text-muted-foreground outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
+                    Phone
+                  </label>
+                  <input
+                    {...form.register("phone")}
+                    maxLength={20}
+                    className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
+                    placeholder="+1 (555) 000-0000"
+                  />
+                  {form.formState.errors.phone && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {form.formState.errors.phone.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
               <div>
                 <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
-                  Phone
+                  Address
                 </label>
                 <input
-                  {...form.register("phone")}
+                  {...form.register("address_line1")}
+                  maxLength={150}
                   className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
-                  placeholder="+1 (555) 000-0000"
+                  placeholder="123 Main St"
                 />
-              </div>
-            </div>
-
-            <div>
-              <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
-                Address
-              </label>
-              <input
-                {...form.register("address_line1")}
-                className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
-                placeholder="123 Main St"
-              />
-            </div>
-            <div>
-              <input
-                {...form.register("address_line2")}
-                className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
-                placeholder="Apt, suite, unit (optional)"
-              />
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-1">
-                <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
-                  City
-                </label>
-                <input
-                  {...form.register("city")}
-                  className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
-                  placeholder="New York"
-                />
+                {form.formState.errors.address_line1 && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {form.formState.errors.address_line1.message}
+                  </p>
+                )}
               </div>
               <div>
-                <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
-                  State
-                </label>
                 <input
-                  {...form.register("state")}
+                  {...form.register("address_line2")}
+                  maxLength={150}
                   className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
-                  placeholder="NY"
+                  placeholder="Apt, suite, unit (optional)"
                 />
+                {form.formState.errors.address_line2 && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {form.formState.errors.address_line2.message}
+                  </p>
+                )}
               </div>
-              <div>
-                <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
-                  ZIP
-                </label>
-                <input
-                  {...form.register("zip")}
-                  className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
-                  placeholder="10001"
-                />
-              </div>
-            </div>
 
-            <button
-              type="submit"
-              disabled={form.formState.isSubmitting}
-              className="flex items-center gap-2 rounded-full bg-pistachio-deep px-8 py-3.5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark disabled:opacity-60"
-            >
-              {form.formState.isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-              Save Changes
-            </button>
-          </form>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-1">
+                  <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
+                    City
+                  </label>
+                  <input
+                    {...form.register("city")}
+                    maxLength={85}
+                    className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
+                    placeholder="New York"
+                  />
+                  {form.formState.errors.city && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {form.formState.errors.city.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
+                    State
+                  </label>
+                  <input
+                    {...form.register("state")}
+                    maxLength={56}
+                    className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
+                    placeholder="NY"
+                  />
+                  {form.formState.errors.state && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {form.formState.errors.state.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-[11px] uppercase tracking-widest-extra text-dark/60">
+                    ZIP
+                  </label>
+                  <input
+                    {...form.register("zip")}
+                    maxLength={12}
+                    className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
+                    placeholder="10001"
+                  />
+                  {form.formState.errors.zip && (
+                    <p className="mt-1 text-xs text-red-500">{form.formState.errors.zip.message}</p>
+                  )}
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="flex items-center gap-2 rounded-full bg-pistachio-deep px-8 py-3.5 text-[11px] uppercase tracking-widest-extra text-cream transition-all hover:bg-dark disabled:opacity-60"
+              >
+                {form.formState.isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
+                Save Changes
+              </button>
+            </form>
+
+            <div className="mt-16 max-w-xl border-t border-border pt-8">
+              <h3 className="font-display text-lg text-red-600">Danger Zone</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Permanently delete your account, profile, saved address, subscriptions, and
+                newsletter subscription. This can't be undone.
+              </p>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button
+                    type="button"
+                    disabled={deletingAccount}
+                    className="mt-4 rounded-full border border-red-300 px-6 py-2.5 text-[11px] uppercase tracking-widest-extra text-red-600 transition-all hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {deletingAccount ? "Deleting…" : "Delete Account"}
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete your account?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This permanently deletes the account for {user.email}, including your profile,
+                      saved address, subscription history, and newsletter subscription. Any active
+                      subscriptions will be cancelled. This can't be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDeleteAccount}
+                      className="bg-red-600 text-white hover:bg-red-700"
+                    >
+                      Delete Account
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </>
         )}
 
         {/* ─── Subscriptions Tab ─── */}

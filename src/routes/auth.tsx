@@ -7,16 +7,20 @@ import { toast } from "sonner";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
 import { useAuth } from "@/context/auth";
+import { emailSchema, nameSchema, passwordSchema } from "@/lib/validation";
 
 const signInSchema = z.object({
-  email: z.string().email("Enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: emailSchema,
+  // Intentionally lenient: this authenticates against an existing password,
+  // which may predate the strength policy below. Only new passwords (sign-up)
+  // have to satisfy it.
+  password: z.string().min(1, "Password is required"),
 });
 
 const signUpSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  name: nameSchema,
+  email: emailSchema,
+  password: passwordSchema,
 });
 
 export const Route = createFileRoute("/auth")({
@@ -140,6 +144,7 @@ function AuthPage() {
                 <input
                   type="email"
                   autoComplete="email"
+                  maxLength={254}
                   {...signInForm.register("email")}
                   className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
                   placeholder="you@example.com"
@@ -204,6 +209,7 @@ function AuthPage() {
                 <input
                   type="text"
                   autoComplete="name"
+                  maxLength={100}
                   {...signUpForm.register("name")}
                   className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
                   placeholder="Your name"
@@ -221,6 +227,7 @@ function AuthPage() {
                 <input
                   type="email"
                   autoComplete="email"
+                  maxLength={254}
                   {...signUpForm.register("email")}
                   className="w-full rounded-xl border border-border bg-cream px-4 py-3 text-sm outline-none transition-colors focus:border-pistachio-deep"
                   placeholder="you@example.com"
@@ -239,9 +246,10 @@ function AuthPage() {
                   <input
                     type={showPwd ? "text" : "password"}
                     autoComplete="new-password"
+                    maxLength={72}
                     {...signUpForm.register("password")}
                     className="w-full rounded-xl border border-border bg-cream px-4 py-3 pr-11 text-sm outline-none transition-colors focus:border-pistachio-deep"
-                    placeholder="Min. 6 characters"
+                    placeholder="Min. 8 characters"
                   />
                   <button
                     type="button"
@@ -251,9 +259,13 @@ function AuthPage() {
                     {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
-                {signUpForm.formState.errors.password && (
+                {signUpForm.formState.errors.password ? (
                   <p className="mt-1 text-xs text-red-500">
                     {signUpForm.formState.errors.password.message}
+                  </p>
+                ) : (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    8+ characters, with at least one letter and one number.
                   </p>
                 )}
               </div>

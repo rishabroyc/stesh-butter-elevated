@@ -436,6 +436,7 @@ function Home() {
               <input
                 type="email"
                 required
+                maxLength={254}
                 value={nlEmail}
                 onChange={(e) => setNlEmail(e.target.value)}
                 placeholder="your@email.com"

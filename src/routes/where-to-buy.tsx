@@ -450,6 +450,36 @@ const locations = [
     lat: 41.444,
     lng: -71.521,
   },
+  {
+    name: "Fairway Market",
+    neighborhood: "Kips Bay",
+    address: "550 2nd Ave",
+    city: "New York",
+    state: "NY",
+    zip: "10016",
+    lat: 40.7425,
+    lng: -73.9771,
+  },
+  {
+    name: "Fairway Market",
+    neighborhood: "Upper West Side",
+    address: "2131 Broadway",
+    city: "New York",
+    state: "NY",
+    zip: "10023",
+    lat: 40.7809,
+    lng: -73.9818,
+  },
+  {
+    name: "Fairway Market",
+    neighborhood: "Upper East Side",
+    address: "240 East 86th St",
+    city: "New York",
+    state: "NY",
+    zip: "10028",
+    lat: 40.7779,
+    lng: -73.9526,
+  },
 ];
 
 function WhereToBuyPage() {
@@ -544,6 +574,7 @@ function WhereToBuyPage() {
                 placeholder="Search by name or neighborhood…"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                maxLength={100}
                 className="w-full rounded-full border border-border bg-cream py-3 pl-11 pr-5 text-sm outline-none focus:border-pistachio-deep"
               />
             </div>

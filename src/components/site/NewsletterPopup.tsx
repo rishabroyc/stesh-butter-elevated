@@ -113,6 +113,7 @@ export function NewsletterPopup() {
                   <input
                     type="email"
                     required
+                    maxLength={254}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
