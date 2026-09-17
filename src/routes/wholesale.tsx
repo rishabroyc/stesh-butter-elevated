@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Loader2 } from "lucide-react";
 import { PageShell, PageHero } from "@/components/site/PageShell";
+import { getSupabaseClient } from "@/lib/supabase";
+import { emailSchema, nameSchema, freeTextSchema } from "@/lib/validation";
 
 export const Route = createFileRoute("/wholesale")({
   head: () => ({
@@ -18,8 +24,53 @@ export const Route = createFileRoute("/wholesale")({
   component: WholesalePage,
 });
 
+const wholesaleSchema = z.object({
+  businessName: freeTextSchema("Business name", 150),
+  contactName: nameSchema,
+  email: emailSchema,
+  cityState: freeTextSchema("City / State", 100),
+  message: freeTextSchema("Message", 2000),
+});
+
+type WholesaleValues = z.infer<typeof wholesaleSchema>;
+
+const fields: Array<{ label: string; name: keyof WholesaleValues; type: string }> = [
+  { label: "Business name", name: "businessName", type: "text" },
+  { label: "Your name", name: "contactName", type: "text" },
+  { label: "Email", name: "email", type: "email" },
+  { label: "City / State", name: "cityState", type: "text" },
+];
+
 function WholesalePage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const form = useForm<WholesaleValues>({
+    resolver: zodResolver(wholesaleSchema),
+    defaultValues: {
+      businessName: "",
+      contactName: "",
+      email: "",
+      cityState: "",
+      message: "",
+    },
+  });
+
+  async function onSubmit(values: WholesaleValues) {
+    setSubmitError(null);
+    const { error } = await getSupabaseClient().from("wholesale_inquiries").insert({
+      business_name: values.businessName,
+      contact_name: values.contactName,
+      email: values.email,
+      city_state: values.cityState,
+      message: values.message,
+    });
+    if (error) {
+      setSubmitError("Something went wrong. Please try again or email connect@steshbutter.com.");
+      return;
+    }
+    setSubmitted(true);
+  }
+
   return (
     <PageShell>
       <PageHero
@@ -106,30 +157,27 @@ function WholesalePage() {
               </div>
             ) : (
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSubmitted(true);
-                }}
+                onSubmit={form.handleSubmit(onSubmit)}
                 className="rounded-2xl border border-border bg-off-white p-8 md:p-10"
               >
                 <h3 className="font-display text-3xl">Other wholesale inquiry</h3>
                 <div className="mt-8 grid gap-5 md:grid-cols-2">
-                  {[
-                    ["Business name", "name", "text"],
-                    ["Your name", "contact", "text"],
-                    ["Email", "email", "email"],
-                    ["City / State", "city", "text"],
-                  ].map(([label, name, type]) => (
+                  {fields.map(({ label, name, type }) => (
                     <label key={name} className="block">
                       <span className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
                         {label}
                       </span>
                       <input
-                        name={name}
                         type={type}
-                        required
+                        maxLength={type === "email" ? 254 : 150}
+                        {...form.register(name)}
                         className="mt-2 w-full rounded-lg border border-border bg-cream px-4 py-3 outline-none focus:border-pistachio-deep"
                       />
+                      {form.formState.errors[name] && (
+                        <p className="mt-1 text-xs text-red-500">
+                          {form.formState.errors[name]?.message}
+                        </p>
+                      )}
                     </label>
                   ))}
                 </div>
@@ -139,12 +187,24 @@ function WholesalePage() {
                   </span>
                   <textarea
                     rows={5}
-                    required
+                    maxLength={2000}
+                    {...form.register("message")}
                     className="mt-2 w-full rounded-lg border border-border bg-cream px-4 py-3 outline-none focus:border-pistachio-deep"
                   />
+                  {form.formState.errors.message && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {form.formState.errors.message.message}
+                    </p>
+                  )}
                 </label>
-                <button className="mt-8 w-full rounded-full bg-pistachio-deep px-10 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-colors hover:bg-dark">
-                  Send inquiry
+                {submitError && <p className="mt-3 text-sm text-red-500">{submitError}</p>}
+                <button
+                  type="submit"
+                  disabled={form.formState.isSubmitting}
+                  className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-pistachio-deep px-10 py-5 text-[11px] uppercase tracking-widest-extra text-cream transition-colors hover:bg-dark disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {form.formState.isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
+                  {form.formState.isSubmitting ? "Sending…" : "Send inquiry"}
                 </button>
               </form>
             )}

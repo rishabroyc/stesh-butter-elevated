@@ -80,6 +80,28 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["email_subscribers"]["Insert"]>;
         Relationships: [];
       };
+      wholesale_inquiries: {
+        Row: {
+          id: string;
+          business_name: string;
+          contact_name: string;
+          email: string;
+          city_state: string | null;
+          message: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          business_name: string;
+          contact_name: string;
+          email: string;
+          city_state?: string | null;
+          message: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["wholesale_inquiries"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
