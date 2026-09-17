@@ -11,7 +11,20 @@ import usePancakesImg from "@/assets/use-pancakes.jpg";
 import useDipImg from "@/assets/use-dip.jpg";
 import useBakeImg from "@/assets/use-bake.jpg";
 import { useState, useEffect, useRef } from "react";
-import { Check, Star, Minus, Plus, ShieldCheck, Truck, Leaf, Sparkles, Heart, FlaskConical, Wheat, RefreshCw } from "lucide-react";
+import {
+  Check,
+  Star,
+  Minus,
+  Plus,
+  ShieldCheck,
+  Truck,
+  Leaf,
+  Sparkles,
+  Heart,
+  FlaskConical,
+  Wheat,
+  RefreshCw,
+} from "lucide-react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/site/PageShell";
 import { getFirstProduct, getDiscountPricing } from "@/lib/shopify";
@@ -44,34 +57,42 @@ export const Route = createFileRoute("/product")({
   head: () => ({
     meta: [
       { title: "Stesh Pistachio Butter — $19.00 | Stesh" },
-      { name: "description", content: "Stesh Pistachio Butter: 5 clean ingredients, vegan, no seed oils, prebiotic fiber, protein-forward. $19. Subscribe & Save 15%." },
+      {
+        name: "description",
+        content:
+          "Stesh Pistachio Butter: 5 clean ingredients, vegan, no seed oils, prebiotic fiber, protein-forward. $19. Subscribe & Save 15%.",
+      },
       { property: "og:title", content: "Stesh Pistachio Butter" },
-      { property: "og:description", content: "5 ingredients. Zero compromise. Indulge by the spoonful." },
+      {
+        property: "og:description",
+        content: "5 ingredients. Zero compromise. Indulge by the spoonful.",
+      },
       { property: "og:type", content: "product" },
     ],
-    scripts: [{
-      type: "application/ld+json",
-      children: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Product",
-        name: "Stesh Pistachio Butter",
-        description: "Premium pistachio butter made with 5 clean ingredients.",
-        brand: { "@type": "Brand", name: "Stesh" },
-        offers: { "@type": "Offer", price: "19.00", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-        aggregateRating: { "@type": "AggregateRating", ratingValue: "5.0", reviewCount: "36" },
-      }),
-    }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: "Stesh Pistachio Butter",
+          description: "Premium pistachio butter made with 5 clean ingredients.",
+          brand: { "@type": "Brand", name: "Stesh" },
+          offers: {
+            "@type": "Offer",
+            price: "19.00",
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+          },
+          aggregateRating: { "@type": "AggregateRating", ratingValue: "5.0", reviewCount: "36" },
+        }),
+      },
+    ],
   }),
   component: ProductPage,
 });
 
-const jarGallery = [
-  shopUpdates3,
-  shopUpdates8,
-  shopImg011,
-  shopImg021,
-  shopNutritionFacts,
-];
+const jarGallery = [shopUpdates3, shopUpdates8, shopImg011, shopImg021, shopNutritionFacts];
 
 const pailGallery = [shopPailImg, shopUpdates8, shopImg011, shopImg021, shopNutritionFacts];
 
@@ -102,12 +123,30 @@ const useImages = [
 ];
 
 const faqs = [
-  { q: "Is it vegan?", a: "Yes. Stesh is 100% plant-based — no dairy, no honey, no animal products." },
-  { q: "Does it contain seed oils?", a: "Never. We use avocado oil, full stop. No canola, sunflower, soybean, or palm." },
-  { q: "How much protein?", a: "Roughly 6g per serving, thanks to the almond protein powder we blend in." },
-  { q: "How long does an opened jar last?", a: "Stored in a cool spot, about 3 months once opened. You probably won't make it that long." },
-  { q: "Can I bake with it?", a: "Absolutely. It's gorgeous swirled into cookies, banana bread, brownies, and croissants." },
-  { q: "How is it different from other nut butters?", a: "Real pistachio flavor, added protein, and avocado oil instead of seed oils." },
+  {
+    q: "Is it vegan?",
+    a: "Yes. Stesh is 100% plant-based — no dairy, no honey, no animal products.",
+  },
+  {
+    q: "Does it contain seed oils?",
+    a: "Never. We use avocado oil, full stop. No canola, sunflower, soybean, or palm.",
+  },
+  {
+    q: "How much protein?",
+    a: "Roughly 6g per serving, thanks to the almond protein powder we blend in.",
+  },
+  {
+    q: "How long does an opened jar last?",
+    a: "Stored in a cool spot, about 3 months once opened. You probably won't make it that long.",
+  },
+  {
+    q: "Can I bake with it?",
+    a: "Absolutely. It's gorgeous swirled into cookies, banana bread, brownies, and croissants.",
+  },
+  {
+    q: "How is it different from other nut butters?",
+    a: "Real pistachio flavor, added protein, and avocado oil instead of seed oils.",
+  },
 ];
 
 function ProductPage() {
@@ -138,7 +177,9 @@ function ProductPage() {
           setSelectedOptions(
             Object.fromEntries(first.selectedOptions.map((o) => [o.name, o.value])),
           );
-          getDiscountPricing(first.id).then(setDiscount).catch(() => null);
+          getDiscountPricing(first.id)
+            .then(setDiscount)
+            .catch(() => null);
         }
       })
       .catch((err) => console.error("Shopify product fetch failed:", err));
@@ -192,8 +233,7 @@ function ProductPage() {
   const variantMatches = (v: ShopifyVariant, opts: Record<string, string>) =>
     v.selectedOptions.every((o) => opts[o.name] === o.value);
 
-  const selectedVariant =
-    variants.find((v) => variantMatches(v, selectedOptions)) ?? variants[0];
+  const selectedVariant = variants.find((v) => variantMatches(v, selectedOptions)) ?? variants[0];
 
   // Pick a value for one option; carry the other options where a real variant
   // supports it, otherwise snap to the closest available variant for that value.
@@ -207,21 +247,52 @@ function ProductPage() {
       withValue.find((v) => variantMatches(v, wanted)) ??
       withValue.find((v) => v.availableForSale) ??
       withValue[0];
-    setSelectedOptions(
-      Object.fromEntries(chosen.selectedOptions.map((o) => [o.name, o.value])),
-    );
+    setSelectedOptions(Object.fromEntries(chosen.selectedOptions.map((o) => [o.name, o.value])));
   }
 
   const isPail =
     (selectedOptions["Size"]?.toLowerCase().match(/pail|gallon/) ?? false) ||
     (selectedVariant?.title?.toLowerCase().includes("pail") ?? false);
+  const flavor = (
+    selectedOptions["Flavor"] ??
+    selectedVariant?.title?.split(" / ")[0] ??
+    ""
+  ).toLowerCase();
+
+  // Extra photos uploaded to the product in Shopify admin but not assigned as
+  // any single variant's image — looked up by filename so the site stays in
+  // sync as Shopify's CDN URLs change.
+  const remoteImages = product?.images ?? [];
+  const findRemoteImage = (needle: string) =>
+    remoteImages.find((img) => img.url.toLowerCase().includes(needle.toLowerCase()))?.url;
+
   // Each slide carries how it should sit in the frame: packshots and the
   // nutrition graphic are centered on white ("contain"); lifestyle photos fill
   // the frame edge to edge ("cover").
-  const localGallery: GalleryImage[] = (isPail ? pailGallery : jarGallery).map((src) => ({
-    src,
-    contain: src === shopNutritionFacts,
-  }));
+  let localGallery: GalleryImage[];
+  if (flavor === "unsweetened") {
+    // Packshot is already the live Shopify variant image (slide 0) — just add
+    // the hand shot and the Unsweetened nutrition panel.
+    const hand = findRemoteImage("Unsweetened_hand_pic");
+    const nutrition = findRemoteImage("Nutrition_facts");
+    localGallery = [
+      ...(hand ? [{ src: hand, contain: false }] : []),
+      ...(nutrition ? [{ src: nutrition, contain: true }] : []),
+    ];
+  } else if (flavor === "variety") {
+    // Both-jars packshot is already the live Shopify variant image (slide 0) —
+    // add both flavors' nutrition panels.
+    const unsweetenedNutrition = findRemoteImage("Nutrition_facts");
+    localGallery = [
+      { src: shopNutritionFacts, contain: true },
+      ...(unsweetenedNutrition ? [{ src: unsweetenedNutrition, contain: true }] : []),
+    ];
+  } else {
+    localGallery = (isPail ? pailGallery : jarGallery).map((src) => ({
+      src,
+      contain: src === shopNutritionFacts,
+    }));
+  }
   // Lead with the Shopify variant image (the photo uploaded in admin), then the
   // curated lifestyle/nutrition shots.
   const currentGallery: GalleryImage[] = selectedVariant?.image?.url
@@ -246,11 +317,7 @@ function ProductPage() {
   const basePrice = selectedVariant ? parseFloat(selectedVariant.price.amount) : 19.0;
   const subscribePrice = Math.round(basePrice * 0.85 * 100) / 100;
   const price =
-    purchaseType === "subscribe"
-      ? subscribePrice
-      : discount
-        ? discount.discountedPrice
-        : basePrice;
+    purchaseType === "subscribe" ? subscribePrice : discount ? discount.discountedPrice : basePrice;
   const isOnSale = purchaseType === "once" && discount !== null;
 
   async function handleAddToCart() {
@@ -283,18 +350,16 @@ function ProductPage() {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (getSupabaseClient() as any)
-      .from("subscriptions")
-      .insert({
-        user_id: user.id,
-        product_name: "Stesh Pistachio Butter",
-        variant_id: selectedVariant.id,
-        variant_name: selectedVariant.title,
-        cadence_weeks: cadence,
-        price_cents: Math.round(subscribePrice * 100),
-        discount_percent: 15,
-        status: "pending_payment",
-      });
+    const { error } = await (getSupabaseClient() as any).from("subscriptions").insert({
+      user_id: user.id,
+      product_name: "Stesh Pistachio Butter",
+      variant_id: selectedVariant.id,
+      variant_name: selectedVariant.title,
+      cadence_weeks: cadence,
+      price_cents: Math.round(subscribePrice * 100),
+      discount_percent: 15,
+      status: "pending_payment",
+    });
     if (error) {
       toast.error("Couldn't set up subscription. Please try again.");
       return;
@@ -327,13 +392,18 @@ function ProductPage() {
                 decoding="async"
               />
             </div>
-            <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
+            <div
+              className="mt-3 flex gap-1.5 overflow-x-auto pb-1"
+              style={{ scrollbarWidth: "thin" }}
+            >
               {currentGallery.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setActive(i)}
                   className={`aspect-square h-11 w-11 shrink-0 overflow-hidden rounded-lg border-2 bg-white transition-all md:h-16 md:w-16 lg:h-20 lg:w-20 ${
-                    active === i ? "border-pistachio-deep" : "border-border/60 opacity-70 hover:opacity-100"
+                    active === i
+                      ? "border-pistachio-deep"
+                      : "border-border/60 opacity-70 hover:opacity-100"
                   }`}
                 >
                   <img
@@ -350,7 +420,9 @@ function ProductPage() {
 
           {/* Purchase */}
           <div className="flex flex-col">
-            <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">8 oz · Pistachio</p>
+            <p className="text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+              8 oz · Pistachio
+            </p>
             <h1 className="mt-2 font-display text-3xl leading-tight md:mt-3 md:text-5xl md:leading-none lg:text-6xl">
               Stesh Pistachio Butter
             </h1>
@@ -364,7 +436,9 @@ function ProductPage() {
             </div>
 
             <p className="mt-4 max-w-md text-base text-muted-foreground md:mt-6 md:text-lg">
-              Stesh pistachio butter is a velvety smooth butter that brings the rich taste of pistachios into every spoonful. Say goodbye to cracking shells and say hello to the newest addition to your daily routine.
+              Stesh pistachio butter is a velvety smooth butter that brings the rich taste of
+              pistachios into every spoonful. Say goodbye to cracking shells and say hello to the
+              newest addition to your daily routine.
             </p>
 
             {/* Variant selector — one row per option, Flavor then Size */}
@@ -409,7 +483,9 @@ function ProductPage() {
             {/* Purchase type — not offered on pre-order items */}
             {!isPreorder && (
               <div className="mt-8">
-                <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">Purchase Type</p>
+                <p className="mb-3 text-[11px] uppercase tracking-widest-extra text-dark/60">
+                  Purchase Type
+                </p>
                 <div className="flex rounded-full border border-border p-1">
                   <button
                     onClick={() => setPurchaseType("once")}
@@ -422,7 +498,10 @@ function ProductPage() {
                     One-time
                   </button>
                   <button
-                    onClick={() => { setPurchaseType("subscribe"); setQty(1); }}
+                    onClick={() => {
+                      setPurchaseType("subscribe");
+                      setQty(1);
+                    }}
                     className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2.5 text-[11px] uppercase tracking-widest-extra transition-all ${
                       purchaseType === "subscribe"
                         ? "bg-pistachio-deep text-cream"
@@ -487,7 +566,11 @@ function ProductPage() {
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 md:mt-6">
               {purchaseType === "once" && (
                 <div className="flex w-fit items-center rounded-full border border-border">
-                  <button onClick={() => setQty(Math.max(1, qty - 1))} className="p-3" aria-label="Decrease">
+                  <button
+                    onClick={() => setQty(Math.max(1, qty - 1))}
+                    className="p-3"
+                    aria-label="Decrease"
+                  >
                     <Minus className="h-4 w-4" />
                   </button>
                   <span className="w-10 text-center font-medium">{qty}</span>
@@ -519,7 +602,9 @@ function ProductPage() {
                   disabled={loading || !selectedVariant}
                   className="group flex w-full items-center justify-center gap-2 rounded-full bg-pistachio-deep px-5 py-4 text-[11px] uppercase tracking-wide text-cream transition-all hover:bg-dark disabled:cursor-not-allowed disabled:opacity-60 sm:px-8 sm:tracking-widest-extra"
                 >
-                  {loading ? "Processing…" : (
+                  {loading ? (
+                    "Processing…"
+                  ) : (
                     <>
                       <RefreshCw className="h-3.5 w-3.5" />
                       Subscribe &amp; Save · ${price.toFixed(2)}/order
@@ -564,9 +649,15 @@ function ProductPage() {
 
             {/* Trust strip */}
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
-              <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Secure checkout</span>
-              <span className="flex items-center gap-2"><Truck className="h-4 w-4" /> Free shipping over $60</span>
-              <span className="flex items-center gap-2"><Check className="h-4 w-4" /> Ships in 2–3 days</span>
+              <span className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4" /> Secure checkout
+              </span>
+              <span className="flex items-center gap-2">
+                <Truck className="h-4 w-4" /> Free shipping over $60
+              </span>
+              <span className="flex items-center gap-2">
+                <Check className="h-4 w-4" /> Ships in 2–3 days
+              </span>
             </div>
           </div>
         </div>
@@ -579,7 +670,8 @@ function ProductPage() {
             5 ingredients. That's the whole list.
           </p>
           <h2 className="max-w-3xl font-display text-5xl leading-[1.05] md:text-7xl">
-            Everything that's in it. <em className="not-italic text-pistachio-deep">Nothing that isn't.</em>
+            Everything that's in it.{" "}
+            <em className="not-italic text-pistachio-deep">Nothing that isn't.</em>
           </h2>
           <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-5">
             {ingredients.map((ing, i) => (
@@ -603,7 +695,13 @@ function ProductPage() {
             {useImages.map((u) => (
               <div key={u.title}>
                 <div className="aspect-[4/5] overflow-hidden rounded-xl bg-cream">
-                  <img src={u.img} alt={u.title} className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-110" loading="lazy" decoding="async" />
+                  <img
+                    src={u.img}
+                    alt={u.title}
+                    className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-110"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <h3 className="mt-3 font-display text-xl">{u.title}</h3>
                 <p className="text-sm text-muted-foreground">{u.note}</p>
@@ -617,11 +715,14 @@ function ProductPage() {
       <section className="bg-off-white px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-3">
           <div>
-            <p className="mb-4 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">FAQ</p>
-            <h2 className="font-display text-4xl leading-[1.05] md:text-5xl">
-              Quick answers.
-            </h2>
-            <Link to="/faq" className="mt-6 inline-block border-b border-pistachio-deep pb-1 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+            <p className="mb-4 text-[11px] uppercase tracking-widest-extra text-pistachio-deep">
+              FAQ
+            </p>
+            <h2 className="font-display text-4xl leading-[1.05] md:text-5xl">Quick answers.</h2>
+            <Link
+              to="/faq"
+              className="mt-6 inline-block border-b border-pistachio-deep pb-1 text-[11px] uppercase tracking-widest-extra text-pistachio-deep"
+            >
               See all FAQs →
             </Link>
           </div>
@@ -635,9 +736,7 @@ function ProductPage() {
                   <span className="font-display text-xl md:text-2xl">{f.q}</span>
                   <span className="text-2xl text-pistachio-deep">{openFaq === i ? "−" : "+"}</span>
                 </button>
-                {openFaq === i && (
-                  <p className="pb-6 text-muted-foreground">{f.a}</p>
-                )}
+                {openFaq === i && <p className="pb-6 text-muted-foreground">{f.a}</p>}
               </div>
             ))}
           </div>

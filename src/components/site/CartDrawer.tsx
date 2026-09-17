@@ -12,7 +12,10 @@ export function CartDrawer() {
   const currency = cart?.cost.totalAmount.currencyCode ?? "USD";
 
   const originalSubtotal = cart
-    ? cart.lines.reduce((sum, line) => sum + parseFloat(line.merchandise.price.amount) * line.quantity, 0)
+    ? cart.lines.reduce(
+        (sum, line) => sum + parseFloat(line.merchandise.price.amount) * line.quantity,
+        0,
+      )
     : 0;
   const actualTotal = cart ? parseFloat(cart.cost.totalAmount.amount) : 0;
   const savings = originalSubtotal - actualTotal;
@@ -47,10 +50,7 @@ export function CartDrawer() {
     <>
       {/* Backdrop */}
       {drawerOpen && (
-        <div
-          className="fixed inset-0 z-[70] bg-dark/40 backdrop-blur-sm"
-          onClick={closeDrawer}
-        />
+        <div className="fixed inset-0 z-[70] bg-dark/40 backdrop-blur-sm" onClick={closeDrawer} />
       )}
 
       {/* Drawer */}
@@ -92,9 +92,15 @@ export function CartDrawer() {
                   <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-warm-tan/20">
                     {(() => {
                       const isPail = line.merchandise.title?.toLowerCase().includes("pail");
-                      const imgSrc = isPail
-                        ? shopPailImg
-                        : (line.merchandise.product.featuredImage?.url ?? null);
+                      // Prefer the variant's own image (so flavor/size selection shows
+                      // correctly) — Shopify's hosted checkout does this natively, which
+                      // is why the image looked right there but not here. Fall back to
+                      // the local pail photo, then the product's default image.
+                      const imgSrc =
+                        line.merchandise.image?.url ??
+                        (isPail ? shopPailImg : null) ??
+                        line.merchandise.product.featuredImage?.url ??
+                        null;
                       return imgSrc ? (
                         <img
                           src={imgSrc}

@@ -9,6 +9,7 @@ export type CartLine = {
     id: string;
     title: string;
     price: { amount: string; currencyCode: string };
+    image: { url: string } | null;
     product: {
       title: string;
       handle: string;
@@ -48,6 +49,8 @@ export type ShopifyProduct = {
   handle: string;
   options: ShopifyProductOption[];
   variants: ShopifyVariant[];
+  /** All images uploaded to the product in Shopify admin, not just the ones assigned to a variant. */
+  images: { url: string }[];
 };
 
 const VARIANT_FIELDS = `
@@ -75,6 +78,7 @@ const CART_FIELDS = `
             id
             title
             price { amount currencyCode }
+            image { url }
             product {
               title
               handle
@@ -110,7 +114,9 @@ function normalizeCart(raw: Record<string, unknown>): Cart {
 }
 
 export async function getProductVariants(handle: string): Promise<ShopifyVariant[]> {
-  const data = await shopifyFetch<{ product: { variants: { edges: { node: ShopifyVariant }[] } } | null }>(
+  const data = await shopifyFetch<{
+    product: { variants: { edges: { node: ShopifyVariant }[] } } | null;
+  }>(
     `query GetProduct($handle: String!) {
       product(handle: $handle) {
         variants(first: 100) {
@@ -134,6 +140,7 @@ export async function getFirstProduct(): Promise<ShopifyProduct | null> {
           handle: string;
           options: ShopifyProductOption[];
           variants: { edges: { node: ShopifyVariant }[] };
+          images: { edges: { node: { url: string } }[] };
         };
       }[];
     };
@@ -150,6 +157,11 @@ export async function getFirstProduct(): Promise<ShopifyProduct | null> {
                 node { ${VARIANT_FIELDS} }
               }
             }
+            images(first: 50) {
+              edges {
+                node { url }
+              }
+            }
           }
         }
       }
@@ -162,6 +174,7 @@ export async function getFirstProduct(): Promise<ShopifyProduct | null> {
     handle: node.handle,
     options: node.options ?? [],
     variants: node.variants.edges.map((e) => e.node),
+    images: node.images.edges.map((e) => e.node),
   };
 }
 
@@ -256,7 +269,11 @@ export async function createCart(variantId: string, quantity: number): Promise<C
   return normalizeCart(data.cartCreate.cart);
 }
 
-export async function addCartLine(cartId: string, variantId: string, quantity: number): Promise<Cart> {
+export async function addCartLine(
+  cartId: string,
+  variantId: string,
+  quantity: number,
+): Promise<Cart> {
   const data = await shopifyFetch<{ cartLinesAdd: { cart: Record<string, unknown> } }>(
     `mutation AddCartLine($cartId: ID!, $lines: [CartLineInput!]!) {
       cartLinesAdd(cartId: $cartId, lines: $lines) {
@@ -268,7 +285,11 @@ export async function addCartLine(cartId: string, variantId: string, quantity: n
   return normalizeCart(data.cartLinesAdd.cart);
 }
 
-export async function updateCartLine(cartId: string, lineId: string, quantity: number): Promise<Cart> {
+export async function updateCartLine(
+  cartId: string,
+  lineId: string,
+  quantity: number,
+): Promise<Cart> {
   const data = await shopifyFetch<{ cartLinesUpdate: { cart: Record<string, unknown> } }>(
     `mutation UpdateCartLine($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
       cartLinesUpdate(cartId: $cartId, lines: $lines) {
